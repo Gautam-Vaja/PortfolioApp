@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Portfolio Banner](public/assets/aistudio/Gautam_Vaja_Developer_Portfolio_Mockup_0a843dde.png)
+
 
 [![React](https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
