@@ -1,0 +1,112 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #06080d;
+    color: #e2e8f0;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+  }
+
+  code, pre, .font-mono {
+    font-family: var(--font-mono);
+  }
+}
+
+/* Custom subtle dark-orange scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #06080d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 122, 26, 0.3);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 122, 26, 0.6);
+}
+
+/* Page base background */
+.ambient-glow-page {
+  background-color: #06080d;
+}
+
+/* Alternating Ambient Glow Sequence matching the user's screenshot */
+/* 1. RIGHT side glow (Hero, Skills, Journey) */
+.glow-seq-right {
+  background: radial-gradient(circle at 88% 50%, rgba(255, 115, 20, 0.22) 0%, rgba(255, 80, 0, 0.08) 38%, transparent 68%);
+}
+
+/* 2. LEFT side glow (About, Projects, Contact) */
+.glow-seq-left {
+  background: radial-gradient(circle at 12% 50%, rgba(255, 115, 20, 0.22) 0%, rgba(255, 80, 0, 0.08) 38%, transparent 68%);
+}
+
+/* Dark Glassmorphic Panels matching reference */
+.glass-panel {
+  background: rgba(12, 16, 24, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel:hover {
+  border-color: rgba(255, 122, 26, 0.4);
+  box-shadow: 0 12px 35px -8px rgba(255, 110, 10, 0.22);
+}
+
+/* Input Fields */
+.input-dark {
+  background: rgba(13, 18, 28, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  color: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.input-dark:focus {
+  outline: none;
+  border-color: #ff7a1a;
+  box-shadow: 0 0 0 2px rgba(255, 122, 26, 0.25);
+}
+
+/* Light mode support */
+.light {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+.light .glass-panel {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+}
+
+.light .input-dark {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
