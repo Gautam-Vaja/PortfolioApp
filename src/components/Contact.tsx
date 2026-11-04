@@ -52,27 +52,35 @@ export default function Contact() {
     <section id="contact" className="py-20 lg:py-24 border-t border-white/[0.06] relative overflow-hidden glow-seq-left">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
-          {/* Left Column: Headline & Contact Me Button */}
+          {/* Left Column: 3D Torus Graphic, Headline & Contact Me Button matching mockup */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-4 space-y-6"
+            className="lg:col-span-4 space-y-5 text-left"
           >
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-[#FF7A1A]" />
-                <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#FF7A1A]">
-                  CONTACT
-                </span>
-              </div>
+            {/* 3D Torus Ring Graphic matching mockup */}
+            <div className="relative w-28 h-28 flex items-center justify-center select-none">
+              <div className="pointer-events-none absolute -inset-2 rounded-full bg-[#FF7A1A]/25 blur-xl" />
+              <motion.div
+                animate={{ y: [0, -5, 0] }}
+                transition={{ repeat: Infinity, duration: 4.5, ease: 'easeInOut' }}
+              >
+                <img
+                  src="/assets/theme/contact_3d_torus.png"
+                  alt="3D Glowing Ring Torus with Sphere"
+                  className="w-24 h-24 object-contain blend-graphic-3d drop-shadow-[0_12px_24px_rgba(255,107,0,0.35)]"
+                />
+              </motion.div>
+            </div>
 
+            <div className="space-y-3">
               <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white font-display">
                 LET&apos;S CREATE SOMETHING GREAT.
               </h2>
               <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-normal">
-                Looking for a dedicated Flutter & Mobile Application Engineer? Let&apos;s connect!
+                Have an idea, project, or opportunity? Let&apos;s connect!
               </p>
             </div>
 
@@ -161,13 +169,13 @@ export default function Contact() {
             </form>
           </motion.div>
 
-          {/* Right Column: "Get in Touch" Card matching CV details */}
+          {/* Right Column: "Get in Touch" Card matching CV & mockup */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-3"
+            className="lg:col-span-3 text-left"
           >
             <div className="glass-panel rounded-2xl p-5 space-y-4">
               <h3 className="text-xs font-bold uppercase tracking-wider text-white font-mono">

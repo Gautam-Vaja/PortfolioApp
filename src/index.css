@@ -15,7 +15,7 @@
 
   body {
     font-family: var(--font-sans);
-    background-color: #06080d;
+    background-color: #05070c;
     color: #e2e8f0;
     overflow-x: hidden;
   }
@@ -36,53 +36,86 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #06080d;
+  background: #05070c;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 122, 26, 0.3);
+  background: rgba(255, 122, 26, 0.35);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 122, 26, 0.6);
+  background: rgba(255, 122, 26, 0.7);
 }
 
-/* Page base background */
+/* Master Mockup Base Background with Deep Space Horizon Glow */
 .ambient-glow-page {
-  background-color: #06080d;
+  background-color: #05070c;
+  background-image: 
+    radial-gradient(ellipse 90% 60% at 50% 0%, rgba(255, 110, 20, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 40% at 90% 18%, rgba(255, 120, 25, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 40% at 10% 42%, rgba(255, 115, 20, 0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 50% at 85% 75%, rgba(255, 110, 15, 0.12) 0%, transparent 60%);
 }
 
-/* Alternating Ambient Glow Sequence matching the user's screenshot */
-/* 1. RIGHT side glow (Hero, Skills, Journey) */
+/* Right-side glowing horizon (Hero, Journey) */
 .glow-seq-right {
-  background: radial-gradient(circle at 88% 50%, rgba(255, 115, 20, 0.22) 0%, rgba(255, 80, 0, 0.08) 38%, transparent 68%);
+  position: relative;
+}
+.glow-seq-right::before {
+  content: '';
+  position: absolute;
+  top: 15%;
+  right: -5%;
+  width: 650px;
+  height: 650px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 122, 26, 0.18) 0%, rgba(255, 85, 0, 0.06) 42%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 
-/* 2. LEFT side glow (About, Projects, Contact) */
+/* Left-side glowing horizon (About, Projects, Contact) */
 .glow-seq-left {
-  background: radial-gradient(circle at 12% 50%, rgba(255, 115, 20, 0.22) 0%, rgba(255, 80, 0, 0.08) 38%, transparent 68%);
+  position: relative;
+}
+.glow-seq-left::before {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: -5%;
+  width: 650px;
+  height: 650px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 122, 26, 0.18) 0%, rgba(255, 85, 0, 0.06) 42%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 
-/* Dark Glassmorphic Panels matching reference */
+/* Master Dark Glassmorphic Panels matching mockup */
 .glass-panel {
-  background: rgba(12, 16, 24, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+  background: rgba(10, 14, 22, 0.85);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.02);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-panel:hover {
-  border-color: rgba(255, 122, 26, 0.4);
-  box-shadow: 0 12px 35px -8px rgba(255, 110, 10, 0.22);
+  border-color: rgba(255, 122, 26, 0.45);
+  box-shadow: 0 12px 35px -8px rgba(255, 110, 10, 0.25), 0 0 16px rgba(255, 122, 26, 0.12);
 }
 
-/* Input Fields */
+/* Master 3D Graphic Blend */
+.blend-graphic-3d {
+  filter: drop-shadow(0 15px 30px rgba(255, 107, 0, 0.25));
+}
+
+/* Input Fields matching mockup */
 .input-dark {
-  background: rgba(13, 18, 28, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(12, 17, 26, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   color: #f8fafc;
   transition: all 0.2s ease;
 }
@@ -90,7 +123,7 @@
 .input-dark:focus {
   outline: none;
   border-color: #ff7a1a;
-  box-shadow: 0 0 0 2px rgba(255, 122, 26, 0.25);
+  box-shadow: 0 0 0 2px rgba(255, 122, 26, 0.3);
 }
 
 /* Light mode support */
@@ -100,7 +133,7 @@
 }
 
 .light .glass-panel {
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
 }

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
-import ExperienceEducation from './components/ExperienceEducation';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
+import ExperienceEducation from './components/ExperienceEducation';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ProjectDetailModal from './components/ProjectDetailModal';
@@ -40,24 +40,24 @@ export default function App() {
         onOpenResume={() => setIsResumeOpen(true)}
       />
 
-      {/* Main Page Flow with Alternating Glow Sequence */}
+      {/* Main Page Flow matching master design mockup */}
       <main className="overflow-x-hidden w-full max-w-[100vw]">
-        {/* 1. Hero Section (Glow Right) */}
+        {/* 1. Hero Section */}
         <Hero onOpenResume={() => setIsResumeOpen(true)} />
 
-        {/* 2. About Section (Glow Left) */}
+        {/* 2. About Section */}
         <About />
 
-        {/* 3. Experience & Education Section (Glow Right) */}
-        <ExperienceEducation />
-
-        {/* 4. Skills Section (Glow Left) */}
+        {/* 3. Skills & Technologies Section */}
         <Skills />
 
-        {/* 5. Featured Projects Section (Glow Right) */}
+        {/* 4. Featured Projects Section */}
         <Projects onSelectProject={(project) => setSelectedProject(project)} />
 
-        {/* 6. Contact Section (Glow Left) */}
+        {/* 5. My Journey So Far (Experience & Education) */}
+        <ExperienceEducation />
+
+        {/* 6. Contact Section */}
         <Contact />
       </main>
 
