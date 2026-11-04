@@ -52,7 +52,7 @@ export default function Contact() {
     <section id="contact" className="py-20 lg:py-24 border-t border-white/[0.06] relative overflow-hidden glow-seq-left">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
-          {/* Left Column: 3D Torus, Headline & Contact Me Button matching mockup */}
+          {/* Left Column: Headline & Contact Me Button */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -60,22 +60,14 @@ export default function Contact() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-4 space-y-6"
           >
-            {/* 3D Ring/Torus Graphic matching mockup */}
-            <div className="relative w-28 h-28 flex items-center justify-center select-none">
-              <div className="pointer-events-none absolute -inset-2 rounded-full bg-[#FF7A1A]/20 blur-xl" />
-              <motion.div
-                animate={{ y: [0, -4, 0] }}
-                transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
-              >
-                <img
-                  src="/assets/theme/contact_3d_torus.png"
-                  alt="3D torus ring with glowing sphere"
-                  className="blend-graphic-3d w-24 h-24 object-contain drop-shadow-[0_10px_20px_rgba(255,107,0,0.3)]"
-                />
-              </motion.div>
-            </div>
-
             <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-[#FF7A1A]" />
+                <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#FF7A1A]">
+                  CONTACT
+                </span>
+              </div>
+
               <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white font-display">
                 LET&apos;S CREATE SOMETHING GREAT.
               </h2>
