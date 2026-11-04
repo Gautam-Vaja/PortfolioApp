@@ -5,16 +5,24 @@ import {
   Calendar,
   MapPin,
   Building2,
-  Award,
   CheckCircle2,
   ExternalLink,
-  ChevronRight,
+  Smartphone,
+  Sparkles,
+  School,
+  Code2,
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import { EXPERIENCE_DATA, EDUCATION_DATA } from '../data/portfolio-data';
 
 export default function ExperienceEducation() {
   const [activeTab, setActiveTab] = useState<'all' | 'experience' | 'education'>('all');
+
+  const exp = EXPERIENCE_DATA[0];
+  const mca = EDUCATION_DATA[0];
+  const bca = EDUCATION_DATA[1];
+  const hsc = EDUCATION_DATA[2];
+  const ssc = EDUCATION_DATA[3];
 
   return (
     <section
@@ -79,9 +87,9 @@ export default function ExperienceEducation() {
           </div>
         </div>
 
-        {/* Content Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Work Experience Column */}
+        {/* Content Layout - Balanced 50/50 Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          {/* Work Experience & Live Project Column */}
           {(activeTab === 'all' || activeTab === 'experience') && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -89,105 +97,151 @@ export default function ExperienceEducation() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
               className={`${
-                activeTab === 'all' ? 'lg:col-span-7' : 'lg:col-span-12'
-              } space-y-6`}
+                activeTab === 'experience' ? 'lg:col-span-2' : ''
+              } flex flex-col space-y-6`}
             >
-              <div className="flex items-center gap-2 text-white font-mono text-xs font-bold uppercase tracking-wider mb-2">
+              <div className="flex items-center gap-2 text-white font-mono text-xs font-bold uppercase tracking-wider mb-1">
                 <Briefcase className="h-4 w-4 text-[#FF7A1A]" />
                 <span>Work Experience & Live Projects</span>
               </div>
 
-              {EXPERIENCE_DATA.map((exp, index) => (
-                <div
-                  key={index}
-                  className="glass-panel rounded-2xl p-6 sm:p-7 space-y-5 border border-white/[0.08] hover:border-[#FF7A1A]/40 transition-all"
-                >
-                  {/* Company Header */}
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/[0.06] pb-4">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <Building2 className="h-4 w-4 text-[#FF7A1A]" />
-                        <h3 className="text-base sm:text-lg font-bold text-white">
-                          {exp.company}
-                        </h3>
-                      </div>
-                      <p className="mt-1 text-xs sm:text-sm font-semibold text-[#FF9030]">
-                        {exp.role}
-                      </p>
-                    </div>
-
-                    <div className="flex flex-col sm:items-end text-xs text-slate-400 font-mono space-y-1">
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FF7A1A]/10 border border-[#FF7A1A]/20 px-3 py-1 text-[11px] text-[#FF9030]">
-                        <Calendar className="h-3 w-3" />
-                        {exp.duration}
-                      </span>
-                      <span className="flex items-center gap-1 text-[11px] text-slate-400">
-                        <MapPin className="h-3 w-3 text-slate-500" />
-                        {exp.location}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Responsibilities & Achievements */}
-                  <div className="space-y-2.5">
-                    <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-slate-400">
-                      Key Contributions & Impact
-                    </h4>
-                    <ul className="space-y-2.5 text-xs text-slate-300">
-                      {exp.achievements.map((ach, i) => (
-                        <li key={i} className="flex items-start gap-2.5 leading-relaxed">
-                          <CheckCircle2 className="h-4 w-4 text-[#FF7A1A] shrink-0 mt-0.5" />
-                          <span>{ach}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Live Project Sub-Card */}
-                  {exp.projectTitle && (
-                    <div className="rounded-xl border border-white/[0.08] bg-[#0c101a] p-4 space-y-3">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+              <div
+                className={`flex flex-col ${
+                  activeTab === 'experience' ? 'lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0' : 'space-y-6'
+                }`}
+              >
+                {/* 1. Main Internship Card */}
+                <div className="glass-panel rounded-2xl p-6 sm:p-7 space-y-5 border border-white/[0.08] hover:border-[#FF7A1A]/40 transition-all flex flex-col justify-between">
+                  <div>
+                    {/* Company Header */}
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-white/[0.06] pb-4">
+                      <div>
                         <div className="flex items-center gap-2">
-                          <span className="h-1.5 w-1.5 rounded-full bg-[#FF7A1A]" />
-                          <h5 className="text-xs sm:text-sm font-bold text-white">
-                            {exp.projectTitle}
-                          </h5>
+                          <Building2 className="h-4 w-4 text-[#FF7A1A]" />
+                          <h3 className="text-base sm:text-lg font-bold text-white">
+                            {exp.company}
+                          </h3>
                         </div>
-                        <span className="text-[11px] font-mono text-slate-400">
-                          {exp.projectPeriod}
+                        <p className="mt-1 text-xs sm:text-sm font-semibold text-[#FF9030]">
+                          {exp.role}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-col sm:items-end text-xs text-slate-400 font-mono space-y-1">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FF7A1A]/10 border border-[#FF7A1A]/20 px-3 py-1 text-[11px] text-[#FF9030]">
+                          <Calendar className="h-3 w-3" />
+                          {exp.duration}
+                        </span>
+                        <span className="flex items-center gap-1 text-[11px] text-slate-400">
+                          <MapPin className="h-3 w-3 text-slate-500" />
+                          {exp.location}
                         </span>
                       </div>
+                    </div>
 
-                      <ul className="space-y-1.5 text-xs text-slate-300">
-                        {exp.projectAchievements?.map((pAch, j) => (
-                          <li key={j} className="flex items-start gap-2 leading-relaxed">
-                            <span className="text-[#FF7A1A] font-bold">›</span>
-                            <span>{pAch}</span>
+                    {/* Key Responsibilities */}
+                    <div className="mt-4 space-y-2.5">
+                      <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                        <Sparkles className="h-3.5 w-3.5 text-[#FF7A1A]" />
+                        Key Contributions & Impact
+                      </h4>
+                      <ul className="space-y-2.5 text-xs text-slate-300">
+                        {exp.achievements.map((ach, i) => (
+                          <li key={i} className="flex items-start gap-2.5 leading-relaxed">
+                            <CheckCircle2 className="h-4 w-4 text-[#FF7A1A] shrink-0 mt-0.5" />
+                            <span>{ach}</span>
                           </li>
                         ))}
                       </ul>
+                    </div>
+                  </div>
 
-                      {/* Tech Chips */}
-                      <div className="pt-2 flex flex-wrap gap-1.5 border-t border-white/[0.04]">
-                        {['Flutter', 'Dart', 'GetX', 'REST APIs', 'PDF Export', 'GitLab'].map(
-                          (tech) => (
-                            <span
-                              key={tech}
-                              className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] font-medium text-slate-300"
-                            >
-                              {tech}
-                            </span>
-                          )
-                        )}
+                  {/* Core Technologies */}
+                  <div className="pt-4 border-t border-white/[0.06] flex flex-wrap gap-1.5">
+                    {exp.technologies.map((tech) => (
+                      <span
+                        key={tech}
+                        className="rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-slate-300"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 2. Standalone Live Project Spotlight Card */}
+                {exp.projectTitle && (
+                  <div className="glass-panel rounded-2xl p-6 sm:p-7 space-y-5 border border-white/[0.08] hover:border-[#FF7A1A]/40 transition-all flex flex-col justify-between relative overflow-hidden">
+                    <div className="space-y-4">
+                      {/* Live Project Header */}
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 border-b border-white/[0.06] pb-4">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <Smartphone className="h-4 w-4 text-[#FF7A1A]" />
+                            <h3 className="text-base sm:text-lg font-bold text-white">
+                              {exp.projectTitle}
+                            </h3>
+                          </div>
+                          <p className="mt-1 text-xs text-slate-400">
+                            Client Production Asset Management & Tracking System
+                          </p>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FF7A1A]/10 border border-[#FF7A1A]/20 px-3 py-1 text-[11px] font-mono text-[#FF9030]">
+                            <Calendar className="h-3 w-3" />
+                            {exp.projectPeriod}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Project Deliverables */}
+                      <div className="space-y-2.5">
+                        <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                          <Code2 className="h-3.5 w-3.5 text-[#FF7A1A]" />
+                          Production Deliverables & Architecture
+                        </h4>
+                        <ul className="space-y-2.5 text-xs text-slate-300">
+                          {exp.projectAchievements?.map((pAch, j) => (
+                            <li key={j} className="flex items-start gap-2.5 leading-relaxed">
+                              <span className="text-[#FF7A1A] font-bold text-sm shrink-0 leading-none mt-0.5">›</span>
+                              <span>{pAch}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
-                  )}
-                </div>
-              ))}
+
+                    {/* Tech Chips & GitHub Source Link */}
+                    <div className="pt-4 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-3">
+                      <div className="flex flex-wrap gap-1.5">
+                        {['Flutter', 'Dart', 'GetX', 'REST APIs', 'PDF Export', 'GitLab'].map((tech) => (
+                          <span
+                            key={tech}
+                            className="rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-slate-300"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+
+                      <a
+                        href="https://github.com/Gautam-Vaja/PilonMagic"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-mono text-[#FF9030] hover:text-[#FF7A1A] hover:underline transition-colors ml-auto"
+                      >
+                        <span>View Repository</span>
+                        <ExternalLink className="h-3.5 w-3.5" />
+                      </a>
+                    </div>
+                  </div>
+                )}
+              </div>
             </motion.div>
           )}
 
-          {/* Education Column */}
+          {/* Academic Qualifications Column */}
           {(activeTab === 'all' || activeTab === 'education') && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -195,65 +249,183 @@ export default function ExperienceEducation() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
               className={`${
-                activeTab === 'all' ? 'lg:col-span-5' : 'lg:col-span-12'
-              } space-y-6`}
+                activeTab === 'education' ? 'lg:col-span-2' : ''
+              } flex flex-col space-y-6`}
             >
-              <div className="flex items-center gap-2 text-white font-mono text-xs font-bold uppercase tracking-wider mb-2">
+              <div className="flex items-center gap-2 text-white font-mono text-xs font-bold uppercase tracking-wider mb-1">
                 <GraduationCap className="h-4 w-4 text-[#FF7A1A]" />
                 <span>Academic Qualifications</span>
               </div>
 
-              <div className="space-y-4">
-                {EDUCATION_DATA.map((edu, idx) => (
-                  <div
-                    key={idx}
-                    className="glass-panel rounded-2xl p-5 space-y-3 border border-white/[0.08] hover:border-[#FF7A1A]/40 transition-all"
-                  >
-                    <div className="flex items-start justify-between gap-3">
+              <div
+                className={`flex flex-col ${
+                  activeTab === 'education' ? 'lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0' : 'space-y-6'
+                }`}
+              >
+                {/* 1. Master of Computer Applications (MCA) */}
+                <div className="glass-panel rounded-2xl p-6 sm:p-7 space-y-4 border border-white/[0.08] hover:border-[#FF7A1A]/40 transition-all flex flex-col justify-between">
+                  <div className="space-y-3">
+                    <div className="flex items-start justify-between gap-3 border-b border-white/[0.06] pb-3">
                       <div>
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#FF9030]">
-                          {edu.period}
+                        <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#FF9030]">
+                          {mca.period}
                         </span>
-                        <h4 className="text-sm font-bold text-white leading-snug mt-0.5">
-                          {edu.degree}
+                        <h4 className="text-base sm:text-lg font-bold text-white leading-snug mt-1">
+                          {mca.degree}
                         </h4>
-                        <p className="text-xs text-slate-400 mt-1">
-                          {edu.institution}
+                        <p className="text-xs text-slate-400 mt-0.5">
+                          {mca.institution}
                         </p>
                       </div>
 
-                      {edu.grade && (
-                        <span className="shrink-0 rounded-full border border-[#FF7A1A]/30 bg-[#FF7A1A]/15 px-2.5 py-1 text-[11px] font-mono font-bold text-[#FF9030]">
-                          {edu.grade}
+                      <span className="shrink-0 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[11px] font-mono text-slate-300">
+                        {mca.status}
+                      </span>
+                    </div>
+
+                    {mca.description && (
+                      <p className="text-xs text-slate-300 leading-relaxed">
+                        {mca.description}
+                      </p>
+                    )}
+                  </div>
+
+                  {mca.keyAreas && (
+                    <div className="pt-3 border-t border-white/[0.06] flex flex-wrap gap-1.5">
+                      {mca.keyAreas.map((area) => (
+                        <span
+                          key={area}
+                          className="rounded-md border border-white/5 bg-[#0e1320] px-2.5 py-1 text-[10px] text-slate-400"
+                        >
+                          {area}
                         </span>
-                      )}
-                      {edu.status && !edu.grade && (
-                        <span className="shrink-0 rounded-full border border-white/15 bg-white/5 px-2.5 py-1 text-[10px] font-mono text-slate-300">
-                          {edu.status}
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* 2. Bachelor of Computer Applications (BCA) */}
+                <div className="glass-panel rounded-2xl p-6 sm:p-7 space-y-4 border border-white/[0.08] hover:border-[#FF7A1A]/40 transition-all flex flex-col justify-between">
+                  <div className="space-y-3">
+                    <div className="flex items-start justify-between gap-3 border-b border-white/[0.06] pb-3">
+                      <div>
+                        <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#FF9030]">
+                          {bca.period}
+                        </span>
+                        <h4 className="text-base sm:text-lg font-bold text-white leading-snug mt-1">
+                          {bca.degree}
+                        </h4>
+                        <p className="text-xs text-slate-400 mt-0.5">
+                          {bca.institution}
+                        </p>
+                      </div>
+
+                      {bca.grade && (
+                        <span className="shrink-0 rounded-full border border-[#FF7A1A]/30 bg-[#FF7A1A]/15 px-3 py-1 text-xs font-mono font-bold text-[#FF9030]">
+                          {bca.grade}
                         </span>
                       )}
                     </div>
 
-                    {edu.description && (
+                    {bca.description && (
                       <p className="text-xs text-slate-300 leading-relaxed">
-                        {edu.description}
+                        {bca.description}
                       </p>
                     )}
-
-                    {edu.keyAreas && (
-                      <div className="pt-1 flex flex-wrap gap-1.5">
-                        {edu.keyAreas.map((area) => (
-                          <span
-                            key={area}
-                            className="rounded-md border border-white/5 bg-[#0e1320] px-2 py-0.5 text-[10px] text-slate-400"
-                          >
-                            {area}
-                          </span>
-                        ))}
-                      </div>
-                    )}
                   </div>
-                ))}
+
+                  {bca.keyAreas && (
+                    <div className="pt-3 border-t border-white/[0.06] flex flex-wrap gap-1.5">
+                      {bca.keyAreas.map((area) => (
+                        <span
+                          key={area}
+                          className="rounded-md border border-white/5 bg-[#0e1320] px-2.5 py-1 text-[10px] text-slate-400"
+                        >
+                          {area}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* 3. Secondary & Higher Secondary Education (Side-by-Side Dual Sub-Cards) */}
+                <div
+                  className={`grid grid-cols-1 sm:grid-cols-2 gap-4 ${
+                    activeTab === 'education' ? 'lg:col-span-2' : ''
+                  }`}
+                >
+                  {/* HSC 12th */}
+                  <div className="glass-panel rounded-2xl p-5 space-y-3 border border-white/[0.08] hover:border-[#FF7A1A]/40 transition-all flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-start justify-between gap-2 border-b border-white/[0.06] pb-2.5">
+                        <div>
+                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#FF9030]">
+                            {hsc.period}
+                          </span>
+                          <h4 className="text-xs sm:text-sm font-bold text-white leading-snug mt-0.5">
+                            {hsc.degree}
+                          </h4>
+                          <p className="text-[11px] text-slate-400 mt-0.5">
+                            {hsc.institution}
+                          </p>
+                        </div>
+
+                        {hsc.grade && (
+                          <span className="shrink-0 rounded-full border border-[#FF7A1A]/30 bg-[#FF7A1A]/15 px-2.5 py-0.5 text-[11px] font-mono font-bold text-[#FF9030]">
+                            {hsc.grade}
+                          </span>
+                        )}
+                      </div>
+
+                      {hsc.description && (
+                        <p className="mt-2 text-xs text-slate-300 leading-relaxed">
+                          {hsc.description}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="pt-2 border-t border-white/[0.04] flex items-center gap-1.5 text-[11px] text-slate-400 font-mono">
+                      <School className="h-3 w-3 text-[#FF7A1A]" />
+                      <span>Science & Mathematics</span>
+                    </div>
+                  </div>
+
+                  {/* SSC 10th */}
+                  <div className="glass-panel rounded-2xl p-5 space-y-3 border border-white/[0.08] hover:border-[#FF7A1A]/40 transition-all flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-start justify-between gap-2 border-b border-white/[0.06] pb-2.5">
+                        <div>
+                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#FF9030]">
+                            {ssc.period}
+                          </span>
+                          <h4 className="text-xs sm:text-sm font-bold text-white leading-snug mt-0.5">
+                            {ssc.degree}
+                          </h4>
+                          <p className="text-[11px] text-slate-400 mt-0.5">
+                            {ssc.institution}
+                          </p>
+                        </div>
+
+                        {ssc.grade && (
+                          <span className="shrink-0 rounded-full border border-[#FF7A1A]/30 bg-[#FF7A1A]/15 px-2.5 py-0.5 text-[11px] font-mono font-bold text-[#FF9030]">
+                            {ssc.grade}
+                          </span>
+                        )}
+                      </div>
+
+                      {ssc.description && (
+                        <p className="mt-2 text-xs text-slate-300 leading-relaxed">
+                          {ssc.description}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="pt-2 border-t border-white/[0.04] flex items-center gap-1.5 text-[11px] text-slate-400 font-mono">
+                      <School className="h-3 w-3 text-[#FF7A1A]" />
+                      <span>General Science & Mathematics</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </motion.div>
           )}
