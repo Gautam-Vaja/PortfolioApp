@@ -78,10 +78,10 @@ export default function About() {
 
             <div className="pt-2 flex flex-wrap items-center gap-3">
               <a
-                href="#experience"
+                href="#education"
                 className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-2.5 text-xs font-semibold text-white backdrop-blur-md transition-all hover:bg-white/10 hover:border-[#FF7A1A]/40"
               >
-                <span>View Experience & Education</span>
+                <span>View Academic Journey</span>
                 <ArrowRight className="h-3.5 w-3.5 text-[#FF9030]" />
               </a>
             </div>
