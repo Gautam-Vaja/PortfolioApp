@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react';
-import { Mail, Github, Linkedin, ArrowRight, Check, AlertCircle } from 'lucide-react';
-import Contact3DScene from './3d/Contact3DScene';
-import TiltCard from './ui/TiltCard';
+import React, { useState } from 'react';
+import { Mail, Github, Linkedin, ArrowRight, Check, Phone, MapPin, Code2 } from 'lucide-react';
+import { motion } from 'motion/react';
 import { PERSONAL_INFO } from '../data/portfolio-data';
+import ThreeContactTorus from './3d/ThreeContactTorus';
+import { AnimatedLetters } from './ui/AnimatedText';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -14,231 +15,281 @@ export default function Contact() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const messageInputRef = useRef<HTMLTextAreaElement>(null);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(PERSONAL_INFO.email);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2000);
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errorMessage) setErrorMessage('');
-  };
-
-  const handleFocusMessage = () => {
-    if (messageInputRef.current) {
-      messageInputRef.current.focus();
-    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
-      setErrorMessage('Please fill in all required fields.');
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email.trim())) {
-      setErrorMessage('Please provide a valid email address.');
-      return;
-    }
+    if (!formData.name || !formData.email || !formData.message) return;
 
     setIsSubmitting(true);
-    setErrorMessage('');
-
     setTimeout(() => {
       try {
-        const stored = JSON.parse(localStorage.getItem('gautam_portfolio_messages') || '[]');
-        stored.push({
-          ...formData,
-          submittedAt: new Date().toISOString(),
-        });
-        localStorage.setItem('gautam_portfolio_messages', JSON.stringify(stored));
+        const stored = JSON.parse(localStorage.getItem('gautam_messages') || '[]');
+        stored.push({ ...formData, date: new Date().toISOString() });
+        localStorage.setItem('gautam_messages', JSON.stringify(stored));
       } catch (err) {
-        // Fallback
+        // fallback
       }
-
       setIsSubmitting(false);
       setSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setSubmitted(false), 6000);
-    }, 600);
+      setTimeout(() => setSubmitted(false), 4000);
+    }, 500);
   };
 
   return (
-    <section id="contact" className="py-24 border-t border-white/5 relative overflow-hidden">
-      {/* Warm Orange Horizon Beam */}
-      <div className="horizon-beam top-[45%]" />
-
+    <section id="contact" className="py-20 lg:py-24 border-t border-[#35D5FF]/10 relative overflow-hidden glow-seq-left">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
-          {/* Left Column: 3D Torus Scene & Headline matching Image 4 (lg:col-span-4) */}
-          <div className="lg:col-span-4 space-y-4 text-left">
-            {/* Real-time 3D Floating Torus Scene */}
-            <div className="relative w-full max-w-[280px] rounded-2xl border border-white/10 bg-[#07152B]/40 p-2 backdrop-blur-md shadow-[0_0_30px_rgba(255,107,0,0.15)] overflow-hidden">
-              <Contact3DScene />
+          {/* Left Column: 3D Torus Graphic, Headline & Contact Me Button */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-4 space-y-5 text-left"
+          >
+            {/* Real 3D Torus Ring Graphic */}
+            <div data-cursor-drag="true">
+              <ThreeContactTorus />
             </div>
 
-            <div className="space-y-2.5">
-              <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-[#F4F8FF] font-display">
-                LET&apos;S CREATE SOMETHING GREAT.
+            <div className="space-y-3">
+              <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-[#F4F8FF] font-display">
+                <AnimatedLetters text="LET'S CREATE SOMETHING GREAT." stagger={0.03} />
               </h2>
-              <p className="text-sm text-[#A8B8D0] leading-relaxed font-normal">
+              <p className="text-xs sm:text-sm text-[#A8B8D0] leading-relaxed font-normal">
                 Have an idea, project, or opportunity? Let&apos;s connect!
               </p>
             </div>
 
-            <div className="pt-1">
-              <button
-                type="button"
-                onClick={handleFocusMessage}
-                className="btn-primary-orange inline-flex items-center gap-2 rounded-full px-7 py-3 text-xs sm:text-sm font-bold shadow-[0_8px_25px_rgba(255,107,0,0.4)]"
+            <div>
+              <motion.a
+                href={`mailto:${PERSONAL_INFO.email}`}
+                whileHover={{ scale: 1.04, boxShadow: '0 10px 25px -5px rgba(255, 122, 26, 0.5)' }}
+                whileTap={{ scale: 0.96 }}
+                data-cursor="pointer"
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#FF7A1A] to-[#FF9A45] px-6 py-2.5 text-xs font-bold text-white shadow-lg shadow-[#FF7A1A]/30 transition-all hover:brightness-110 cursor-pointer"
               >
                 <span>Contact Me</span>
-                <ArrowRight className="h-4 w-4" />
-              </button>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </motion.a>
             </div>
-          </div>
 
-          {/* Center Column: Interactive Contact Form matching Image 4 (lg:col-span-5) */}
-          <div className="lg:col-span-5 text-left">
-            <TiltCard maxTilt={4} className="glass-panel rounded-2xl p-6 sm:p-7 space-y-4 border border-white/10">
-              <form onSubmit={handleSubmit} className="space-y-3.5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <input
-                      type="text"
-                      name="name"
-                      placeholder="Your Name"
-                      required
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="input-dark w-full rounded-xl px-4 py-2.5 text-xs placeholder-[#A8B8D0]/60"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="Your Email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="input-dark w-full rounded-xl px-4 py-2.5 text-xs placeholder-[#A8B8D0]/60"
-                    />
-                  </div>
-                </div>
+            {/* Circular Social Buttons */}
+            <div className="flex items-center gap-3 pt-1">
+              <a
+                href={PERSONAL_INFO.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub Profile"
+                data-cursor="pointer"
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-[#35D5FF]/20 bg-[#07152B] text-[#A8B8D0] transition-colors hover:border-[#00A8FF] hover:text-white hover:bg-[#00A8FF]/15"
+              >
+                <Github className="h-4 w-4" />
+              </a>
+              <a
+                href={PERSONAL_INFO.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn Profile"
+                data-cursor="pointer"
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-[#35D5FF]/20 bg-[#07152B] text-[#A8B8D0] transition-colors hover:border-[#00A8FF] hover:text-white hover:bg-[#00A8FF]/15"
+              >
+                <Linkedin className="h-4 w-4" />
+              </a>
+              <a
+                href={`mailto:${PERSONAL_INFO.email}`}
+                aria-label="Send Email"
+                data-cursor="pointer"
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-[#35D5FF]/20 bg-[#07152B] text-[#A8B8D0] transition-colors hover:border-[#00A8FF] hover:text-white hover:bg-[#00A8FF]/15"
+              >
+                <Mail className="h-4 w-4" />
+              </a>
+            </div>
+          </motion.div>
 
-                <div>
-                  <input
-                    type="text"
-                    name="subject"
-                    placeholder="Subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className="input-dark w-full rounded-xl px-4 py-2.5 text-xs placeholder-[#A8B8D0]/60"
-                  />
-                </div>
+          {/* Center Column: Embedded Sleek Dark Contact Form */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="lg:col-span-5"
+          >
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  required
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="input-dark w-full rounded-xl px-4 py-2.5 text-xs placeholder-slate-400 focus:border-[#FF9A45]"
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your Email"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="input-dark w-full rounded-xl px-4 py-2.5 text-xs placeholder-slate-400 focus:border-[#FF9A45]"
+                />
+              </div>
 
-                <div>
-                  <textarea
-                    ref={messageInputRef}
-                    name="message"
-                    placeholder="Your Message"
-                    rows={5}
-                    required
-                    value={formData.message}
-                    onChange={handleChange}
-                    className="input-dark w-full rounded-xl px-4 py-2.5 text-xs placeholder-[#A8B8D0]/60 resize-none"
-                  />
-                </div>
+              <input
+                type="text"
+                name="subject"
+                placeholder="Subject"
+                value={formData.subject}
+                onChange={handleChange}
+                className="input-dark w-full rounded-xl px-4 py-2.5 text-xs placeholder-slate-400 focus:border-[#FF9A45]"
+              />
 
-                {errorMessage && (
-                  <div className="flex items-center gap-2 text-xs text-rose-400 font-medium">
-                    <AlertCircle className="h-4 w-4" />
-                    <span>{errorMessage}</span>
-                  </div>
+              <textarea
+                name="message"
+                placeholder="Your Message"
+                rows={4}
+                required
+                value={formData.message}
+                onChange={handleChange}
+                className="input-dark w-full rounded-xl px-4 py-2.5 text-xs placeholder-slate-400 resize-none focus:border-[#FF9A45]"
+              />
+
+              <div className="flex items-center justify-between pt-1">
+                {submitted ? (
+                  <span className="text-xs text-[#35D5FF] font-medium flex items-center gap-1.5 animate-fadeIn">
+                    <Check className="h-3.5 w-3.5" /> Message sent successfully!
+                  </span>
+                ) : (
+                  <span />
                 )}
 
-                <div className="flex items-center justify-between pt-1">
-                  {submitted ? (
-                    <span className="text-xs text-[#FF9A45] font-semibold flex items-center gap-1.5 animate-fadeIn">
-                      <Check className="h-4 w-4 text-[#FF6B00]" /> Message received! I will reply shortly.
-                    </span>
-                  ) : (
-                    <span />
-                  )}
+                <motion.button
+                  type="submit"
+                  disabled={isSubmitting}
+                  whileHover={{ scale: 1.04, boxShadow: '0 8px 20px -4px rgba(255, 122, 26, 0.5)' }}
+                  whileTap={{ scale: 0.96 }}
+                  data-cursor="pointer"
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#FF7A1A] to-[#FF9A45] px-6 py-2.5 text-xs font-bold text-white shadow-md transition-all ml-auto hover:brightness-110 cursor-pointer"
+                >
+                  <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </motion.button>
+              </div>
+            </form>
+          </motion.div>
 
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="btn-primary-orange inline-flex items-center gap-2 rounded-full px-7 py-2.5 text-xs font-bold transition-all ml-auto disabled:opacity-50 shadow-[0_8px_20px_rgba(255,107,0,0.35)]"
-                  >
-                    <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </button>
-                </div>
-              </form>
-            </TiltCard>
-          </div>
-
-          {/* Right Column: Get in Touch matching Image 4 (lg:col-span-3) */}
-          <div className="lg:col-span-3 text-left">
-            <TiltCard maxTilt={5} className="glass-panel rounded-2xl p-6 space-y-5 border border-white/10">
-              <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-[#F4F8FF]">
+          {/* Right Column: "Get in Touch" Card */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:col-span-3 text-left"
+          >
+            <div className="glass-panel rounded-2xl p-5 space-y-4 border border-[#35D5FF]/15">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#F4F8FF] font-mono">
                 Get in Touch
               </h3>
 
-              <div className="space-y-4">
-                <a
-                  href={`mailto:${PERSONAL_INFO.email}`}
-                  className="flex items-center gap-3 p-2.5 rounded-xl bg-[#07152B]/60 border border-white/10 hover:border-[#FF6B00]/40 transition-colors group"
+              <div className="space-y-3 text-xs">
+                {/* Email with copy button */}
+                <button
+                  type="button"
+                  onClick={handleCopyEmail}
+                  data-cursor="pointer"
+                  className="group flex items-center gap-3 w-full text-left text-[#A8B8D0] hover:text-[#F4F8FF] transition-colors cursor-pointer"
                 >
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FF6B00]/15 text-[#FF6B00] border border-[#FF6B00]/30 shadow-[0_0_10px_rgba(255,107,0,0.25)]">
-                    <Mail className="h-4 w-4" />
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#FF9A45]/15 text-[#FF9A45] group-hover:bg-[#FF9A45] group-hover:text-black transition-colors">
+                    {copiedEmail ? <Check className="h-3.5 w-3.5" /> : <Mail className="h-3.5 w-3.5" />}
                   </div>
-                  <div className="overflow-hidden">
-                    <span className="text-xs font-medium text-[#F4F8FF] group-hover:text-[#FF9A45] transition-colors truncate block">
-                      {PERSONAL_INFO.email}
-                    </span>
+                  <span className="truncate text-[#A8B8D0] group-hover:text-[#F4F8FF]">
+                    {copiedEmail ? 'Copied to clipboard!' : PERSONAL_INFO.email}
+                  </span>
+                </button>
+
+                {/* Phone */}
+                <a
+                  href={`tel:${PERSONAL_INFO.phone.replace(/\s+/g, '')}`}
+                  data-cursor="pointer"
+                  className="group flex items-center gap-3 text-[#A8B8D0] hover:text-[#F4F8FF] transition-colors"
+                >
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#00A8FF]/15 text-[#35D5FF] group-hover:bg-[#00A8FF] group-hover:text-black transition-colors">
+                    <Phone className="h-3.5 w-3.5" />
                   </div>
+                  <span className="truncate">{PERSONAL_INFO.phone}</span>
                 </a>
 
+                {/* Location */}
+                <div className="flex items-center gap-3 text-[#A8B8D0]">
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#00A8FF]/15 text-[#35D5FF]">
+                    <MapPin className="h-3.5 w-3.5" />
+                  </div>
+                  <span className="truncate">{PERSONAL_INFO.location}</span>
+                </div>
+
+                {/* GitHub */}
                 <a
                   href={PERSONAL_INFO.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-2.5 rounded-xl bg-[#07152B]/60 border border-white/10 hover:border-[#FF6B00]/40 transition-colors group"
+                  data-cursor="pointer"
+                  className="group flex items-center gap-3 text-[#A8B8D0] hover:text-[#F4F8FF] transition-colors"
                 >
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FF6B00]/15 text-[#FF6B00] border border-[#FF6B00]/30 shadow-[0_0_10px_rgba(255,107,0,0.25)]">
-                    <Github className="h-4 w-4" />
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#00A8FF]/15 text-[#35D5FF] group-hover:bg-[#00A8FF] group-hover:text-black transition-colors">
+                    <Github className="h-3.5 w-3.5" />
                   </div>
-                  <div className="overflow-hidden">
-                    <span className="text-xs font-medium text-[#F4F8FF] group-hover:text-[#FF9A45] transition-colors truncate block">
-                      github.com/gautamvaja
-                    </span>
-                  </div>
+                  <span className="truncate">github.com/{PERSONAL_INFO.githubUser}</span>
                 </a>
 
+                {/* Portfolio Repository */}
+                {PERSONAL_INFO.portfolioRepo && (
+                  <a
+                    href={PERSONAL_INFO.portfolioRepo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-cursor="pointer"
+                    className="group flex items-center gap-3 text-[#A8B8D0] hover:text-[#F4F8FF] transition-colors"
+                  >
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#00A8FF]/15 text-[#35D5FF] group-hover:bg-[#00A8FF] group-hover:text-black transition-colors">
+                      <Code2 className="h-3.5 w-3.5" />
+                    </div>
+                    <span className="truncate font-mono text-xs text-[#35D5FF]">Gautam-Vaja/PortfolioApp</span>
+                  </a>
+                )}
+
+                {/* LinkedIn */}
                 <a
                   href={PERSONAL_INFO.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-2.5 rounded-xl bg-[#07152B]/60 border border-white/10 hover:border-[#FF6B00]/40 transition-colors group"
+                  data-cursor="pointer"
+                  className="group flex items-center gap-3 text-[#A8B8D0] hover:text-[#F4F8FF] transition-colors"
                 >
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FF6B00]/15 text-[#FF6B00] border border-[#FF6B00]/30 shadow-[0_0_10px_rgba(255,107,0,0.25)]">
-                    <Linkedin className="h-4 w-4" />
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#00A8FF]/15 text-[#35D5FF] group-hover:bg-[#00A8FF] group-hover:text-black transition-colors">
+                    <Linkedin className="h-3.5 w-3.5" />
                   </div>
-                  <div className="overflow-hidden">
-                    <span className="text-xs font-medium text-[#F4F8FF] group-hover:text-[#FF9A45] transition-colors truncate block">
-                      linkedin.com/in/gautamvaja
-                    </span>
-                  </div>
+                  <span className="truncate">linkedin.com/in/{PERSONAL_INFO.linkedinUser}</span>
                 </a>
               </div>
-            </TiltCard>
-          </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

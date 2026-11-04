@@ -18,6 +18,7 @@ export const PERSONAL_INFO = {
   email: 'gautamvaja403@gmail.com',
   github: 'https://github.com/Gautam-Vaja',
   githubUser: 'Gautam-Vaja',
+  portfolioRepo: 'https://github.com/Gautam-Vaja/PortfolioApp',
   linkedin: 'https://linkedin.com/in/gautam-vaja',
   linkedinUser: 'gautam-vaja',
   experienceLevel: 'Internship Experience | Derived Web Technologies',

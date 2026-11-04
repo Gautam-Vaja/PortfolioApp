@@ -4,22 +4,20 @@ interface TiltCardProps {
   children: React.ReactNode;
   className?: string;
   onClick?: () => void;
-  maxTilt?: number;
+  tiltMaxAngle?: number;
+  scale?: number;
 }
 
 export default function TiltCard({
   children,
   className = '',
   onClick,
-  maxTilt = 12,
+  tiltMaxAngle = 8,
+  scale = 1.02,
 }: TiltCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [transformStyle, setTransformStyle] = useState<string>('');
-  const [glarePosition, setGlarePosition] = useState<{ x: number; y: number; opacity: number }>({
-    x: 50,
-    y: 50,
-    opacity: 0,
-  });
+  const [transform, setTransform] = useState<string>('');
+  const [glareStyle, setGlareStyle] = useState<React.CSSProperties>({ opacity: 0 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = cardRef.current;
@@ -32,48 +30,50 @@ export default function TiltCard({
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const rotateX = ((y - centerY) / centerY) * -maxTilt;
-    const rotateY = ((x - centerX) / centerX) * maxTilt;
+    const rotateX = ((y - centerY) / centerY) * -tiltMaxAngle;
+    const rotateY = ((x - centerX) / centerX) * tiltMaxAngle;
 
-    setTransformStyle(
-      `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(8px) scale3d(1.02, 1.02, 1.02)`
+    setTransform(
+      `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(${scale}, ${scale}, ${scale})`
     );
 
-    setGlarePosition({
-      x: (x / rect.width) * 100,
-      y: (y / rect.height) * 100,
+    // Calculate glare position
+    const glareX = (x / rect.width) * 100;
+    const glareY = (y / rect.height) * 100;
+
+    setGlareStyle({
       opacity: 0.18,
+      background: `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(53, 213, 255, 0.4) 0%, rgba(255, 154, 69, 0.1) 40%, transparent 70%)`,
     });
   };
 
   const handleMouseLeave = () => {
-    setTransformStyle('perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale3d(1, 1, 1)');
-    setGlarePosition((prev) => ({ ...prev, opacity: 0 }));
+    setTransform('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
+    setGlareStyle({ opacity: 0 });
   };
 
   return (
     <div
       ref={cardRef}
+      onClick={onClick}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onClick={onClick}
+      data-cursor-card="true"
       style={{
-        transform: transformStyle,
-        transition: 'transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease',
+        transform,
+        transition: transform ? 'transform 0.1s ease-out' : 'transform 0.5s ease-out',
         transformStyle: 'preserve-3d',
+        willChange: 'transform',
       }}
-      className={`relative overflow-hidden cursor-pointer ${className}`}
+      className={`relative cursor-pointer select-none ${className}`}
     >
-      {/* Dynamic Cursor Spotlight / Glare Effect */}
-      <div
-        className="pointer-events-none absolute -inset-px rounded-[inherit] transition-opacity duration-300"
-        style={{
-          opacity: glarePosition.opacity,
-          background: `radial-gradient(350px circle at ${glarePosition.x}% ${glarePosition.y}%, rgba(0, 168, 255, 0.35), transparent 70%)`,
-        }}
-      />
       {children}
+
+      {/* Dynamic specular glare overlay */}
+      <div
+        className="pointer-events-none absolute inset-0 z-20 rounded-2xl transition-opacity duration-300"
+        style={glareStyle}
+      />
     </div>
   );
 }
-

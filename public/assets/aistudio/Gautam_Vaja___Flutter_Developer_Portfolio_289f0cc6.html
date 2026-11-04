@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gautam Vaja – Flutter Developer Portfolio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;700;800&display=swap">
+<style>
+:root{--k:#050507;--w:#f5f6fa;--g:linear-gradient(90deg,#ff3d9a,#8b5cff 55%,#ff9a3d);--lbg:#eef0f5;--lfg:#0b0b10;--ln:rgba(255,255,255,.5);--r:44px;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--lbg:#15161d;--lfg:#f2f3f7}}
+:root[data-theme="dark"]{--lbg:#15161d;--lfg:#f2f3f7}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--k);color:var(--w);font:500 16px/1.6 Manrope,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3,.an{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;margin:0;line-height:1}
+a{color:inherit}a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #ff9a3d;outline-offset:3px}
+#gl{position:fixed;inset:0;width:100%;height:100%;z-index:20;pointer-events:none}
+nav{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;justify-content:space-between;gap:12px;padding:calc(18px + env(safe-area-inset-top,0px)) 5vw 18px;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;mix-blend-mode:difference;color:#fff;transition:opacity .35s}
+nav a{text-decoration:none}nav a:hover{opacity:.6}
+.pill{display:inline-block;padding:14px 30px;border-radius:99px;background:var(--g);color:#fff;font-weight:800;font-size:13px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border:0;cursor:pointer;transition:filter .2s}
+.pill:hover{filter:brightness(1.2)}
+#fp{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;z-index:31;opacity:0;pointer-events:none;transition:opacity .35s;padding:11px 24px}
+.w{max-width:1280px;margin:0 auto;padding:0 5vw}
+.hero{min-height:100svh;padding-top:84px;position:relative}
+h1{font-size:clamp(58px,14.2vw,210px);letter-spacing:-.01em;color:#eceef7;will-change:transform}
+.wd{display:inline-block;overflow:hidden;margin-right:.22em;padding-top:.04em;vertical-align:top}
+.ch{display:inline-block;animation:up .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes up{from{transform:translateY(105%) rotate(6deg)}}
+.hrow{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-top:18px;animation:fd 1s .7s both}
+@keyframes fd{from{opacity:0;transform:translateY(20px)}}
+.hrow p{max-width:340px;margin:0;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#c9cde0}
+.out{display:inline-block;padding:10px 24px;border-radius:99px;border:1px solid var(--ln);font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:.2s}
+.out:hover{background:#fff;color:#000}
+.art{height:min(54vh,500px);margin-top:-1vw}
+.logos{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:6px 5vw 30px;font:400 clamp(16px,2.2vw,26px) Anton;text-transform:uppercase;color:#d7daea;letter-spacing:.04em}
+.gal{overflow:hidden;padding:10px 0 130px}.rw{display:flex;gap:14px;width:max-content;margin-bottom:14px;will-change:transform}
+.tl{width:clamp(150px,17vw,250px);aspect-ratio:1.45;border-radius:26px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:#0d0e14;border:1px solid rgba(255,255,255,.16);font:400 clamp(14px,1.5vw,19px) Anton;letter-spacing:.06em;text-transform:uppercase;color:#c9cde0}
+.tl svg{width:clamp(40px,4.6vw,62px);height:auto}
+.sheet{position:relative;border-radius:var(--r) var(--r) 0 0;margin-top:calc(var(--r) * -1);padding:calc(var(--r) + 90px) 0 calc(var(--r) + 40px);box-shadow:0 -24px 60px rgba(0,0,0,.35)}
+.dk{background:var(--k)}.lt{background:var(--lbg);color:var(--lfg)}
+.big{font-size:clamp(54px,13vw,190px);text-align:center;letter-spacing:.005em;background:linear-gradient(#fff,#8c92a8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lt .big{background:none;color:var(--lfg)}
+#about{padding:0}.pin{height:280vh}.st{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 6vw;text-align:center}
+.hd{position:relative;font:400 clamp(50px,9.5vw,140px) Anton;text-transform:uppercase;line-height:1;color:transparent;-webkit-text-stroke:2px var(--ln)}
+.hd b{position:absolute;left:0;top:0;font-weight:400;color:#fff;-webkit-text-stroke:0;white-space:nowrap}
+.txt{max-width:820px;margin-top:26px;color:#fff}.txt p{margin:0 0 12px;font-size:clamp(15px,1.6vw,18px);line-height:1.55;font-weight:700}.txt p.l{font-size:clamp(19px,2.2vw,26px);line-height:1.35}
+.txt i{font-style:normal;transition:opacity .15s}
+.stats{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:20px;opacity:0;transform:translateY(20px);transition:.5s}.stats.on{opacity:1;transform:none}
+.stats div{border:1px solid var(--ln);border-radius:99px;padding:8px 22px}.stats b{font:400 24px Anton;display:block;background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}.stats span{font-size:12px;color:#c9cde0}
+.fl{position:absolute;width:min(16vw,170px);aspect-ratio:1}
+.row{display:grid;grid-template-columns:110px 1fr 1.3fr;gap:20px 30px;align-items:start;padding:30px 0;border-bottom:1px solid color-mix(in srgb,var(--lfg) 22%,transparent)}
+.row .n{font:400 clamp(44px,6vw,72px) Anton;line-height:.9}.row h3{font-size:clamp(24px,3vw,38px)}.row p{margin:0;opacity:.75}
+.rv{opacity:0;filter:blur(10px);transform:translateY(40px);transition:opacity .8s,filter .8s,transform .8s cubic-bezier(.2,.8,.2,1)}.rv.in{opacity:1;filter:none;transform:none}
+.stk .pj{position:sticky;top:calc(80px + var(--i)*52px);background:var(--k);border:1px solid var(--ln);border-radius:38px;padding:22px 26px 28px;margin-bottom:34px}
+.ph{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:18px}
+.ph .n{font:400 clamp(34px,4.4vw,50px) Anton;margin-right:14px}.ph div{display:flex;align-items:center}.ph small{display:block;font-size:11px;font-weight:800;letter-spacing:.12em;color:#9ea3bd;text-transform:uppercase}.ph strong{font-size:clamp(14px,1.8vw,19px)}
+.gl3{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:12px}
+.gl3 i{font-style:normal;border-radius:26px;min-height:140px;padding:16px 18px;display:flex;flex-direction:column;justify-content:flex-end;font:400 clamp(20px,2.8vw,32px)/1 Anton;text-transform:uppercase;text-shadow:0 2px 12px rgba(0,0,0,.35);position:relative;overflow:hidden}
+.gl3 i::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 28% 18%,rgba(255,255,255,.6),transparent 40%);mix-blend-mode:soft-light}
+.mk{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:780px;margin:0 auto;padding:22px 22px 0;background:#0b0c11;border-radius:26px;overflow:hidden}
+.f{container-type:inline-size;aspect-ratio:9/12.5;border:2px solid rgba(255,255,255,.22);border-bottom:0;border-radius:26px 26px 0 0;background:#0d0e14;overflow:hidden}
+.u{font:600 5.2cqw/1.35 Manrope,sans-serif;color:#e8eaf5;padding:1.4em;display:flex;flex-direction:column;gap:.7em;height:100%}
+.u .nb{width:34%;height:1em;border-radius:1em;background:#1b1c25;margin:0 auto .2em;flex:none}
+.u .t{font:400 2.4em/1 Anton;text-transform:uppercase;letter-spacing:.03em}.u .sb{color:var(--a);margin-top:-.4em}
+.u .c{background:#15161e;border-radius:1.2em;padding:.8em 1em}
+.u .ln{display:flex;justify-content:space-between;align-items:center;gap:.6em}
+.u em{font-style:normal;color:#8a8fa8;font-weight:500}
+.u .bb{border-radius:1.2em;padding:.8em 1em;max-width:84%;font-weight:500}.u .me{background:var(--a);color:#fff;align-self:flex-end}.u .ai{background:#1a1b25;align-self:flex-start}
+.u .ib{margin-top:auto;border-radius:2em;background:#15161e;padding:.9em 1.2em;color:#777c92;font-weight:500}
+.u .tg{width:2.4em;height:1.3em;border-radius:1em;background:var(--a);position:relative;flex:none}.u .tg::after{content:"";position:absolute;right:.2em;top:.2em;width:.9em;height:.9em;border-radius:50%;background:#fff}
+.u .pb{height:.6em;border-radius:.4em;background:#262733;overflow:hidden;flex:1;margin-top:.5em}.u .ln .pb{margin:0}.u .pb i{display:block;height:100%;width:var(--w);background:var(--a)}
+.u .k{font:400 6em/1 Anton;text-align:center}.u .n{font:400 2em/1 Anton;margin-top:.2em}
+.u .g2{display:grid;grid-template-columns:1fr 1fr;gap:.7em}.u .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:.6em;text-align:center}
+.u .av{width:2.4em;height:2.4em;border-radius:50%;background:var(--a);flex:none;display:inline-block}.u .av.lg{width:5em;height:5em}
+.u .rw2{display:flex;align-items:center;gap:.6em}
+.u .im{aspect-ratio:16/9;border-radius:1em;margin:.6em 0;background:linear-gradient(135deg,color-mix(in srgb,var(--a) 45%,#0d0e14),#1a1b25)}
+.u .sq{aspect-ratio:1;border-radius:.8em;background:linear-gradient(135deg,color-mix(in srgb,var(--a) 40%,#0d0e14),#1a1b25)}
+.u .btn{background:var(--a);color:#fff;text-align:center;border-radius:2em;padding:.8em;font-weight:800}
+.u .chips{display:flex;gap:.5em}.u .chips span{border:1px solid #2b2c38;border-radius:2em;padding:.4em 1em;color:#aab}.u .chips .on{background:var(--a);border-color:var(--a);color:#fff}
+.u .dn{width:56%;aspect-ratio:1;margin:0 auto;border-radius:50%;background:conic-gradient(var(--a) 0 34%,#1f8f6a 0 60%,#2a3350 0 100%);-webkit-mask:radial-gradient(circle,transparent 54%,#000 55%);mask:radial-gradient(circle,transparent 54%,#000 55%)}
+.pd{display:grid;grid-template-columns:1.4fr 1fr;gap:10px 34px;margin-top:18px;color:#c9cde0}.pd p{margin:0}.pd b{color:#fff}
+.hd2{display:flex;justify-content:center;align-items:center;gap:14px}.emo{font-size:clamp(34px,6vw,80px);animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-12px) rotate(10deg)}}
+.bub{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-bottom:14px}
+.bx{border:1px solid var(--ln);border-radius:34px;padding:26px 28px;grid-column:span 3;will-change:transform}
+.bx.f{grid-column:span 6}
+.bx h3{font-size:clamp(24px,3vw,34px);margin-bottom:6px}.bx .o{font-weight:800;background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}.bx .d{font-size:13px;color:#9ea3bd;margin-bottom:10px}
+.bx ul{margin:10px 0 0;padding-left:18px;color:#cfd3e6}.bx li{margin-bottom:6px}.bx li::marker{color:#ff3d9a}
+.sub{font:400 clamp(30px,5vw,56px) Anton;text-transform:uppercase;margin:70px 0 24px;text-align:center}
+.ct{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}.ct h2{font-size:clamp(54px,10vw,150px)}
+.ct a.m{display:block;font-weight:800;font-size:clamp(16px,2.4vw,24px);word-break:break-all;margin-top:10px;text-decoration:none}.ct a.m:hover{opacity:.6}
+.ct form{display:grid;gap:14px}
+.ct input,.ct textarea{width:100%;background:transparent;border:0;border-bottom:1.5px solid color-mix(in srgb,var(--lfg) 45%,transparent);padding:12px 2px;font:500 16px Manrope;color:var(--lfg);border-radius:0}
+.ft{padding-top:calc(var(--r) + 60px);padding-bottom:calc(30px + env(safe-area-inset-bottom,0px))}
+.ft .nm{font:400 clamp(60px,17vw,270px) Anton;text-transform:uppercase;line-height:.9;color:#eceef7}
+.ft svg{width:100%;height:auto;margin:20px 0 34px;display:block}
+.cols{display:flex;gap:60px;flex-wrap:wrap;justify-content:flex-end;font-size:14px}.cols div{display:grid;gap:6px;align-content:start}.cols small{font:800 11px Manrope;letter-spacing:.14em;color:#9ea3bd;text-transform:uppercase}.cols a{text-decoration:none}.cols a:hover{opacity:.6}
+@media(max-width:820px){nav a.x{display:none}.pin{height:auto}.st{position:static;height:auto;padding:60px 6vw}.fl{opacity:.9}.ct{grid-template-columns:1fr}.row{grid-template-columns:70px 1fr}.row p{grid-column:1/-1}.mk{grid-template-columns:1fr 1fr;gap:12px;padding:14px 14px 0}.mk .f:nth-child(3){display:none}.pd{grid-template-columns:1fr}.bx{grid-column:span 6}.stk .pj{position:relative;top:0}.art{height:44vh}.cols{justify-content:flex-start}}
+@media(prefers-reduced-motion:reduce){.ch,.hrow,.emo{animation:none}.rv{opacity:1;filter:none;transform:none;transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<canvas id="gl" aria-hidden="true"></canvas>
+<nav id="nv"><a href="#about">About</a><a class="x" href="#skills">Skills</a><a class="x" href="#projects">Projects</a><a class="x" href="#exp">Experience</a><a href="#contact">Contact</a></nav>
+<a class="pill" id="fp" href="#contact">Contact me</a>
+
+<header class="hero" id="top"><div class="w">
+<h1 id="h1">Hi, I’M Gautam</h1>
+<div class="hrow"><p>Flutter Developer passionate about crafting fast, polished and memorable mobile apps</p><a class="pill" href="#contact">Contact me</a></div>
+<div class="art" data-3d="phone"></div>
+</div></header>
+<div class="logos" aria-hidden="true"><span>Flutter</span><span>Dart</span><span>Firebase</span><span>SQLite</span><span>GetX</span><span>REST APIs</span></div>
+<div class="gal" id="gal" aria-hidden="true"><div class="rw" id="r1"></div><div class="rw" id="r2"></div></div>
+
+<section class="sheet dk" id="about" style="z-index:2"><div class="pin" id="pin"><div class="st">
+<div class="hd" id="hd">About me<b id="hf" aria-hidden="true">About me</b></div>
+<div class="txt" id="tx"><p class="l">Flutter Developer and BCA graduate with hands-on experience building responsive, cross-platform mobile applications from concept to deployment.</p>
+<p>Internship experience at Derived Web Technologies Pvt. Ltd. building production features with RESTful APIs, Firebase and SQLite, alongside four independent projects spanning AI integration, real-time data and full-stack app architecture.</p>
+<p>Foundational knowledge of iOS development, including running and testing Flutter apps on the iOS Simulator using Xcode and adapting UI with Cupertino widgets. Strong foundation in OOP, data structures and clean, maintainable code, with a track record of shipping polished, production-ready mobile products end to end.</p></div>
+<div class="stats" id="stt"><div><b>3 months</b><span>Flutter internship</span></div><div><b>4</b><span>independent apps</span></div><div><b>8.33 / 10</b><span>BCA CGPA</span></div><div><b>EN + FR</b><span>localized live app</span></div></div>
+<div class="fl" data-3d="knot" data-par="-1" style="left:5vw;top:14vh"></div>
+<div class="fl" data-3d="cube" data-par="1" style="right:5vw;top:12vh"></div>
+<div class="fl" data-3d="flower" data-par="1" style="left:6vw;bottom:10vh"></div>
+<div class="fl" data-3d="ring" data-par="-1" style="right:6vw;bottom:12vh"></div>
+</div></div></section>
+
+<section class="sheet lt" id="skills" style="z-index:3"><div class="w">
+<h2 class="big rv">Skills</h2><div id="sk" style="margin-top:50px"></div>
+</div></section>
+
+<section class="sheet dk" id="projects" style="z-index:4"><div class="w">
+<h2 class="big rv" style="margin-bottom:50px">Projects</h2>
+<div class="stk" id="pj"></div>
+</div></section>
+
+<section class="sheet dk" id="exp" style="z-index:5"><div class="w">
+<div class="hd2"><h2 class="big rv">Experience</h2><span class="emo" aria-hidden="true">💼</span></div>
+<div class="bub" style="margin-top:50px">
+<div class="bx f" data-dr="1"><h3>Flutter Developer Intern</h3><div class="o">Derived Web Technologies Pvt. Ltd.</div><div class="d">3-month internship · Jul 2026 – Oct 2026</div>
+<ul><li>Engineered and optimized modular, cross-platform UI components using Flutter and Dart, ensuring seamless responsiveness across diverse mobile screen resolutions.</li><li>Integrated complex RESTful APIs via Dio and HTTP libraries with secure JSON serialization, improving asynchronous data handling and screen load speed.</li><li>Implemented local data caching and persistence using SQLite and Firebase Firestore to provide uninterrupted offline application functionality.</li><li>Leveraged Git and GitHub for feature-branch workflows, collaborative PR reviews, bug fixes, and performance profiling with Flutter DevTools.</li></ul></div></div>
+<div class="bub"><div class="bx f" data-dr="-1"><h3>Live Project: PilonMagic</h3><div class="o">GPS Tracking App</div><div class="d">Sep 2026 – Oct 2026</div>
+<ul><li>Built asset search, QR/VIN lookup and profile features by integrating REST APIs with Flutter, Dart and GetX state management.</li><li>Implemented ownership report PDF export and English/French localization for the production app.</li><li>Delivered Android bug fixes and updates, collaborating through GitLab version control.</li></ul></div></div>
+<div class="sub rv">Education</div>
+<div class="bub">
+<div class="bx" data-dr="1"><div class="d">2026 – Present</div><h3 style="font-size:26px">Master of Computer Applications (MCA)</h3><div class="o">Narandas Jethalal Sonecha Management &amp; Technical Institute, GTU</div></div>
+<div class="bx" data-dr="-1"><div class="d">2023 – 2026</div><h3 style="font-size:26px">Bachelor of Computer Applications (BCA)</h3><div class="o">Shri K.M. &amp; Smt. K.K. Savjani BBA/BCA College, BKNMU</div><p style="margin:8px 0 0">CGPA 8.33 / 10</p></div></div>
+<div class="bub">
+<div class="bx" data-dr="-1"><div class="d">2023</div><h3 style="font-size:26px">Higher Secondary Certificate (12th, GSEB)</h3><div class="o">Sunrise School, Veraval</div><p style="margin:8px 0 0">75%</p></div>
+<div class="bx" data-dr="1"><div class="d">2021</div><h3 style="font-size:26px">Secondary School Certificate (10th, GSEB)</h3><div class="o">Sunrise School, Veraval</div><p style="margin:8px 0 0">82%</p></div></div>
+</div></section>
+
+<section class="sheet lt" id="contact" style="z-index:6"><div class="w ct">
+<div style="position:relative"><h2 class="rv">Let’s get in touch</h2>
+<a class="m" href="mailto:gautamvaja403@gmail.com">gautamvaja403@gmail.com</a><a class="m" href="tel:+918320000411">+91 8320000411</a>
+<p style="margin:10px 0 0;opacity:.75">Ahmedabad, Gujarat</p></div>
+<div style="position:relative"><form id="f"><input id="fn" placeholder="Your name" required aria-label="Your name"><input id="fe" type="email" placeholder="Your email" required aria-label="Your email"><textarea id="fm" rows="4" placeholder="Your message" required aria-label="Your message"></textarea><button class="pill" type="submit" style="justify-self:start">Send message</button></form>
+<div class="fl" data-3d="blob" data-par="-1" style="right:-2vw;top:-170px;width:min(15vw,150px)"></div></div>
+<div class="fl" data-3d="knot2" data-par="1" style="left:auto;right:4vw;margin-top:-30px;width:min(13vw,130px);position:absolute"></div>
+</div></section>
+
+<footer class="sheet dk ft" style="z-index:7"><div class="w">
+<div class="nm">Gautam Vaja</div>
+<svg viewBox="0 0 900 90" aria-hidden="true"><circle cx="45" cy="45" r="40" fill="#eceef7"/><rect x="110" y="5" width="80" height="80" rx="22" fill="#c6f23a"/><path d="M220 85a40 40 0 0 1 80 0z" fill="#8b5cff"/><path d="M330 85 370 5 410 85z" fill="#ff9a3d"/><circle cx="480" cy="45" r="40" fill="none" stroke="#ff2fc0" stroke-width="22"/><path d="M540 85V5a80 80 0 0 1 80 80z" fill="#eceef7"/><rect x="650" y="32" width="80" height="26" rx="13" fill="#8b5cff"/><rect x="677" y="5" width="26" height="80" rx="13" fill="#8b5cff"/><path d="M780 45 820 5 860 45 820 85z" fill="#ff2fc0"/></svg>
+<div class="cols"><div><small>Social</small><a href="https://linkedin.com/in/gautam-vaja" target="_blank" rel="noopener">LinkedIn</a><a href="https://github.com/Gautam-Vaja" target="_blank" rel="noopener">GitHub</a></div><div><small>Contact</small><a href="mailto:gautamvaja403@gmail.com">gautamvaja403@gmail.com</a><a href="tel:+918320000411">+91 8320000411</a><span>Ahmedabad, Gujarat</span></div></div>
+<p style="color:#9ea3bd;font-size:13px;margin:30px 0 0">© 2026 Gautam Vaja · Flutter Developer</p>
+</div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const $=s=>document.querySelector(s),cl=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)),esc=s=>s.replace(/&/g,"&amp;");
+const calm=matchMedia("(prefers-reduced-motion:reduce)").matches,mob=()=>innerWidth<=820;
+const hue=i=>{const h=(i*47+300)%360;return `radial-gradient(circle at 30% 25%,hsl(${h},95%,72%),hsl(${(h+50)%360},85%,52%) 55%,hsl(${(h+110)%360},80%,30%))`};
+// hero title: letters rise in
+let ci=0;$("#h1").innerHTML=["Hi,","I’M","Gautam"].map(w=>`<span class="wd">${[...w].map(c=>`<span class="ch" style="animation-delay:${(ci++)*55}ms">${c}</span>`).join("")}</span>`).join("");
+// tile gallery rows
+const TL=["Flutter","Dart","Firebase","SQLite","GetX","REST API","Dio","Git","GitHub","GitLab","Postman","Java","Python","Swift"];
+const V=b=>`<svg viewBox="0 0 48 48" aria-hidden="true">${b}</svg>`;
+const LG={"Flutter":V('<path fill="#54c5f8" d="M27 4h12L17 26l-6-6z"/><path fill="#54c5f8" d="M27 21h12L28 32l-6-6z"/><path fill="#01579b" d="M17 31l5-5 6 6-5 5z"/><path fill="#0277bd" d="M23 37l5-5h11L28 43H17z"/>'),
+"Dart":V('<path fill="#0175c2" d="M24 4 44 24 24 44 4 24z"/><path fill="#40c4ff" d="M24 4 44 24H24z"/><path fill="#01579b" d="M4 24 24 44V24z"/>'),
+"Firebase":V('<path fill="#ffa000" d="M9 36 14 6l8 14z"/><path fill="#ffca28" d="M9 36 22 20l7 13z"/><path fill="#f57c00" d="M9 36l16 8 14-8-5-23-9 17z"/>'),
+"SQLite":V('<ellipse cx="24" cy="12" rx="15" ry="6" fill="#0f80cc"/><path fill="#0b5f99" d="M9 12v10c0 3.3 6.7 6 15 6s15-2.7 15-6V12c0 3.3-6.7 6-15 6S9 15.3 9 12z"/><path fill="#0f80cc" d="M9 24v10c0 3.3 6.7 6 15 6s15-2.7 15-6V24c0 3.3-6.7 6-15 6S9 27.3 9 24z"/>'),
+"GetX":V('<rect x="5" y="5" width="38" height="38" rx="10" fill="#7c4dff"/><text x="24" y="31" font-family="Arial,sans-serif" font-weight="900" font-size="19" fill="#fff" text-anchor="middle">GX</text>'),
+"REST API":V('<rect x="5" y="9" width="38" height="30" rx="8" fill="none" stroke="#26c6da" stroke-width="3"/><text x="24" y="29.5" font-family="Arial,sans-serif" font-weight="700" font-size="13" fill="#26c6da" text-anchor="middle">{ API }</text>'),
+"Dio":V('<rect x="5" y="5" width="38" height="38" rx="10" fill="#1e88e5"/><text x="24" y="30" font-family="Arial,sans-serif" font-weight="800" font-size="17" fill="#fff" text-anchor="middle">dio</text>'),
+"Git":V('<rect x="9" y="9" width="30" height="30" rx="5" transform="rotate(45 24 24)" fill="#f05033"/><path d="M22 14v20M22 24l9-3" stroke="#fff" stroke-width="3" fill="none"/><g fill="#fff"><circle cx="22" cy="14" r="3.5"/><circle cx="22" cy="34" r="3.5"/><circle cx="31" cy="21" r="3.5"/></g>'),
+"GitHub":V('<g transform="scale(2)"><path fill="#f5f6fa" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></g>'),
+"GitLab":V('<path fill="#e24329" d="M24 43 4 28.5l4-12L12 6l6 12h12l6-12 4 10.5 4 12z"/><path fill="#fc6d26" d="M24 43 4 28.5 10 22h28l6 6.500z"/><path fill="#fca326" d="M4 28.500l4-12 2 5.500zM44 28.500l-4-12-2 5.500z"/>'),
+"Postman":V('<circle cx="24" cy="24" r="19" fill="#ff6c37"/><path d="M15 33 31 17" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M27 14l7 7-9 1z" fill="#fff"/><circle cx="16" cy="32" r="3" fill="#fff"/>'),
+"Java":V('<path fill="#e76f00" d="M26 5c3 4-6 6-4 11 1 3 5 3 3 7 4-3 3-7 0-9-2-3 1-6 1-9z"/><path fill="#5382a1" d="M10 28h25c0 7-5 12-12.5 12S10 35 10 28z"/><path d="M35 30c5-1 6 4 0 6" stroke="#5382a1" stroke-width="3" fill="none"/><path d="M12 43h22" stroke="#e76f00" stroke-width="3" stroke-linecap="round"/>'),
+"Python":V('<path fill="#3776ab" d="M24 4c-9 0-8.5 4-8.5 4v4.5h9V14H11.5S5 13 5 24c0 10 5.5 9.5 5.5 9.5H14v-4.5s-.5-5.5 5.5-5.5h9s5.5.2 5.5-5.3V9.5S35 4 24 4z"/><circle cx="19" cy="9.5" r="1.8" fill="#fff"/><path fill="#ffd43b" d="M24 44c9 0 8.5-4 8.5-4v-4.5h-9V34h13S43 35 43 24c0-10-5.5-9.5-5.5-9.5H34v4.5s.5 5.5-5.5 5.5h-9s-5.5-.2-5.5 5.3v9.7S13 44 24 44z"/><circle cx="29" cy="38.5" r="1.8" fill="#fff"/>'),
+"Swift":V('<rect x="4" y="4" width="40" height="40" rx="11" fill="#f05138"/><path fill="#fff" d="M35 33c-5.5 3-13 3-18-1.5 3 1 5.5.8 7.5-.3-5-3.5-8.5-8.5-10-13 4 3.5 9 7 13 8.5-4-4-7-8-8-11 5 5 12 9.5 16.5 13 1.5-2 1-5-1-8 4 3.5 5 8 0 12.3z"/>')};
+const tile=t=>`<div class="tl">${LG[t]||""}<span>${t}</span></div>`;
+$("#r1").innerHTML=TL.map(tile).join("");$("#r2").innerHTML=[...TL].reverse().map(tile).join("");
+// about words
+document.querySelectorAll("#tx p").forEach(p=>{p.innerHTML=p.textContent.split(" ").map(w=>`<i>${w}</i>`).join(" ")});
+const words=[...document.querySelectorAll("#tx i")];
+// skills
+const SK=[["Mobile Development","Flutter, Dart, Responsive Layouts, State Management (GetX), Custom Widgets, Material Design"],["iOS Development","Swift, Xcode, iOS Simulator, SwiftUI, UIKit"],["Programming Languages","Java, Python, C, C++, JavaScript, Swift (fundamentals)"],["APIs & Networking","REST APIs, Dio, HTTP Client, JSON Serialization, Postman API Testing"],["Databases & Backend","SQLite, sqflite, Firebase (Firestore, Authentication, Cloud Storage), MySQL"],["Developer Tools","Git, GitHub, GitLab, Android Studio, Xcode, VS Code, Flutter DevTools"],["Core CS Concepts","Object-Oriented Programming (OOP), Data Structures & Algorithms, DBMS, Operating Systems"]];
+$("#sk").innerHTML=SK.map(([a,b],i)=>`<div class="row rv"><div class="n">0${i+1}</div><h3>${esc(a)}</h3><p>${esc(b)}</p></div>`).join("");
+// projects: app UI mock screens
+const AC=["#7c8cff","#29b6f6","#ff4fa0","#2ecc8f"];
+const T=(a,s)=>`<div class="t">${a}</div>${s?`<div class="sb">${s}</div>`:""}`;
+const LN=(a,b)=>`<div class="c ln"><span>${a}</span><em>${b}</em></div>`;
+const BB=(c,x)=>`<div class="bb ${c}">${x}</div>`;
+const IB=x=>`<div class="ib">${x}</div>`;
+const PB=(l,v,w)=>`<div class="c"><div class="ln"><span>${l}</span><em>${v}</em></div><div class="pb"><i style="--w:${w}%"></i></div></div>`;
+const TG=a=>`<div class="c ln"><span>${a}</span><span class="tg"></span></div>`;
+const ST=(a,b)=>`<div class="c"><em>${a}</em><div class="n">${b}</div></div>`;
+const POST=(u,l,c)=>`<div class="c"><div class="rw2"><span class="av"></span>@${u}</div><div class="im"></div><div class="ln"><span>♥ ${l}</span><em>${c} comments</em></div></div>`;
+const CM=(u,x)=>`<div class="rw2"><span class="av"></span><div class="c" style="flex:1"><b>@${u}</b><br>${x}</div></div>`;
+const CH=(a,on)=>`<div class="chips">${a.map((x,i)=>`<span class="${i==on?"on":""}">${x}</span>`).join("")}</div>`;
+const SCR=[
+[T("AI Assistant","Gemini")+BB("me","Explain Flutter widgets")+BB("ai","Everything in Flutter is a widget, composed in a tree.")+BB("me","Show me an example")+BB("ai","Sure. A Column holds a Text and a button…")+IB("Ask Gemini…"),
+T("History","Saved offline")+LN("Flutter state ideas","Today")+LN("Dart null safety","Yesterday")+LN("REST API tips","Mon")+LN("SQLite queries","Sun")+LN("Firebase setup","Sat")+LN("GoRouter routes","Fri"),
+T("Settings")+TG("Dark mode")+TG("Offline history")+LN("Model","Gemini")+LN("Language","English")+LN("Clear chats","›")],
+[T("Current location","Clear sky")+`<div class="k">31°</div><div class="g2">`+ST("Humidity","48%")+ST("Wind","12 km/h")+ST("UV index","7")+ST("Air quality","92")+`</div>`,
+T("Details","Today")+PB("Air quality","92",70)+PB("UV index","7",64)+PB("Humidity","48%",48)+PB("Wind","12 km/h",30)+PB("Visibility","9 km",80),
+T("7-day forecast")+[["Mon","32°",90],["Tue","31°",82],["Wed","29°",70],["Thu","30°",76],["Fri","33°",96],["Sat","32°",90],["Sun","28°",62]].map(([d,v,w])=>`<div class="c ln"><span>${d}</span><div class="pb"><i style="--w:${w}%"></i></div><em>${v}</em></div>`).join("")],
+[T("Feed")+POST("gautam",128,23)+POST("sam",84,9),
+`<div style="text-align:center"><span class="av lg"></span></div>`+T("Gautam Vaja")+`<div class="g3"><div class="c"><div class="n">12</div><em>Posts</em></div><div class="c"><div class="n">340</div><em>Followers</em></div><div class="c"><div class="n">180</div><em>Following</em></div></div><div class="btn">Follow</div><div class="g3">${'<div class="sq"></div>'.repeat(6)}</div>`,
+T("Comments","23")+CM("sam","Nice work on this!")+CM("riya","Love the UI")+CM("dev","How did you build the feed?")+IB("Add a comment…")],
+[T("This month","Spending")+`<div class="dn"></div><div class="n" style="text-align:center">₹18,450</div>`+LN("Food","₹6,200")+LN("Travel","₹4,800")+LN("Bills","₹7,450"),
+T("Add expense")+`<div class="c"><em>Amount</em><div class="n">₹ 450</div></div>`+CH(["Food","Travel","Bills"],0)+LN("Date","Today")+LN("Note","Lunch")+`<div class="btn">Save</div>`,
+T("Transactions")+CH(["All","Food","Bills"],0)+LN("Lunch","−₹450")+LN("Auto fare","−₹120")+LN("Electricity","−₹2,300")+LN("Snacks","−₹180")+LN("Mobile recharge","−₹299")]
+];
+const PJ=[["Chat App (AI Assistant)","Flutter · Google Gemini API · SQLite · GoRouter","An intelligent cross-platform AI chat assistant integrated with the Google Gemini API for real-time generative responses.","Built an offline-first persistence engine with SQLite, dynamic dark/light theme switching, and smooth navigation via GoRouter.","Chat_App",[["Gemini AI","real-time responses"],["Offline","SQLite persistence"],["Themes","dark / light"]]],
+["Weather App","Flutter · Dart · OpenWeather API · Geolocation","A real-time weather monitoring application using GPS positioning and interactive map coordinates.","Parses detailed REST API payloads to display temperature, air quality, humidity, wind velocity, UV index, and 7-day extended forecasts.","Weather_App",[["Live GPS","map coordinates"],["Air + UV","humidity, wind"],["7 days","extended forecast"]]],
+["Mini Social Media Application","Flutter · Firebase Auth · Firestore · Cloud Storage","A full-featured social platform featuring authentication, real-time feed synchronization and user profile management.","Image uploads, dynamic follower systems, likes, and comment threads.","Mini_Social_Media_Application",[["Real-time feed","Firestore sync"],["Profiles","auth + uploads"],["Social","follow, like, comment"]]],
+["Expense Tracker App","Flutter · Dart · Local Storage · UI Charts","A personal finance tracker allowing users to log, categorize, and filter transactions.","Integrated financial analytics widgets to help users visualize spending habits and budget allocations.","Expenses_Tracker_App",[["Log + filter","categorized"],["Charts","spending habits"],["Budgets","allocations"]]]];
+$("#pj").innerHTML=PJ.map(([n,s,d1,d2,r,g],i)=>`<article class="pj" style="--i:${i}"><div class="ph"><div><span class="n">0${i+1}</span><span><small>Project</small><strong>${n}</strong></span></div><a class="out" href="https://github.com/Gautam-Vaja/${r}" target="_blank" rel="noopener">GitHub ↗</a></div><div class="mk" style="--a:${AC[i]}">${SCR[i].map(s=>`<div class="f"><div class="u"><div class="nb"></div>${s}</div></div>`).join("")}</div><div class="pd"><p><b>${d1}</b> ${d2}</p><p>${s}<br><a href="https://github.com/Gautam-Vaja/${r}" target="_blank" rel="noopener">github.com/Gautam-Vaja/${r}</a></p></div></article>`).join("");
+$("#f").addEventListener("submit",e=>{e.preventDefault();location.href=`mailto:gautamvaja403@gmail.com?subject=${encodeURIComponent("Portfolio message from "+fn.value)}&body=${encodeURIComponent(fm.value+"\n\n"+fn.value+" ("+fe.value+")")}`});
+// blur-in reveals
+const io=new IntersectionObserver(en=>en.forEach(x=>{if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}}),{threshold:.15});
+document.querySelectorAll(".rv").forEach((e,i)=>{if(calm)e.classList.add("in");else io.observe(e)});
+
+// 3D
+let GL=null;
+try{
+const cv=$("#gl"),R=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true});
+R.setPixelRatio(Math.min(devicePixelRatio,2));R.outputEncoding=THREE.sRGBEncoding;
+const sc=new THREE.Scene(),cam=new THREE.OrthographicCamera(0,1,0,-1,-2000,2000);
+const ec=document.createElement("canvas");ec.width=512;ec.height=256;const x=ec.getContext("2d");
+const gr=x.createLinearGradient(0,0,0,256);gr.addColorStop(0,"#fff");gr.addColorStop(.45,"#7c5cff");gr.addColorStop(.7,"#ff4fa0");gr.addColorStop(1,"#1a1030");x.fillStyle=gr;x.fillRect(0,0,512,256);
+x.fillStyle="#ffd9a0";x.fillRect(60,70,90,40);x.fillStyle="#7fe0ff";x.fillRect(320,50,120,50);x.fillStyle="#fff";x.fillRect(200,20,60,30);
+const et=new THREE.CanvasTexture(ec);et.mapping=THREE.EquirectangularReflectionMapping;et.encoding=THREE.sRGBEncoding;
+sc.environment=new THREE.PMREMGenerator(R).fromEquirectangular(et).texture;
+sc.add(new THREE.AmbientLight(0xffffff,.5));const dl=new THREE.DirectionalLight(0xffffff,1.1);dl.position.set(300,-300,800);sc.add(dl);
+const M=(c,m,r)=>new THREE.MeshStandardMaterial({color:c,metalness:m,roughness:r,envMapIntensity:1.3});
+const rs=(w,h,r)=>{const s=new THREE.Shape(),x=-w/2,y=-h/2;s.moveTo(x+r,y);s.lineTo(x+w-r,y);s.absarc(x+w-r,y+r,r,-Math.PI/2,0);s.lineTo(x+w,y+h-r);s.absarc(x+w-r,y+h-r,r,0,Math.PI/2);s.lineTo(x+r,y+h);s.absarc(x+r,y+h-r,r,Math.PI/2,Math.PI);s.lineTo(x,y+r);s.absarc(x+r,y+r,r,Math.PI,Math.PI*1.5);return s};
+function phone(){const g=new THREE.Group();
+ const b=new THREE.Mesh(new THREE.ExtrudeGeometry(rs(1.7,3.5,.3),{depth:.14,bevelEnabled:true,bevelThickness:.05,bevelSize:.05,bevelSegments:5,curveSegments:20}),M(0x15162a,.9,.18));b.position.z=-.07;g.add(b);
+ const k=document.createElement("canvas");k.width=316;k.height=676;const c=k.getContext("2d");c.fillStyle="#07070c";c.fillRect(0,0,316,676);
+ const gg=c.createLinearGradient(0,0,316,0);gg.addColorStop(0,"#ff3d9a");gg.addColorStop(.55,"#8b5cff");gg.addColorStop(1,"#ff9a3d");
+ const rb=(X,Y,W,H,r,f)=>{c.fillStyle=f;c.beginPath();c.roundRect?c.roundRect(X,Y,W,H,r):c.rect(X,Y,W,H);c.fill()};
+ rb(112,16,92,18,9,"#1c1c28");rb(26,90,180,34,17,"#fff");rb(26,138,120,18,9,"#555a70");rb(26,190,264,170,26,gg);rb(26,376,124,110,22,"#1d1e2c");rb(166,376,124,110,22,"#1d1e2c");rb(26,506,264,56,28,gg);rb(26,582,264,40,20,"#1d1e2c");
+ const t=new THREE.CanvasTexture(k);t.encoding=THREE.sRGBEncoding;t.anisotropy=8;
+ const sg=new THREE.ShapeGeometry(rs(1.58,3.38,.23),20),p=sg.attributes.position,uv=sg.attributes.uv;for(let i=0;i<p.count;i++)uv.setXY(i,(p.getX(i)+.79)/1.58,(p.getY(i)+1.69)/3.38);
+ const s=new THREE.Mesh(sg,new THREE.MeshBasicMaterial({map:t}));s.position.z=.145;g.add(s);g.userData.h=3.6;return g}
+const flower=()=>{const g=new THREE.Group(),pm=M(0xc77bff,.3,.2);for(let i=0;i<6;i++){const a=i/6*Math.PI*2,m=new THREE.Mesh(new THREE.SphereGeometry(.42,32,24),pm);m.position.set(Math.cos(a)*.62,Math.sin(a)*.62,0);g.add(m)}g.add(new THREE.Mesh(new THREE.SphereGeometry(.38,32,24),M(0xffd54a,.2,.25)));g.userData.h=2.1;return g};
+const mk={phone,flower,
+ knot:()=>{const m=new THREE.Mesh(new THREE.TorusKnotGeometry(.7,.27,180,24),M(0xdfe6ff,1,.12));m.userData.h=2.4;return m},
+ knot2:()=>{const m=new THREE.Mesh(new THREE.TorusKnotGeometry(.7,.27,180,24),M(0xffc247,.9,.18));m.userData.h=2.4;return m},
+ cube:()=>{const m=new THREE.Mesh(new THREE.BoxGeometry(1.3,1.3,1.3),M(0x4a6bff,.6,.2));m.userData.h=1.9;return m},
+ ring:()=>{const m=new THREE.Mesh(new THREE.TorusGeometry(.7,.34,28,64),M(0xff3b4e,.4,.2));m.userData.h=2;return m},
+ blob:()=>{const m=new THREE.Mesh(new THREE.IcosahedronGeometry(.95,3),M(0xb35cff,.5,.18));m.userData.h=1.9;return m}};
+const items=[...document.querySelectorAll("[data-3d]")].map(el=>{const m=mk[el.dataset["3d"]]();sc.add(m);const s=el.closest("section,header");return{el,m,ph:el.dataset["3d"]==="phone",nx:s&&s.nextElementSibling,par:+el.dataset.par||0}});
+const fit=()=>{R.setSize(innerWidth,innerHeight,false);cam.left=0;cam.right=innerWidth;cam.top=0;cam.bottom=-innerHeight;cam.updateProjectionMatrix()};
+addEventListener("resize",fit);fit();
+GL=(t,mx,my,H)=>{
+ items.forEach((o,i)=>{const r=o.el.getBoundingClientRect();let f=1;
+  if(o.nx&&o.nx.classList.contains("sheet"))f=cl((o.nx.getBoundingClientRect().top-r.top)/r.height);
+  const vis=r.bottom>-300&&r.top<H+300&&f>.02;o.m.visible=vis;if(!vis)return;
+  const px=o.ph?r.height:Math.max(r.width,r.height),inT=o.ph?1-Math.pow(1-cl(t/1.3),3):1,s=px/o.m.userData.h*f*inT;
+  o.m.position.set(r.left+r.width/2,-(r.top+r.height/2)+Math.sin(t*1.3+i)*6,0);o.m.scale.setScalar(Math.max(s,.001));
+  if(o.ph){o.m.rotation.y=-.35+mx*.9+Math.sin(t*.8)*.3;o.m.rotation.x=my*.35;o.m.rotation.z=-.08}
+  else{o.m.rotation.y=t*.6+i;o.m.rotation.x=t*.4+mx}});
+ R.render(sc,cam)};
+}catch(e){$("#gl").style.display="none"}
+
+// scroll-driven animation loop
+let mx=0,my=0,last=0,t0=performance.now();
+addEventListener("mousemove",e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5});
+const h1=$("#h1"),r1=$("#r1"),r2=$("#r2"),gal=$("#gal"),pin=$("#pin"),hf=$("#hf"),stt=$("#stt"),nv=$("#nv"),fp=$("#fp");
+(function loop(){requestAnimationFrame(loop);const H=innerHeight,sy=scrollY,t=calm?9:(performance.now()-t0)/1000;
+ if(!calm){h1.style.transform=`translateY(${sy*.2}px)`;
+  const g=H-gal.getBoundingClientRect().top;r1.style.transform=`translateX(${-g*.45}px)`;r2.style.transform=`translateX(${g*.45-900}px)`;
+  document.querySelectorAll("[data-dr]").forEach(e=>{const r=e.getBoundingClientRect();e.style.transform=`translateX(${(H/2-(r.top+r.height/2))*.1*e.dataset.dr}px)`})}
+ // about: heading fills, words light up, stats appear
+ let p=1;if(!mob()&&!calm){const r=pin.getBoundingClientRect();p=cl(-r.top/(r.height-H))}
+ hf.style.clipPath=`inset(0 ${100-cl(p*3.2)*100}% 0 0)`;
+ const prog=cl((p-.1)/.55)*words.length;words.forEach((w,i)=>w.style.opacity=.18+.82*cl(prog-i));
+ stt.classList.toggle("on",p>.82);
+ document.querySelectorAll("#about .fl").forEach(e=>{if(mob()||calm)return;e.style.transform=`translate(${(p-.5)*60*e.dataset.par}px,${(.5-p)*120}px)`});
+ // nav hides on scroll down; floating contact pill shows after hero
+ const up=sy<last||sy<H*.3,past=sy>H*.7;last=sy;
+ nv.style.opacity=up?1:0;nv.style.pointerEvents=up?"auto":"none";
+ fp.style.opacity=(past&&!up)?1:0;fp.style.pointerEvents=(past&&!up)?"auto":"none";
+ if(GL)GL(t,mx,my,H)})();
+</script>
+</body>
+</html>

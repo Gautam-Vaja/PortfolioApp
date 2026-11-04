@@ -1,115 +1,124 @@
 import React from 'react';
 import { ArrowRight, Download, Github, Linkedin, Mail } from 'lucide-react';
 import { motion } from 'motion/react';
-import Hero3DScene from './3d/Hero3DScene';
 import { PERSONAL_INFO } from '../data/portfolio-data';
+import ThreeHeroScene from './3d/ThreeHeroScene';
+import { AnimatedLetters, AnimatedWords } from './ui/AnimatedText';
+import { scrollToTarget } from '../hooks/useSmoothScroll';
 
 interface HeroProps {
   onOpenResume: () => void;
 }
 
 export default function Hero({ onOpenResume }: HeroProps) {
+  const handleScrollToProjects = (e: React.MouseEvent) => {
+    e.preventDefault();
+    scrollToTarget('#projects');
+  };
+
   return (
     <section
       id="home"
-      className="relative min-h-[92vh] lg:min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 pt-16 lg:pt-0"
+      className="relative min-h-[85vh] lg:min-h-[88vh] flex items-center overflow-hidden px-4 sm:px-6 lg:px-8 glow-seq-right"
     >
-      {/* Warm Orange Horizon Beam */}
-      <div className="horizon-beam top-[60%]" />
-
-      <div className="mx-auto max-w-7xl w-full z-10 py-10 lg:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left Column: Heading, Designation, Description, CTA Buttons, Social Links */}
-          <div className="lg:col-span-6 text-left space-y-6 lg:space-y-7 z-10">
-            {/* Availability Indicator */}
+      <div className="mx-auto max-w-7xl w-full py-12 sm:py-16 lg:py-20 z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          {/* Left Column: Headline, Bio, Buttons, Social Links */}
+          <div className="lg:col-span-7 text-left space-y-6">
+            {/* Status Pill: ● Available for opportunities */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 rounded-full border border-[#FF6B00]/40 bg-[#07152B]/85 px-4 py-1.5 text-xs font-mono tracking-wider uppercase text-[#FF9A45] backdrop-blur-md shadow-[0_0_15px_rgba(255,107,0,0.25)]"
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="inline-flex items-center gap-2 rounded-full border border-[#FF9A45]/30 bg-[#07152B]/80 px-4 py-1.5 text-xs font-medium text-[#A8B8D0] backdrop-blur-md shadow-sm"
             >
-              <span className="h-2 w-2 rounded-full bg-[#FF6B00] shadow-[0_0_10px_#FF6B00] animate-pulse" />
+              <span className="h-2 w-2 rounded-full bg-[#FF9A45] shadow-[0_0_10px_#FF9A45] animate-pulse" />
               <span>Available for opportunities</span>
             </motion.div>
 
-            {/* Main Heading: Large typography with crisp bold white styling */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight leading-[0.95] break-words text-gradient-hero"
-            >
-              I&apos;M GAUTAM VAJA
-            </motion.h1>
+            {/* Main Headline with Letter-by-Letter Reveal */}
+            <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-black uppercase tracking-tight text-[#F4F8FF] leading-[1.02] break-words">
+              <AnimatedLetters
+                text="I'M GAUTAM VAJA"
+                delay={0.2}
+                stagger={0.035}
+                letterClassName="hover:text-[#35D5FF] transition-colors duration-200"
+              />
+            </h1>
 
-            {/* Professional Designation */}
+            {/* Subtitles row */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.18 }}
-              className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs sm:text-sm font-semibold uppercase tracking-wider text-[#A8B8D0]"
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs sm:text-sm font-semibold uppercase tracking-wider text-[#A8B8D0]"
             >
-              <span className="text-[#F4F8FF]">SOFTWARE DEVELOPER</span>
-              <span className="text-[#FF6B00] font-bold">|</span>
-              <span className="text-[#35D5FF]">FLUTTER DEVELOPER</span>
-              <span className="text-[#FF6B00] font-bold">|</span>
-              <span className="text-[#A8B8D0]">MOBILE APPLICATION ENGINEER</span>
+              <span>SOFTWARE DEVELOPER</span>
+              <span className="text-[#00A8FF] font-bold">|</span>
+              <span>FLUTTER DEVELOPER</span>
+              <span className="text-[#35D5FF] font-bold">|</span>
+              <span>MOBILE APPLICATION ENGINEER</span>
             </motion.div>
 
-            {/* Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.25 }}
-              className="max-w-xl text-base sm:text-lg text-[#A8B8D0] leading-relaxed font-normal"
-            >
-              Transforming ideas into beautiful, functional, and intelligent digital experiences.
-            </motion.p>
+            {/* Tagline text */}
+            <div className="max-w-xl text-sm sm:text-base text-[#A8B8D0] leading-relaxed font-normal">
+              <AnimatedWords
+                text="Transforming ideas into beautiful, functional, and intelligent digital experiences."
+                delay={0.5}
+                stagger={0.04}
+              />
+            </div>
 
-            {/* Action Buttons */}
+            {/* Action Buttons matching design reference */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.32 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
               className="flex flex-wrap items-center gap-4 pt-2"
             >
-              <motion.a
-                href="#projects"
-                whileHover={{ scale: 1.04 }}
+              {/* Primary Warm Orange Accent Button matching mockup */}
+              <motion.button
+                type="button"
+                onClick={handleScrollToProjects}
+                whileHover={{ scale: 1.04, boxShadow: '0 10px 25px -5px rgba(255, 122, 26, 0.5)' }}
                 whileTap={{ scale: 0.96 }}
-                className="btn-primary-orange inline-flex items-center justify-center gap-2 rounded-full px-8 py-3.5 text-xs sm:text-sm font-bold transition-all shadow-[0_8px_25px_rgba(255,107,0,0.4)]"
+                data-cursor="pointer"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#FF7A1A] to-[#FF9A45] px-7 py-3 text-xs sm:text-sm font-bold text-white shadow-lg shadow-[#FF7A1A]/30 transition-all hover:brightness-110 cursor-pointer"
               >
                 <span>Explore My Work</span>
                 <ArrowRight className="h-4 w-4" />
-              </motion.a>
+              </motion.button>
 
+              {/* Secondary Glassmorphic Button */}
               <motion.button
                 type="button"
                 onClick={onOpenResume}
-                whileHover={{ scale: 1.04 }}
+                whileHover={{ scale: 1.04, borderColor: 'rgba(53, 213, 255, 0.5)' }}
                 whileTap={{ scale: 0.96 }}
-                className="btn-outline-dark inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-xs sm:text-sm font-semibold transition-all"
+                data-cursor="pointer"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-[#35D5FF]/20 bg-[#0B1B32]/70 px-7 py-3 text-xs sm:text-sm font-semibold text-[#F4F8FF] backdrop-blur-md transition-all hover:bg-[#0B1B32] cursor-pointer"
               >
                 <span>Download Resume</span>
-                <Download className="h-4 w-4 text-[#FF9A45]" />
+                <Download className="h-4 w-4 text-[#35D5FF]" />
               </motion.button>
             </motion.div>
 
-            {/* Social Links */}
+            {/* Circular Social Icons */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex items-center gap-3 pt-2"
+              transition={{ duration: 0.6, delay: 0.7 }}
+              className="flex items-center gap-3 pt-3"
             >
               <motion.a
                 href={PERSONAL_INFO.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub profile"
+                data-cursor="pointer"
                 whileHover={{ y: -3, scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-[#0B1B32]/80 text-[#F4F8FF] transition-all hover:border-[#FF6B00] hover:text-[#FF9A45] hover:shadow-[0_0_14px_rgba(255,107,0,0.35)]"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-[#35D5FF]/20 bg-[#07152B]/70 text-[#A8B8D0] transition-colors hover:border-[#00A8FF] hover:text-white hover:bg-[#00A8FF]/15"
               >
                 <Github className="h-4 w-4" />
               </motion.a>
@@ -119,9 +128,10 @@ export default function Hero({ onOpenResume }: HeroProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn profile"
+                data-cursor="pointer"
                 whileHover={{ y: -3, scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-[#0B1B32]/80 text-[#F4F8FF] transition-all hover:border-[#FF6B00] hover:text-[#FF9A45] hover:shadow-[0_0_14px_rgba(255,107,0,0.35)]"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-[#35D5FF]/20 bg-[#07152B]/70 text-[#A8B8D0] transition-colors hover:border-[#00A8FF] hover:text-white hover:bg-[#00A8FF]/15"
               >
                 <Linkedin className="h-4 w-4" />
               </motion.a>
@@ -129,32 +139,52 @@ export default function Hero({ onOpenResume }: HeroProps) {
               <motion.a
                 href={`mailto:${PERSONAL_INFO.email}`}
                 aria-label="Send email"
+                data-cursor="pointer"
                 whileHover={{ y: -3, scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-[#0B1B32]/80 text-[#F4F8FF] transition-all hover:border-[#FF6B00] hover:text-[#FF9A45] hover:shadow-[0_0_14px_rgba(255,107,0,0.35)]"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-[#35D5FF]/20 bg-[#07152B]/70 text-[#A8B8D0] transition-colors hover:border-[#00A8FF] hover:text-white hover:bg-[#00A8FF]/15"
               >
                 <Mail className="h-4 w-4" />
               </motion.a>
+
+              {PERSONAL_INFO.portfolioRepo && (
+                <motion.a
+                  href={PERSONAL_INFO.portfolioRepo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-cursor="pointer"
+                  whileHover={{ y: -2, borderColor: 'rgba(53, 213, 255, 0.6)' }}
+                  className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-[#35D5FF]/20 bg-[#07152B]/70 px-3 py-1.5 text-[11px] font-mono text-[#A8B8D0] hover:text-[#35D5FF] transition-all ml-1"
+                >
+                  <span className="text-[#FF9A45]">★</span>
+                  <span>PortfolioApp</span>
+                </motion.a>
+              )}
             </motion.div>
           </div>
 
-          {/* Right Column: Real-time Three.js 3D Cinematic Scene */}
-          <div className="lg:col-span-6 relative w-full h-[400px] sm:h-[480px] lg:h-[600px] flex items-center justify-center">
-            <Hero3DScene />
+          {/* Right Column: Real 3D Cubes Visual Scene */}
+          <div className="lg:col-span-5 relative flex items-center justify-center">
+            <div className="relative w-full max-w-lg select-none">
+              <ThreeHeroScene />
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Animated Scroll Down Indicator */}
-      <div className="hidden xl:flex flex-col items-center gap-2.5 absolute right-8 bottom-10 z-20 select-none text-[#A8B8D0]">
-        <span className="text-[10px] font-mono tracking-widest uppercase [writing-mode:vertical-rl]">
+      {/* Far Right: Vertical Scroll Down Indicator */}
+      <div
+        onClick={handleScrollToProjects}
+        className="hidden xl:flex flex-col items-center gap-2 absolute right-8 bottom-12 z-20 text-[#A8B8D0] select-none cursor-pointer group hover:text-[#35D5FF] transition-colors"
+      >
+        <span className="text-[10px] font-mono tracking-widest uppercase [writing-mode:vertical-rl] text-[#A8B8D0] group-hover:text-[#35D5FF] transition-colors">
           Scroll Down
         </span>
-        <div className="flex h-9 w-5 items-start justify-center rounded-full border border-[#FF6B00]/40 p-1 bg-[#07152B]/60 backdrop-blur-sm">
+        <div className="flex h-8 w-5 items-start justify-center rounded-full border border-[#35D5FF]/30 p-1 group-hover:border-[#00A8FF] transition-colors">
           <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-            className="h-1.5 w-1 rounded-full bg-[#FF6B00] shadow-[0_0_8px_#FF6B00]"
+            animate={{ y: [0, 8, 0] }}
+            transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
+            className="h-1.5 w-1 rounded-full bg-[#FF9A45]"
           />
         </div>
       </div>
