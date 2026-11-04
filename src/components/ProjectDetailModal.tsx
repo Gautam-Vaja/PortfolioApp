@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { X, Github, ExternalLink, Check, Smartphone } from 'lucide-react';
+import { X, ExternalLink, Github, CheckCircle2, Smartphone, Layers, Terminal } from 'lucide-react';
 import { Project } from '../types/portfolio';
 import ProjectMockupVisual from './ProjectMockupVisual';
 
@@ -8,14 +8,19 @@ interface ProjectDetailModalProps {
   onClose: () => void;
 }
 
-export default function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps) {
+export default function ProjectDetailModal({
+  project,
+  onClose,
+}: ProjectDetailModalProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
-    window.addEventListener('keydown', handleKeyDown);
+    if (project) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
+  }, [project, onClose]);
 
   if (!project) return null;
 
@@ -24,25 +29,25 @@ export default function ProjectDetailModal({ project, onClose }: ProjectDetailMo
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-project-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
     >
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className="fixed inset-0 bg-black/85 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-[#030B1B]/85 backdrop-blur-md transition-opacity"
       />
 
       {/* Modal Dialog */}
-      <div className="relative z-10 flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0c1018] shadow-2xl text-slate-100">
+      <div className="relative z-10 flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-[#00A8FF]/20 bg-[#07152B] shadow-[0_10px_40px_rgba(0,0,0,0.8)] text-[#F4F8FF]">
         {/* Top Modal Header */}
-        <div className="flex items-center justify-between border-b border-white/[0.08] px-6 py-4 bg-[#090d14]">
+        <div className="flex items-center justify-between border-b border-[#00A8FF]/15 px-6 py-4 bg-[#030B1B]">
           <div className="flex items-center gap-3">
-            <div className="flex h-3 w-3 rounded-full bg-[#FF8C38] shadow-sm shadow-[#FF8C38]" />
+            <div className="flex h-3 w-3 rounded-full bg-[#00A8FF] shadow-[0_0_8px_#00A8FF]" />
             <div>
-              <span className="text-xs font-mono uppercase tracking-wider text-[#FFA048]">
+              <span className="text-xs font-mono uppercase tracking-wider text-[#35D5FF]">
                 {project.badge}
               </span>
-              <h2 id="modal-project-title" className="text-lg font-bold text-white sm:text-xl">
+              <h2 id="modal-project-title" className="text-lg font-bold text-[#F4F8FF] sm:text-xl font-display">
                 {project.title}
               </h2>
             </div>
@@ -52,7 +57,7 @@ export default function ProjectDetailModal({ project, onClose }: ProjectDetailMo
             type="button"
             onClick={onClose}
             aria-label="Close project modal"
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-700 text-slate-400 hover:text-white"
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#00A8FF]/20 text-[#A8B8D0] hover:text-[#FFFFFF] hover:border-[#35D5FF]"
           >
             <X className="h-4 w-4" />
           </button>
@@ -60,56 +65,65 @@ export default function ProjectDetailModal({ project, onClose }: ProjectDetailMo
 
         {/* Modal Body */}
         <div className="flex-1 overflow-y-auto p-6 sm:p-8">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 text-left">
             {/* Left Column: Visual Mockup Sandbox */}
             <div className="lg:col-span-5">
               <div className="sticky top-0 space-y-4">
-                <div className="overflow-hidden rounded-xl border border-white/[0.08] bg-[#08090D] p-3 shadow-lg">
-                  <div className="mb-2 flex items-center justify-between text-[11px] text-slate-400">
+                <div className="overflow-hidden rounded-xl border border-[#00A8FF]/15 bg-[#030B1B] p-3 shadow-lg">
+                  <div className="mb-2 flex items-center justify-between text-[11px] text-[#A8B8D0]">
                     <span className="flex items-center gap-1.5 font-mono">
-                      <Smartphone className="h-3.5 w-3.5 text-[#FF8C38]" />
-                      Interactive Sandbox
+                      <Smartphone className="h-3.5 w-3.5 text-[#00A8FF]" />
+                      Interactive Device Simulation
                     </span>
-                    <span className="text-[10px] text-emerald-400">Live Preview</span>
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                   </div>
-                  <ProjectMockupVisual type={project.visualType} />
-                </div>
-
-                <div className="flex gap-3">
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex flex-1 items-center justify-center gap-2 rounded-full border border-slate-700 bg-slate-900 py-2.5 px-4 text-xs font-semibold text-white transition-colors hover:border-[#FF8C38] hover:text-[#FFA048]"
-                  >
-                    <Github className="h-4 w-4" />
-                    <span>View Repository</span>
-                  </a>
+                  <ProjectMockupVisual visualType={project.visualType} />
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Deep Architectural Breakdown */}
-            <div className="space-y-6 lg:col-span-7">
+            {/* Right Column: Project Technical Details */}
+            <div className="lg:col-span-7 space-y-6">
               <div>
-                <h3 className="text-xs font-mono uppercase tracking-wider text-[#FF8C38]">
+                <span className="font-mono text-xs uppercase tracking-wider text-[#35D5FF]">
                   Project Overview
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-300">
+                </span>
+                <p className="mt-2 text-sm leading-relaxed text-[#A8B8D0]">
                   {project.longDescription}
                 </p>
               </div>
 
-              {/* Technologies */}
-              <div>
-                <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">
-                  Technologies & Architecture
-                </h3>
-                <div className="mt-3 flex flex-wrap gap-2">
+              {/* Architectural Highlights */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 text-[#F4F8FF]">
+                  <Layers className="h-4 w-4 text-[#00A8FF]" />
+                  <h3 className="font-mono text-xs uppercase tracking-wider text-[#35D5FF]">
+                    Architectural Highlights
+                  </h3>
+                </div>
+                <ul className="space-y-2">
+                  {project.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-start gap-2.5 text-xs text-[#A8B8D0]">
+                      <CheckCircle2 className="h-4 w-4 shrink-0 text-[#00A8FF] mt-0.5" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Technologies Applied */}
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-[#F4F8FF]">
+                  <Terminal className="h-4 w-4 text-[#00A8FF]" />
+                  <h3 className="font-mono text-xs uppercase tracking-wider text-[#35D5FF]">
+                    Technologies Applied
+                  </h3>
+                </div>
+                <div className="flex flex-wrap gap-2">
                   {project.technologies.map((tech) => (
                     <span
                       key={tech}
-                      className="rounded-md border border-white/[0.08] bg-[#121824] px-2.5 py-1 text-xs font-medium text-slate-200"
+                      className="rounded-lg border border-[#00A8FF]/20 bg-[#0B1B32] px-3 py-1 font-mono text-xs text-[#35D5FF]"
                     >
                       {tech}
                     </span>
@@ -117,38 +131,33 @@ export default function ProjectDetailModal({ project, onClose }: ProjectDetailMo
                 </div>
               </div>
 
-              {/* Key Features & Engineering Highlights */}
-              <div>
-                <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">
-                  Key Features & Implementation
-                </h3>
-                <ul className="mt-3 space-y-2.5">
-                  {project.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2.5 text-xs text-slate-300">
-                      <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#FF8C38]/15 text-[#FF8C38]">
-                        <Check className="h-2.5 w-2.5 stroke-[3]" />
-                      </span>
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-[#00A8FF]/15">
+                {project.githubUrl && (
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-outline-blue inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold"
+                  >
+                    <Github className="h-4 w-4" />
+                    <span>View Repository</span>
+                  </a>
+                )}
+                {project.demoUrl && project.demoUrl.startsWith('http') && (
+                  <a
+                    href={project.demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary-blue inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-xs font-semibold"
+                  >
+                    <span>Launch Live Demo</span>
+                    <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
+                )}
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Modal Footer */}
-        <div className="flex items-center justify-between border-t border-white/[0.08] bg-[#090d14] px-6 py-4">
-          <span className="text-xs text-slate-400 font-mono">
-            Category: {project.category.toUpperCase()}
-          </span>
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-full border border-slate-700 px-5 py-1.5 text-xs font-semibold text-slate-200 transition-colors hover:bg-slate-800"
-          >
-            Close Details
-          </button>
         </div>
       </div>
     </div>

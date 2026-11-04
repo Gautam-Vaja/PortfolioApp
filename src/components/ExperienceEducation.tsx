@@ -4,9 +4,12 @@ import {
   GraduationCap,
   Calendar,
   Building2,
-  ArrowRight,
+  CheckCircle2,
+  Award,
+  Sparkles,
 } from 'lucide-react';
 import { motion } from 'motion/react';
+import TiltCard from './ui/TiltCard';
 import { EXPERIENCE_DATA, EDUCATION_DATA } from '../data/portfolio-data';
 
 export default function ExperienceEducation() {
@@ -14,163 +17,178 @@ export default function ExperienceEducation() {
   const mca = EDUCATION_DATA[0];
   const bca = EDUCATION_DATA[1];
 
-  return (
-    <section
-      id="experience"
-      className="py-20 lg:py-24 border-t border-white/[0.06] relative overflow-hidden glow-seq-right"
-    >
-      <span id="education" className="absolute -top-16 opacity-0 pointer-events-none" />
+  const experiencePoints = [
+    'Mobile application development across cross-platform Android and iOS targets.',
+    'Engineered reactive features utilizing Flutter and modern Dart OOP architecture.',
+    'Integrated complex RESTful APIs with secure JSON serialization and HTTP logging.',
+    'Pixel-perfect responsive UI implementation adapted to diverse form factors.',
+    'Firebase Firestore cloud synchronization and authentication flows.',
+    'Delivered production-ready client deliverables and real-world application features.',
+  ];
 
+  return (
+    <section id="experience" className="py-24 border-t border-[#00A8FF]/10 relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          {/* Left Column: Heading, Subtitle & Action Button matching mockup */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-3 space-y-4 text-left"
-          >
+        {/* Section Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+          <div className="space-y-3 max-w-2xl text-left">
             <div className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-[#FF7A1A]" />
-              <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#FF7A1A]">
+              <span className="h-2 w-2 rounded-full bg-[#00A8FF] shadow-[0_0_8px_#00A8FF]" />
+              <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#35D5FF]">
                 CAREER & ACADEMICS
               </span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-white font-display">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight text-[#F4F8FF] font-display">
               MY JOURNEY SO FAR.
             </h2>
 
-            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-normal">
-              Professional experience and educational background.
+            <p className="text-sm sm:text-base text-[#A8B8D0] leading-relaxed font-normal">
+              Production mobile engineering internship alongside formal graduate qualifications in Computer Applications.
             </p>
+          </div>
 
-            <div className="pt-2">
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-2.5 text-xs font-semibold text-white backdrop-blur-md transition-all hover:bg-white/10 hover:border-[#FF7A1A]/40"
-              >
-                <span>Get In Touch</span>
-                <ArrowRight className="h-3.5 w-3.5 text-[#FF9030]" />
-              </a>
+          <div className="self-start sm:self-auto">
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#00A8FF]/30 bg-[#07152B]/80 px-4 py-1.5 text-xs font-mono text-[#35D5FF] shadow-[0_0_12px_rgba(0,168,255,0.15)]">
+              <Sparkles className="h-3.5 w-3.5 text-[#00A8FF]" />
+              Engineering Milestones
+            </span>
+          </div>
+        </div>
+
+        {/* 2-Column Balanced Grid: Experience on Left, Education on Right */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Left Column: Work Experience (lg:col-span-7) */}
+          <div className="lg:col-span-7 space-y-6 text-left">
+            <div className="flex items-center gap-2 text-[#F4F8FF] font-mono text-xs font-bold uppercase tracking-wider mb-2">
+              <Briefcase className="h-4 w-4 text-[#00A8FF]" />
+              <span>Professional Experience</span>
             </div>
-          </motion.div>
 
-          {/* Center Column: Master Mockup Timeline flow */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="lg:col-span-6"
-          >
-            <div className="relative pl-6 sm:pl-8 border-l border-white/10 space-y-8 text-left">
-              {/* 1. Work Experience Node matching mockup */}
-              <div className="relative">
-                {/* Timeline Node Icon */}
-                <div className="absolute -left-[35px] sm:-left-[43px] top-1 flex h-8 w-8 items-center justify-center rounded-full bg-[#121824] border border-[#FF7A1A] shadow-[0_0_12px_rgba(255,122,26,0.35)] text-[#FF7A1A]">
-                  <Briefcase className="h-4 w-4" />
-                </div>
-
-                <div className="glass-panel rounded-2xl p-5 space-y-3">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                    <h3 className="text-base font-bold text-white flex items-center gap-2">
-                      <Building2 className="h-4 w-4 text-[#FF7A1A]" />
+            <TiltCard maxTilt={8} className="glass-panel rounded-2xl p-6 sm:p-7 space-y-5 border border-[#00A8FF]/20">
+              {/* Company Header */}
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-[#00A8FF]/10 pb-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <Building2 className="h-4 w-4 text-[#00A8FF]" />
+                    <h3 className="text-lg sm:text-xl font-bold text-[#F4F8FF] font-display">
                       {exp.company}
                     </h3>
-                    <span className="text-[11px] font-mono text-[#FF9030] bg-[#FF7A1A]/10 border border-[#FF7A1A]/20 px-2.5 py-0.5 rounded-full inline-block w-fit">
-                      {exp.duration}
-                    </span>
                   </div>
-
-                  <p className="text-xs sm:text-sm font-semibold text-[#FF9030]">
+                  <p className="mt-1 text-sm font-semibold text-[#35D5FF]">
                     {exp.role}
                   </p>
+                </div>
 
-                  <ul className="space-y-1.5 text-xs text-slate-300">
-                    <li className="flex items-start gap-2">
-                      <span className="text-[#FF7A1A] font-bold">●</span>
-                      <span>Developed mobile application features with responsive Flutter UI</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-[#FF7A1A] font-bold">●</span>
-                      <span>Worked with Dart, GetX, and RESTful API integrations</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-[#FF7A1A] font-bold">●</span>
-                      <span>Integrated SQLite local persistence and Firebase cloud services</span>
-                    </li>
-                  </ul>
+                <div className="flex flex-col sm:items-end text-xs text-[#A8B8D0] font-mono space-y-1">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#00A8FF]/10 border border-[#00A8FF]/25 px-3 py-1 text-[11px] text-[#35D5FF]">
+                    <Calendar className="h-3 w-3" />
+                    {exp.duration}
+                  </span>
+                  <span className="text-[11px] text-[#A8B8D0]">
+                    {exp.location}
+                  </span>
                 </div>
               </div>
 
-              {/* 2. Education Node matching mockup */}
-              <div className="relative">
-                {/* Timeline Node Icon */}
-                <div className="absolute -left-[35px] sm:-left-[43px] top-1 flex h-8 w-8 items-center justify-center rounded-full bg-[#121824] border border-[#FF7A1A] shadow-[0_0_12px_rgba(255,122,26,0.35)] text-[#FF7A1A]">
-                  <GraduationCap className="h-4 w-4" />
-                </div>
+              {/* Responsibilities */}
+              <div className="space-y-2.5">
+                <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-[#35D5FF]">
+                  Key Responsibilities & Impact
+                </h4>
+                <ul className="space-y-2.5 text-xs text-[#A8B8D0]">
+                  {experiencePoints.map((point, i) => (
+                    <li key={i} className="flex items-start gap-2.5 leading-relaxed">
+                      <CheckCircle2 className="h-4 w-4 text-[#00A8FF] shrink-0 mt-0.5" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {/* BCA */}
-                  <div className="glass-panel rounded-xl p-4 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <h4 className="text-sm font-bold text-white">BCA</h4>
-                      <span className="text-[10px] font-mono text-[#FF9030] bg-[#FF7A1A]/15 px-2 py-0.5 rounded-full">
-                        8.33 CGPA
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-slate-400 leading-snug">
-                      {bca.institution}
-                    </p>
-                    <span className="text-[10px] font-mono text-slate-500 block">
-                      {bca.period}
-                    </span>
-                  </div>
+              {/* Technologies */}
+              <div className="pt-4 border-t border-[#00A8FF]/10 flex flex-wrap gap-1.5">
+                {exp.technologies.map((tech) => (
+                  <span
+                    key={tech}
+                    className="rounded-lg border border-[#00A8FF]/15 bg-[#07152B] px-2.5 py-1 text-[11px] font-medium text-[#F4F8FF]"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </TiltCard>
+          </div>
 
-                  {/* MCA */}
-                  <div className="glass-panel rounded-xl p-4 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <h4 className="text-sm font-bold text-white">MCA</h4>
-                      <span className="text-[10px] font-mono text-slate-300 border border-white/10 px-2 py-0.5 rounded-full">
-                        Currently Pursuing
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-slate-400 leading-snug">
-                      Narandas Jethalal Sonecha Institute, GTU
-                    </p>
-                    <span className="text-[10px] font-mono text-slate-500 block">
+          {/* Right Column: Academic Qualifications (lg:col-span-5) */}
+          <div className="lg:col-span-5 space-y-6 text-left">
+            <div className="flex items-center gap-2 text-[#F4F8FF] font-mono text-xs font-bold uppercase tracking-wider mb-2">
+              <GraduationCap className="h-4 w-4 text-[#00A8FF]" />
+              <span>Academic Qualifications</span>
+            </div>
+
+            <div className="space-y-4">
+              {/* MCA Card */}
+              <TiltCard maxTilt={8} className="glass-panel rounded-2xl p-5 sm:p-6 space-y-4 border border-[#00A8FF]/20">
+                <div className="flex items-start justify-between gap-3 border-b border-[#00A8FF]/10 pb-3">
+                  <div>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#35D5FF]">
                       2026 – Present
                     </span>
+                    <h4 className="text-base sm:text-lg font-bold text-[#F4F8FF] font-display mt-0.5">
+                      {mca.degree}
+                    </h4>
+                    <p className="text-xs text-[#A8B8D0] mt-0.5">
+                      {mca.institution}
+                    </p>
                   </div>
+                  <span className="shrink-0 rounded-full border border-[#00A8FF]/25 bg-[#00A8FF]/10 px-3 py-1 text-[10px] font-mono text-[#35D5FF]">
+                    Currently Pursuing
+                  </span>
                 </div>
-              </div>
-            </div>
-          </motion.div>
+                <p className="text-xs text-[#A8B8D0] leading-relaxed">
+                  Advanced graduate coursework in software engineering, cloud architectures, and enterprise systems.
+                </p>
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {mca.keyAreas?.map((area) => (
+                    <span key={area} className="rounded-md border border-[#00A8FF]/15 bg-[#07152B] px-2 py-0.5 text-[10px] text-[#A8B8D0]">
+                      {area}
+                    </span>
+                  ))}
+                </div>
+              </TiltCard>
 
-          {/* Right Column: 3D Cubes Visual matching mockup */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-3 flex items-center justify-center"
-          >
-            <div className="relative w-full max-w-[220px] select-none">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 rounded-full bg-[#FF7A1A]/20 blur-2xl pointer-events-none" />
-              <motion.div
-                animate={{ y: [0, -6, 0] }}
-                transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut' }}
-              >
-                <img
-                  src="/assets/theme/journey_3d_cubes.png"
-                  alt="3D Floating Illuminated Cubes"
-                  className="w-full h-auto object-contain blend-graphic-3d drop-shadow-[0_15px_30px_rgba(255,107,0,0.3)]"
-                />
-              </motion.div>
+              {/* BCA Card */}
+              <TiltCard maxTilt={8} className="glass-panel rounded-2xl p-5 sm:p-6 space-y-4 border border-[#00A8FF]/20">
+                <div className="flex items-start justify-between gap-3 border-b border-[#00A8FF]/10 pb-3">
+                  <div>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#35D5FF]">
+                      2023 – 2026
+                    </span>
+                    <h4 className="text-base sm:text-lg font-bold text-[#F4F8FF] font-display mt-0.5">
+                      {bca.degree}
+                    </h4>
+                    <p className="text-xs text-[#A8B8D0] mt-0.5">
+                      {bca.institution}
+                    </p>
+                  </div>
+                  <span className="shrink-0 rounded-full border border-[#00A8FF]/40 bg-[#00A8FF]/20 px-3 py-1 text-xs font-mono font-bold text-[#35D5FF] shadow-[0_0_10px_rgba(0,168,255,0.3)]">
+                    8.33 CGPA
+                  </span>
+                </div>
+                <p className="text-xs text-[#A8B8D0] leading-relaxed">
+                  Core computer science degree with academic excellence in software paradigms, database management, and mobile engineering.
+                </p>
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {bca.keyAreas?.map((area) => (
+                    <span key={area} className="rounded-md border border-[#00A8FF]/15 bg-[#07152B] px-2 py-0.5 text-[10px] text-[#A8B8D0]">
+                      {area}
+                    </span>
+                  ))}
+                </div>
+              </TiltCard>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

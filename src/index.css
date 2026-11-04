@@ -3,9 +3,21 @@
 
 @layer base {
   :root {
-    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-display: 'Space Grotesk', 'Sora', sans-serif;
+    --font-heading: 'Sora', 'Space Grotesk', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
+
+    /* Theme Palette */
+    --bg-primary: #030B1B;
+    --bg-secondary: #07152B;
+    --bg-card: #0B1B32;
+    --blue-primary: #087BFF;
+    --blue-electric: #00A8FF;
+    --cyan: #35D5FF;
+    --text-white: #F4F8FF;
+    --text-secondary: #A8B8D0;
+    --orange-accent: #FF9A45;
   }
 
   html {
@@ -15,8 +27,8 @@
 
   body {
     font-family: var(--font-sans);
-    background-color: #05070c;
-    color: #e2e8f0;
+    background-color: #030B1B;
+    color: #F4F8FF;
     overflow-x: hidden;
   }
 
@@ -29,117 +41,143 @@
   }
 }
 
-/* Custom subtle dark-orange scrollbar */
+/* Custom Electric Blue Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #05070c;
+  background: #030B1B;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 122, 26, 0.35);
+  background: rgba(0, 168, 255, 0.35);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 122, 26, 0.7);
+  background: rgba(53, 213, 255, 0.7);
 }
 
-/* Master Mockup Base Background with Deep Space Horizon Glow */
+/* Deep Space Background with Subtle Atmospheric Ambient Gradients */
 .ambient-glow-page {
-  background-color: #05070c;
+  background-color: #030B1B;
   background-image: 
-    radial-gradient(ellipse 90% 60% at 50% 0%, rgba(255, 110, 20, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 40% at 90% 18%, rgba(255, 120, 25, 0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 40% at 10% 42%, rgba(255, 115, 20, 0.10) 0%, transparent 60%),
-    radial-gradient(ellipse 80% 50% at 85% 75%, rgba(255, 110, 15, 0.12) 0%, transparent 60%);
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(8, 123, 255, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 20%, rgba(0, 168, 255, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 30% at 90% 25%, rgba(255, 154, 69, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 15% 45%, rgba(53, 213, 255, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 40% at 85% 70%, rgba(8, 123, 255, 0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0, 168, 255, 0.12) 0%, transparent 60%);
 }
 
-/* Right-side glowing horizon (Hero, Journey) */
-.glow-seq-right {
-  position: relative;
-}
-.glow-seq-right::before {
-  content: '';
-  position: absolute;
-  top: 15%;
-  right: -5%;
-  width: 650px;
-  height: 650px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 122, 26, 0.18) 0%, rgba(255, 85, 0, 0.06) 42%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Left-side glowing horizon (About, Projects, Contact) */
-.glow-seq-left {
-  position: relative;
-}
-.glow-seq-left::before {
-  content: '';
-  position: absolute;
-  top: 15%;
-  left: -5%;
-  width: 650px;
-  height: 650px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 122, 26, 0.18) 0%, rgba(255, 85, 0, 0.06) 42%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Master Dark Glassmorphic Panels matching mockup */
+/* Premium Glassmorphic Cards with Electric Blue Edge Glow */
 .glass-panel {
-  background: rgba(10, 14, 22, 0.85);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.02);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: rgba(11, 27, 50, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 168, 255, 0.14);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-panel:hover {
-  border-color: rgba(255, 122, 26, 0.45);
-  box-shadow: 0 12px 35px -8px rgba(255, 110, 10, 0.25), 0 0 16px rgba(255, 122, 26, 0.12);
+  border-color: rgba(53, 213, 255, 0.45);
+  box-shadow: 0 14px 40px -8px rgba(0, 168, 255, 0.28), 0 0 20px rgba(53, 213, 255, 0.15);
 }
 
-/* Master 3D Graphic Blend */
-.blend-graphic-3d {
-  filter: drop-shadow(0 15px 30px rgba(255, 107, 0, 0.25));
+/* Glowing Electric Blue Buttons */
+.btn-primary-blue {
+  background: linear-gradient(135deg, #087BFF 0%, #00A8FF 100%);
+  color: #FFFFFF;
+  font-weight: 700;
+  box-shadow: 0 8px 24px -4px rgba(0, 168, 255, 0.45);
+  transition: all 0.25s ease;
 }
 
-/* Input Fields matching mockup */
+.btn-primary-blue:hover {
+  background: linear-gradient(135deg, #00A8FF 0%, #35D5FF 100%);
+  box-shadow: 0 12px 30px -2px rgba(53, 213, 255, 0.55);
+  transform: translateY(-2px);
+}
+
+.btn-outline-blue {
+  background: rgba(11, 27, 50, 0.6);
+  border: 1px solid rgba(0, 168, 255, 0.25);
+  color: #F4F8FF;
+  backdrop-filter: blur(10px);
+  transition: all 0.25s ease;
+}
+
+.btn-outline-blue:hover {
+  background: rgba(0, 168, 255, 0.12);
+  border-color: rgba(53, 213, 255, 0.6);
+  color: #FFFFFF;
+  box-shadow: 0 0 18px rgba(0, 168, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+/* Glowing text gradients */
+.text-gradient-hero {
+  background: linear-gradient(135deg, #FFFFFF 20%, #E6F0FF 45%, #00A8FF 75%, #35D5FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-blue {
+  background: linear-gradient(135deg, #00A8FF 0%, #35D5FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Input Fields */
 .input-dark {
-  background: rgba(12, 17, 26, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #f8fafc;
+  background: rgba(7, 21, 43, 0.85);
+  border: 1px solid rgba(0, 168, 255, 0.18);
+  color: #F4F8FF;
   transition: all 0.2s ease;
 }
 
 .input-dark:focus {
   outline: none;
-  border-color: #ff7a1a;
-  box-shadow: 0 0 0 2px rgba(255, 122, 26, 0.3);
+  border-color: #00A8FF;
+  box-shadow: 0 0 0 2px rgba(0, 168, 255, 0.35);
+  background: rgba(11, 27, 50, 0.95);
 }
 
-/* Light mode support */
+/* 3D Canvas Container */
+.webgl-canvas-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+/* Mouse Follower Glow Cursor (desktop) */
+.custom-glow-cursor {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 168, 255, 0.08) 0%, transparent 65%);
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
+
+/* Light mode adjustments */
 .light {
-  background-color: #f8fafc;
-  color: #0f172a;
+  background-color: #F8FAFC;
+  color: #030B1B;
 }
 
 .light .glass-panel {
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
-}
-
-.light .input-dark {
-  background: #ffffff;
-  border-color: #cbd5e1;
-  color: #0f172a;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(8, 123, 255, 0.15);
+  box-shadow: 0 8px 30px rgba(8, 123, 255, 0.08);
 }

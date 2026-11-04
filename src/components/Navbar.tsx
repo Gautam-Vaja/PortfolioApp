@@ -5,12 +5,12 @@ interface NavbarProps {
   darkMode: boolean;
   onToggleTheme: () => void;
   onOpenResume?: () => void;
-  onOpenContact?: () => void;
 }
 
 export default function Navbar({ darkMode, onToggleTheme, onOpenResume }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [scrolled, setScrolled] = useState(false);
 
   const navLinks = [
     { label: 'Home', href: '#home', id: 'home' },
@@ -23,7 +23,8 @@ export default function Navbar({ darkMode, onToggleTheme, onOpenResume }: Navbar
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 200;
+      setScrolled(window.scrollY > 20);
+      const scrollPosition = window.scrollY + 240;
       for (let i = navLinks.length - 1; i >= 0; i--) {
         const el = document.getElementById(navLinks[i].id);
         if (el && el.offsetTop <= scrollPosition) {
@@ -37,32 +38,38 @@ export default function Navbar({ darkMode, onToggleTheme, onOpenResume }: Navbar
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#07090e]/90 backdrop-blur-md border-b border-white/[0.05] transition-colors">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
+        scrolled
+          ? 'bg-[#030B1B]/85 backdrop-blur-lg border-b border-[#00A8FF]/15 shadow-[0_4px_30px_rgba(0,0,0,0.5)]'
+          : 'bg-transparent border-b border-transparent'
+      }`}
+    >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Brand wordmark matching mockup: GAUTAM. */}
+        {/* Brand Logo: GAUTAM. */}
         <a
           href="#home"
-          className="group flex items-center text-lg sm:text-xl font-black tracking-widest text-white transition-opacity hover:opacity-90"
+          className="group flex items-center text-lg sm:text-xl font-black tracking-widest text-[#F4F8FF] transition-opacity hover:opacity-90 font-display"
         >
-          <span className="font-display">GAUTAM</span>
-          <span className="text-[#FF7A1A] text-xl font-black">.</span>
+          <span>GAUTAM</span>
+          <span className="text-[#00A8FF] text-xl font-black drop-shadow-[0_0_8px_#00A8FF]">.</span>
         </a>
 
-        {/* Center Nav Links matching mockup */}
-        <nav className="hidden md:flex items-center gap-7 text-xs sm:text-sm font-medium text-slate-300">
+        {/* Center Nav Links */}
+        <nav className="hidden md:flex items-center gap-7 text-xs sm:text-sm font-medium text-[#A8B8D0]">
           {navLinks.map((link) => {
             const isActive = activeSection === link.id;
             return (
               <a
                 key={link.label}
                 href={link.href}
-                className={`relative py-1 transition-colors duration-200 ${
-                  isActive ? 'text-white font-semibold' : 'text-slate-400 hover:text-white'
+                className={`relative py-1.5 transition-colors duration-200 ${
+                  isActive ? 'text-[#F4F8FF] font-semibold' : 'text-[#A8B8D0] hover:text-[#35D5FF]'
                 }`}
               >
                 {link.label}
                 {isActive && (
-                  <span className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full bg-[#FF7A1A] shadow-[0_0_8px_#FF7A1A]" />
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-[#00A8FF] to-[#35D5FF] shadow-[0_0_10px_#00A8FF]" />
                 )}
               </a>
             );
@@ -75,23 +82,23 @@ export default function Navbar({ darkMode, onToggleTheme, onOpenResume }: Navbar
             <button
               type="button"
               onClick={onOpenResume}
-              className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-semibold text-white backdrop-blur-md transition-all hover:bg-white/10 hover:border-[#FF7A1A]/40"
+              className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-[#00A8FF]/25 bg-[#0B1B32]/70 px-4 py-1.5 text-xs font-semibold text-[#F4F8FF] backdrop-blur-md transition-all hover:border-[#35D5FF] hover:bg-[#00A8FF]/10 hover:shadow-[0_0_12px_rgba(0,168,255,0.3)]"
             >
-              <FileText className="h-3.5 w-3.5 text-[#FF9030]" />
+              <FileText className="h-3.5 w-3.5 text-[#35D5FF]" />
               <span>Resume</span>
             </button>
           )}
 
           <div className="flex items-center gap-2">
-            <Sun className="h-4 w-4 text-slate-400 hidden sm:block" />
+            <Sun className="h-4 w-4 text-[#A8B8D0] hidden sm:block" />
             <button
               type="button"
               onClick={onToggleTheme}
               aria-label={darkMode ? 'Switch to light theme' : 'Switch to dark theme'}
-              className="relative flex h-6 w-12 items-center rounded-full bg-[#141a27] p-0.5 border border-white/10 shadow-inner transition-colors hover:border-[#FF7A1A]/40"
+              className="relative flex h-6 w-12 items-center rounded-full bg-[#07152B] p-0.5 border border-[#00A8FF]/25 shadow-inner transition-colors hover:border-[#35D5FF]"
             >
               <div
-                className={`flex h-5 w-5 transform items-center justify-center rounded-full bg-gradient-to-r from-[#FF9030] to-[#FF5500] shadow-md transition-transform duration-200 ${
+                className={`flex h-5 w-5 transform items-center justify-center rounded-full bg-gradient-to-r from-[#087BFF] to-[#00A8FF] shadow-md transition-transform duration-200 ${
                   darkMode ? 'translate-x-6' : 'translate-x-0'
                 }`}
               >
@@ -109,7 +116,7 @@ export default function Navbar({ darkMode, onToggleTheme, onOpenResume }: Navbar
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 text-slate-300 md:hidden hover:text-white hover:border-[#FF7A1A]/40"
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#00A8FF]/20 text-[#A8B8D0] md:hidden hover:text-[#FFFFFF] hover:border-[#35D5FF]"
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -118,7 +125,7 @@ export default function Navbar({ darkMode, onToggleTheme, onOpenResume }: Navbar
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="border-b border-white/[0.08] bg-[#0a0e17] px-4 py-4 md:hidden">
+        <div className="border-b border-[#00A8FF]/15 bg-[#030B1B]/95 backdrop-blur-xl px-4 py-4 md:hidden">
           <nav className="flex flex-col gap-2">
             {navLinks.map((link) => (
               <a
@@ -127,8 +134,8 @@ export default function Navbar({ darkMode, onToggleTheme, onOpenResume }: Navbar
                 onClick={() => setMobileMenuOpen(false)}
                 className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                   activeSection === link.id
-                    ? 'bg-[#FF7A1A]/15 text-[#FF9030]'
-                    : 'text-slate-300 hover:bg-slate-800/60 hover:text-white'
+                    ? 'bg-[#00A8FF]/15 text-[#35D5FF]'
+                    : 'text-[#A8B8D0] hover:bg-[#07152B] hover:text-[#FFFFFF]'
                 }`}
               >
                 {link.label}
@@ -142,7 +149,7 @@ export default function Navbar({ darkMode, onToggleTheme, onOpenResume }: Navbar
                   setMobileMenuOpen(false);
                   onOpenResume();
                 }}
-                className="mt-2 flex items-center justify-center gap-2 rounded-lg bg-[#FF7A1A]/15 py-2.5 text-xs font-semibold text-[#FF9030] border border-[#FF7A1A]/30"
+                className="mt-2 flex items-center justify-center gap-2 rounded-lg bg-[#00A8FF]/15 py-2.5 text-xs font-semibold text-[#35D5FF] border border-[#00A8FF]/30"
               >
                 <FileText className="h-4 w-4" />
                 <span>Open Resume (CV)</span>
