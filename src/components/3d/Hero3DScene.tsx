@@ -27,46 +27,53 @@ export default function Hero3DScene() {
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
+    renderer.toneMappingExposure = 1.25;
     container.appendChild(renderer.domElement);
 
-    // 3. Lighting (Electric Blue, Cyan & Subtle Warm Orange Accent)
-    const ambientLight = new THREE.AmbientLight(0x07152B, 1.8);
+    // 3. Lighting (Electric Blue, Cyan & Warm Orange Horizon Glow)
+    const ambientLight = new THREE.AmbientLight(0x07152B, 1.6);
     scene.add(ambientLight);
 
-    const blueLight = new THREE.DirectionalLight(0x00A8FF, 3.5);
+    // Cool blue keylight from top-right
+    const blueLight = new THREE.DirectionalLight(0x00A8FF, 3.0);
     blueLight.position.set(5, 6, 4);
     scene.add(blueLight);
 
-    const cyanLight = new THREE.DirectionalLight(0x35D5FF, 2.0);
-    cyanLight.position.set(-5, -2, 2);
-    scene.add(cyanLight);
+    // Warm orange light from bottom-left / horizon plane (Creates the distinctive warm bottom glow on cubes)
+    const orangeHorizonLight = new THREE.DirectionalLight(0xFF6B00, 3.8);
+    orangeHorizonLight.position.set(-3, -4, 2);
+    scene.add(orangeHorizonLight);
 
-    // Glowing Blue PointLight at the Blue Sphere
-    const bluePointLight = new THREE.PointLight(0x00A8FF, 4.0, 12);
+    // Second orange warm light from rear-right
+    const warmSunLight = new THREE.DirectionalLight(0xFFAA45, 2.5);
+    warmSunLight.position.set(4, 5, -2);
+    scene.add(warmSunLight);
+
+    // Glowing Blue PointLight
+    const bluePointLight = new THREE.PointLight(0x00A8FF, 3.5, 12);
     bluePointLight.position.set(1.5, 0.8, 1.0);
     scene.add(bluePointLight);
 
-    // Subtle Orange Accent PointLight at the Orange Sphere
-    const orangePointLight = new THREE.PointLight(0xFF9A45, 3.0, 10);
+    // Subtle Orange Accent PointLight
+    const orangePointLight = new THREE.PointLight(0xFF7A00, 4.0, 10);
     orangePointLight.position.set(-2.2, 1.2, -1.0);
     scene.add(orangePointLight);
 
     // 4. Materials
-    // Metallic Dark Navy Material with Electric Blue Edge Reflections
+    // Metallic Dark Navy Material with Warm Orange & Blue Reflections
     const metallicCubeMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0x07152B,
-      metalness: 0.85,
+      color: 0x091426,
+      metalness: 0.9,
       roughness: 0.18,
-      clearcoat: 0.8,
+      clearcoat: 0.85,
       clearcoatRoughness: 0.15,
-      reflectivity: 0.9,
+      reflectivity: 0.95,
     });
 
-    const wireframeAccentMaterial = new THREE.LineBasicMaterial({
-      color: 0x00A8FF,
+    const orangeWireMaterial = new THREE.LineBasicMaterial({
+      color: 0xFF7A00,
       transparent: true,
-      opacity: 0.55,
+      opacity: 0.5,
     });
 
     const cyanWireframeMaterial = new THREE.LineBasicMaterial({
@@ -75,7 +82,7 @@ export default function Hero3DScene() {
       opacity: 0.45,
     });
 
-    // 5. Three Primary Floating 3D Cubes (As Requested)
+    // 5. Three Primary Floating 3D Cubes (As Requested & Shown in Reference)
     const cubesGroup = new THREE.Group();
     scene.add(cubesGroup);
 
@@ -86,7 +93,7 @@ export default function Hero3DScene() {
     cube1.rotation.set(0.4, 0.5, 0.2);
 
     const cube1WireGeo = new THREE.EdgesGeometry(cube1Geo);
-    const cube1Wire = new THREE.LineSegments(cube1WireGeo, wireframeAccentMaterial);
+    const cube1Wire = new THREE.LineSegments(cube1WireGeo, orangeWireMaterial);
     cube1.add(cube1Wire);
     cubesGroup.add(cube1);
 
@@ -108,11 +115,11 @@ export default function Hero3DScene() {
     cube3.rotation.set(0.6, -0.4, 0.3);
 
     const cube3WireGeo = new THREE.EdgesGeometry(cube3Geo);
-    const cube3Wire = new THREE.LineSegments(cube3WireGeo, wireframeAccentMaterial);
+    const cube3Wire = new THREE.LineSegments(cube3WireGeo, orangeWireMaterial);
     cube3.add(cube3Wire);
     cubesGroup.add(cube3);
 
-    // 6. Multiple Smaller Geometric Objects (Tetrahedrons & Octahedrons)
+    // 6. Multiple Smaller Geometric Objects
     const smallObjects: THREE.Mesh[] = [];
     const smallGeo1 = new THREE.OctahedronGeometry(0.35);
     const smallGeo2 = new THREE.TetrahedronGeometry(0.3);
@@ -130,7 +137,10 @@ export default function Hero3DScene() {
       const geo = i % 3 === 0 ? smallGeo1 : i % 3 === 1 ? smallGeo2 : smallGeo3;
       const mesh = new THREE.Mesh(geo, metallicCubeMaterial);
       mesh.position.copy(pos);
-      const wire = new THREE.LineSegments(new THREE.EdgesGeometry(geo), cyanWireframeMaterial);
+      const wire = new THREE.LineSegments(
+        new THREE.EdgesGeometry(geo),
+        i % 2 === 0 ? orangeWireMaterial : cyanWireframeMaterial
+      );
       mesh.add(wire);
       cubesGroup.add(mesh);
       smallObjects.push(mesh);
@@ -148,27 +158,33 @@ export default function Hero3DScene() {
     const blueSphere = new THREE.Mesh(blueSphereGeo, blueSphereMat);
     scene.add(blueSphere);
 
-    // 8. Subtle Glowing Orange Sphere (Accent)
-    const orangeSphereGeo = new THREE.SphereGeometry(0.28, 32, 32);
+    // 8. Glowing Orange Sun Sphere (Matches Reference in Upper Right)
+    const orangeSphereGeo = new THREE.SphereGeometry(0.38, 32, 32);
     const orangeSphereMat = new THREE.MeshStandardMaterial({
-      color: 0xFF9A45,
-      emissive: 0xFF9A45,
-      emissiveIntensity: 2.5,
-      roughness: 0.15,
+      color: 0xFF7A00,
+      emissive: 0xFF6B00,
+      emissiveIntensity: 3.0,
+      roughness: 0.1,
       metalness: 0.1,
     });
     const orangeSphere = new THREE.Mesh(orangeSphereGeo, orangeSphereMat);
     scene.add(orangeSphere);
 
     // 9. Circular Orbital Rings Surrounding the Cubes
-    const createOrbitRing = (radiusX: number, radiusY: number, rotationX: number, rotationY: number, color: number) => {
+    const createOrbitRing = (
+      radiusX: number,
+      radiusY: number,
+      rotationX: number,
+      rotationY: number,
+      color: number
+    ) => {
       const curve = new THREE.EllipseCurve(0, 0, radiusX, radiusY, 0, 2 * Math.PI, false, 0);
       const points = curve.getPoints(120);
       const geometry = new THREE.BufferGeometry().setFromPoints(points);
       const material = new THREE.LineBasicMaterial({
         color,
         transparent: true,
-        opacity: 0.45,
+        opacity: 0.5,
         linewidth: 1.5,
       });
       const ring = new THREE.Line(geometry, material);
@@ -185,11 +201,11 @@ export default function Hero3DScene() {
     orbitRing2.position.set(0.6, 0.2, 0);
     scene.add(orbitRing2);
 
-    const orbitRing3 = createOrbitRing(2.0, 1.6, Math.PI / 2.2, -Math.PI / 8, 0xFF9A45);
+    const orbitRing3 = createOrbitRing(2.2, 1.8, Math.PI / 2.2, -Math.PI / 8, 0xFF7A00);
     orbitRing3.position.set(0.6, 0.2, 0);
     scene.add(orbitRing3);
 
-    // 10. Floating Particle Cloud (350+ particles)
+    // 10. Floating Particle Cloud
     const particleCount = 380;
     const particleGeo = new THREE.BufferGeometry();
     const particlePos = new Float32Array(particleCount * 3);
@@ -197,15 +213,15 @@ export default function Hero3DScene() {
 
     const color1 = new THREE.Color(0x00A8FF);
     const color2 = new THREE.Color(0x35D5FF);
-    const color3 = new THREE.Color(0xFF9A45);
+    const color3 = new THREE.Color(0xFF7A00);
 
     for (let i = 0; i < particleCount; i++) {
       particlePos[i * 3] = (Math.random() - 0.5) * 16;
       particlePos[i * 3 + 1] = (Math.random() - 0.5) * 12;
       particlePos[i * 3 + 2] = (Math.random() - 0.5) * 10;
 
-      // Color variation: 80% Blue/Cyan, 20% subtle Orange
-      const c = Math.random() > 0.8 ? color3 : Math.random() > 0.4 ? color1 : color2;
+      // Color variation: Orange and Blue mix
+      const c = Math.random() > 0.6 ? color3 : Math.random() > 0.3 ? color1 : color2;
       particleColors[i * 3] = c.r;
       particleColors[i * 3 + 1] = c.g;
       particleColors[i * 3 + 2] = c.b;
@@ -225,11 +241,24 @@ export default function Hero3DScene() {
     const particles = new THREE.Points(particleGeo, particleMat);
     scene.add(particles);
 
-    // 11. Subtle Reflective Grid Ground Floor
-    const gridHelper = new THREE.GridHelper(24, 28, 0x00A8FF, 0x07152B);
-    gridHelper.position.y = -2.8;
+    // 11. Reflective Floor Plane with Warm Orange Glow
+    const floorGeo = new THREE.PlaneGeometry(30, 30);
+    const floorMat = new THREE.MeshStandardMaterial({
+      color: 0x050F22,
+      metalness: 0.85,
+      roughness: 0.25,
+      transparent: true,
+      opacity: 0.65,
+    });
+    const floor = new THREE.Mesh(floorGeo, floorMat);
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.y = -2.6;
+    scene.add(floor);
+
+    const gridHelper = new THREE.GridHelper(26, 26, 0xFF6B00, 0x0A2045);
+    gridHelper.position.y = -2.58;
     (gridHelper.material as THREE.Material).transparent = true;
-    (gridHelper.material as THREE.Material).opacity = 0.22;
+    (gridHelper.material as THREE.Material).opacity = 0.28;
     scene.add(gridHelper);
 
     // 12. Mouse & Scroll Interaction Tracking
@@ -259,8 +288,8 @@ export default function Hero3DScene() {
       mouse.y += (mouse.targetY - mouse.y) * 0.045;
 
       // Camera parallax
-      camera.position.x = mouse.x * 0.9;
-      camera.position.y = 1.2 + mouse.y * 0.6 - scrollY * 0.001;
+      camera.position.x = mouse.x * 0.85;
+      camera.position.y = 1.2 + mouse.y * 0.5 - scrollY * 0.001;
       camera.lookAt(0.3, 0.1, 0);
 
       // Cube 1 Rotation & Floating
@@ -293,71 +322,56 @@ export default function Hero3DScene() {
       blueSphere.position.y = 0.2 + Math.sin(blueAngle * 1.5) * 0.5;
       bluePointLight.position.copy(blueSphere.position);
 
-      // Orange Sphere Orbital Motion (Opposite tilt & slower)
-      const orangeAngle = -elapsedTime * 0.65 + Math.PI;
-      const orangeRadius = 3.0;
+      // Orange Sphere Orbital Motion (Upper orbit as seen in reference image)
+      const orangeAngle = -elapsedTime * 0.55 + Math.PI * 0.75;
+      const orangeRadius = 3.2;
       orangeSphere.position.x = 0.6 + Math.cos(orangeAngle) * orangeRadius;
       orangeSphere.position.z = Math.sin(orangeAngle) * (orangeRadius * 0.6);
-      orangeSphere.position.y = 0.2 + Math.cos(orangeAngle * 1.2) * 0.7;
+      orangeSphere.position.y = 1.4 + Math.sin(orangeAngle * 1.2) * 0.35;
       orangePointLight.position.copy(orangeSphere.position);
 
-      // Rings Slow Tumble
+      // Orbital Rings Rotation
       orbitRing1.rotation.z = elapsedTime * 0.08;
       orbitRing2.rotation.z = -elapsedTime * 0.06;
       orbitRing3.rotation.z = elapsedTime * 0.1;
 
-      // Floating Particles Slow Drift
-      particles.rotation.y = elapsedTime * 0.025;
+      // Particle Drift
+      particles.rotation.y = elapsedTime * 0.02;
 
       renderer.render(scene, camera);
     };
 
     animate();
 
-    // 14. Responsive Resize Listener
+    // 14. Responsive Resize Handling
     const handleResize = () => {
       if (!container) return;
-      width = container.clientWidth || window.innerWidth;
-      height = container.clientHeight || window.innerHeight;
-      camera.aspect = width / height;
+      const newWidth = container.clientWidth;
+      const newHeight = container.clientHeight;
+      camera.aspect = newWidth / newHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(newWidth, newHeight);
     };
+
     window.addEventListener('resize', handleResize);
 
-    // 15. Clean Resource Disposal on Unmount
     return () => {
+      cancelAnimationFrame(animationFrameId);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationFrameId);
-
-      renderer.dispose();
-      metallicCubeMaterial.dispose();
-      wireframeAccentMaterial.dispose();
-      cyanWireframeMaterial.dispose();
-      blueSphereMat.dispose();
-      orangeSphereMat.dispose();
-      particleMat.dispose();
-      cube1Geo.dispose();
-      cube2Geo.dispose();
-      cube3Geo.dispose();
-      blueSphereGeo.dispose();
-      orangeSphereGeo.dispose();
-      particleGeo.dispose();
-
-      if (container.contains(renderer.domElement)) {
+      if (renderer.domElement && container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
+      renderer.dispose();
     };
   }, []);
 
   return (
     <div
       ref={containerRef}
-      className="webgl-canvas-container w-full h-full min-h-[420px] lg:min-h-[600px] flex items-center justify-center"
-      aria-label="Real-time interactive 3D hero visualization with floating cubes and orbital spheres"
+      className="webgl-canvas-container flex items-center justify-center cursor-grab active:cursor-grabbing"
+      aria-label="Interactive 3D Geometric Scene"
     />
   );
 }

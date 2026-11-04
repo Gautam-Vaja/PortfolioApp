@@ -14,6 +14,9 @@ export default function Hero({ onOpenResume }: HeroProps) {
       id="home"
       className="relative min-h-[92vh] lg:min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 pt-16 lg:pt-0"
     >
+      {/* Warm Orange Horizon Beam */}
+      <div className="horizon-beam top-[60%]" />
+
       <div className="mx-auto max-w-7xl w-full z-10 py-10 lg:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column: Heading, Designation, Description, CTA Buttons, Social Links */}
@@ -23,13 +26,13 @@ export default function Hero({ onOpenResume }: HeroProps) {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 rounded-full border border-[#00A8FF]/30 bg-[#07152B]/80 px-4 py-1.5 text-xs font-mono tracking-wider uppercase text-[#35D5FF] backdrop-blur-md shadow-[0_0_15px_rgba(0,168,255,0.2)]"
+              className="inline-flex items-center gap-2 rounded-full border border-[#FF6B00]/40 bg-[#07152B]/85 px-4 py-1.5 text-xs font-mono tracking-wider uppercase text-[#FF9A45] backdrop-blur-md shadow-[0_0_15px_rgba(255,107,0,0.25)]"
             >
-              <span className="h-2 w-2 rounded-full bg-[#00A8FF] shadow-[0_0_10px_#00A8FF] animate-pulse" />
-              <span>AVAILABLE FOR OPPORTUNITIES</span>
+              <span className="h-2 w-2 rounded-full bg-[#FF6B00] shadow-[0_0_10px_#FF6B00] animate-pulse" />
+              <span>Available for opportunities</span>
             </motion.div>
 
-            {/* Main Heading: Large typography with white-to-electric-blue gradient */}
+            {/* Main Heading: Large typography with crisp bold white styling */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -44,12 +47,12 @@ export default function Hero({ onOpenResume }: HeroProps) {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.18 }}
-              className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs sm:text-sm font-semibold uppercase tracking-wider text-[#A8B8D0]"
+              className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs sm:text-sm font-semibold uppercase tracking-wider text-[#A8B8D0]"
             >
               <span className="text-[#F4F8FF]">SOFTWARE DEVELOPER</span>
-              <span className="text-[#00A8FF] font-bold">|</span>
+              <span className="text-[#FF6B00] font-bold">|</span>
               <span className="text-[#35D5FF]">FLUTTER DEVELOPER</span>
-              <span className="text-[#00A8FF] font-bold">|</span>
+              <span className="text-[#FF6B00] font-bold">|</span>
               <span className="text-[#A8B8D0]">MOBILE APPLICATION ENGINEER</span>
             </motion.div>
 
@@ -74,7 +77,7 @@ export default function Hero({ onOpenResume }: HeroProps) {
                 href="#projects"
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
-                className="btn-primary-blue inline-flex items-center justify-center gap-2 rounded-full px-8 py-3.5 text-xs sm:text-sm font-bold transition-all"
+                className="btn-primary-orange inline-flex items-center justify-center gap-2 rounded-full px-8 py-3.5 text-xs sm:text-sm font-bold transition-all shadow-[0_8px_25px_rgba(255,107,0,0.4)]"
               >
                 <span>Explore My Work</span>
                 <ArrowRight className="h-4 w-4" />
@@ -85,10 +88,10 @@ export default function Hero({ onOpenResume }: HeroProps) {
                 onClick={onOpenResume}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
-                className="btn-outline-blue inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-xs sm:text-sm font-semibold transition-all"
+                className="btn-outline-dark inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-xs sm:text-sm font-semibold transition-all"
               >
                 <span>Download Resume</span>
-                <Download className="h-4 w-4 text-[#35D5FF]" />
+                <Download className="h-4 w-4 text-[#FF9A45]" />
               </motion.button>
             </motion.div>
 
@@ -106,7 +109,7 @@ export default function Hero({ onOpenResume }: HeroProps) {
                 aria-label="GitHub profile"
                 whileHover={{ y: -3, scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-[#00A8FF]/20 bg-[#0B1B32]/80 text-[#A8B8D0] transition-colors hover:border-[#35D5FF] hover:text-[#FFFFFF] hover:shadow-[0_0_14px_rgba(0,168,255,0.4)]"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-[#0B1B32]/80 text-[#F4F8FF] transition-all hover:border-[#FF6B00] hover:text-[#FF9A45] hover:shadow-[0_0_14px_rgba(255,107,0,0.35)]"
               >
                 <Github className="h-4 w-4" />
               </motion.a>
@@ -118,7 +121,7 @@ export default function Hero({ onOpenResume }: HeroProps) {
                 aria-label="LinkedIn profile"
                 whileHover={{ y: -3, scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-[#00A8FF]/20 bg-[#0B1B32]/80 text-[#A8B8D0] transition-colors hover:border-[#35D5FF] hover:text-[#FFFFFF] hover:shadow-[0_0_14px_rgba(0,168,255,0.4)]"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-[#0B1B32]/80 text-[#F4F8FF] transition-all hover:border-[#FF6B00] hover:text-[#FF9A45] hover:shadow-[0_0_14px_rgba(255,107,0,0.35)]"
               >
                 <Linkedin className="h-4 w-4" />
               </motion.a>
@@ -128,7 +131,7 @@ export default function Hero({ onOpenResume }: HeroProps) {
                 aria-label="Send email"
                 whileHover={{ y: -3, scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-[#00A8FF]/20 bg-[#0B1B32]/80 text-[#A8B8D0] transition-colors hover:border-[#35D5FF] hover:text-[#FFFFFF] hover:shadow-[0_0_14px_rgba(0,168,255,0.4)]"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-[#0B1B32]/80 text-[#F4F8FF] transition-all hover:border-[#FF6B00] hover:text-[#FF9A45] hover:shadow-[0_0_14px_rgba(255,107,0,0.35)]"
               >
                 <Mail className="h-4 w-4" />
               </motion.a>
@@ -145,13 +148,13 @@ export default function Hero({ onOpenResume }: HeroProps) {
       {/* Animated Scroll Down Indicator */}
       <div className="hidden xl:flex flex-col items-center gap-2.5 absolute right-8 bottom-10 z-20 select-none text-[#A8B8D0]">
         <span className="text-[10px] font-mono tracking-widest uppercase [writing-mode:vertical-rl]">
-          SCROLL DOWN
+          Scroll Down
         </span>
-        <div className="flex h-9 w-5 items-start justify-center rounded-full border border-[#00A8FF]/30 p-1 bg-[#07152B]/60 backdrop-blur-sm">
+        <div className="flex h-9 w-5 items-start justify-center rounded-full border border-[#FF6B00]/40 p-1 bg-[#07152B]/60 backdrop-blur-sm">
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-            className="h-1.5 w-1 rounded-full bg-[#00A8FF] shadow-[0_0_8px_#00A8FF]"
+            className="h-1.5 w-1 rounded-full bg-[#FF6B00] shadow-[0_0_8px_#FF6B00]"
           />
         </div>
       </div>

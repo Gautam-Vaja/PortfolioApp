@@ -24,11 +24,11 @@ export default function About3DScene() {
     const ambientLight = new THREE.AmbientLight(0x07152B, 2.0);
     scene.add(ambientLight);
 
-    const blueLight = new THREE.PointLight(0x00A8FF, 3.5, 10);
-    blueLight.position.set(2, 2, 2);
-    scene.add(blueLight);
+    const orangeLight = new THREE.PointLight(0xFF6B00, 4.0, 10);
+    orangeLight.position.set(2, 2, 2);
+    scene.add(orangeLight);
 
-    const cyanLight = new THREE.PointLight(0x35D5FF, 2.5, 10);
+    const cyanLight = new THREE.PointLight(0x35D5FF, 2.0, 10);
     cyanLight.position.set(-2, -1, 1);
     scene.add(cyanLight);
 
@@ -36,13 +36,13 @@ export default function About3DScene() {
     const group = new THREE.Group();
     scene.add(group);
 
-    // Central Floating Transparent Crystal Cube
+    // Central Floating Dark Metallic & Glass Cube with Warm Orange Glow
     const cubeGeo = new THREE.BoxGeometry(1.6, 1.6, 1.6);
     const cubeMat = new THREE.MeshPhysicalMaterial({
       color: 0x07152B,
-      metalness: 0.2,
-      roughness: 0.1,
-      transmission: 0.7,
+      metalness: 0.7,
+      roughness: 0.15,
+      transmission: 0.5,
       thickness: 1.2,
       transparent: true,
       opacity: 0.85,
@@ -53,18 +53,18 @@ export default function About3DScene() {
     const cube = new THREE.Mesh(cubeGeo, cubeMat);
     group.add(cube);
 
-    // Glowing edges for crystal cube
+    // Glowing orange edges for cube (matches reference)
     const edgeGeo = new THREE.EdgesGeometry(cubeGeo);
-    const edgeMat = new THREE.LineBasicMaterial({ color: 0x00A8FF, transparent: true, opacity: 0.8 });
+    const edgeMat = new THREE.LineBasicMaterial({ color: 0xFF7A00, transparent: true, opacity: 0.85 });
     const wireframe = new THREE.LineSegments(edgeGeo, edgeMat);
     cube.add(wireframe);
 
-    // Inner glowing core sphere
-    const sphereGeo = new THREE.SphereGeometry(0.35, 32, 32);
+    // Inner glowing orange core sphere
+    const sphereGeo = new THREE.SphereGeometry(0.38, 32, 32);
     const sphereMat = new THREE.MeshStandardMaterial({
-      color: 0x00A8FF,
-      emissive: 0x00A8FF,
-      emissiveIntensity: 2.5,
+      color: 0xFF6B00,
+      emissive: 0xFF6B00,
+      emissiveIntensity: 3.0,
     });
     const coreSphere = new THREE.Mesh(sphereGeo, sphereMat);
     cube.add(coreSphere);
@@ -74,15 +74,15 @@ export default function About3DScene() {
       const curve = new THREE.EllipseCurve(0, 0, radius, radius * 0.7, 0, 2 * Math.PI, false, 0);
       const points = curve.getPoints(80);
       const geo = new THREE.BufferGeometry().setFromPoints(points);
-      const mat = new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.5 });
+      const mat = new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.55 });
       const ring = new THREE.Line(geo, mat);
       ring.rotation.x = rotX;
       ring.rotation.y = rotY;
       return ring;
     };
 
-    const ring1 = createRing(2.0, Math.PI / 3, Math.PI / 5, 0x00A8FF);
-    const ring2 = createRing(2.4, -Math.PI / 4, Math.PI / 3, 0x35D5FF);
+    const ring1 = createRing(2.0, Math.PI / 3, Math.PI / 5, 0xFF7A00);
+    const ring2 = createRing(2.4, -Math.PI / 4, Math.PI / 3, 0x00A8FF);
     group.add(ring1);
     group.add(ring2);
 
@@ -97,82 +97,94 @@ export default function About3DScene() {
     }
     pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
     const pMat = new THREE.PointsMaterial({
-      color: 0x35D5FF,
+      color: 0xFF9A45,
       size: 0.04,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.65,
       blending: THREE.AdditiveBlending,
     });
     const particles = new THREE.Points(pGeo, pMat);
     group.add(particles);
 
-    // Mouse tracking for tilt
-    const mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      mouse.targetX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      mouse.targetY = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-    };
-    container.addEventListener('mousemove', handleMouseMove);
-
-    // Animation Loop
     let animId: number;
     let clock = new THREE.Clock();
 
+    let isDragging = false;
+    let prevMouse = { x: 0, y: 0 };
+
+    const onMouseDown = (e: MouseEvent) => {
+      isDragging = true;
+      prevMouse = { x: e.clientX, y: e.clientY };
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      if (!isDragging) return;
+      const deltaX = e.clientX - prevMouse.x;
+      const deltaY = e.clientY - prevMouse.y;
+      group.rotation.y += deltaX * 0.01;
+      group.rotation.x += deltaY * 0.01;
+      prevMouse = { x: e.clientX, y: e.clientY };
+    };
+
+    const onMouseUp = () => {
+      isDragging = false;
+    };
+
+    container.addEventListener('mousedown', onMouseDown);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+
     const animate = () => {
       animId = requestAnimationFrame(animate);
-      const time = clock.getElapsedTime();
+      const t = clock.getElapsedTime();
 
-      mouse.x += (mouse.targetX - mouse.x) * 0.05;
-      mouse.y += (mouse.targetY - mouse.y) * 0.05;
+      if (!isDragging) {
+        group.rotation.y = t * 0.25;
+        group.rotation.x = Math.sin(t * 0.4) * 0.2;
+      }
 
-      cube.rotation.x = 0.3 + time * 0.3 + mouse.y * 0.3;
-      cube.rotation.y = 0.4 + time * 0.35 + mouse.x * 0.3;
-      cube.position.y = Math.sin(time * 1.5) * 0.12;
+      cube.rotation.y = t * 0.15;
+      cube.rotation.z = Math.sin(t * 0.5) * 0.1;
 
-      ring1.rotation.z = time * 0.15;
-      ring2.rotation.z = -time * 0.12;
+      ring1.rotation.z = t * 0.1;
+      ring2.rotation.z = -t * 0.08;
 
-      particles.rotation.y = time * 0.05;
+      particles.rotation.y = -t * 0.05;
 
       renderer.render(scene, camera);
     };
+
     animate();
 
     const handleResize = () => {
       if (!container) return;
-      width = container.clientWidth || 320;
-      height = container.clientHeight || 320;
-      camera.aspect = width / height;
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      camera.aspect = w / h;
       camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
+      renderer.setSize(w, h);
     };
+
     window.addEventListener('resize', handleResize);
 
     return () => {
-      container.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animId);
-      renderer.dispose();
-      cubeGeo.dispose();
-      cubeMat.dispose();
-      edgeGeo.dispose();
-      edgeMat.dispose();
-      sphereGeo.dispose();
-      sphereMat.dispose();
-      pGeo.dispose();
-      pMat.dispose();
-      if (container.contains(renderer.domElement)) {
+      container.removeEventListener('mousedown', onMouseDown);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+      window.removeEventListener('resize', handleResize);
+      if (renderer.domElement && container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
+      renderer.dispose();
     };
   }, []);
 
   return (
     <div
       ref={containerRef}
-      className="webgl-canvas-container w-full h-[280px] sm:h-[340px] flex items-center justify-center cursor-grab active:cursor-grabbing"
-      aria-label="Real-time interactive 3D crystal cube with glowing core and orbital rings"
+      className="webgl-canvas-container flex items-center justify-center cursor-grab active:cursor-grabbing"
+      aria-label="3D Interactive About Geometry"
     />
   );
 }

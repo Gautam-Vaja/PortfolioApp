@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { Mail, Github, Linkedin, ArrowRight, Check, Phone, MapPin, AlertCircle } from 'lucide-react';
-import { motion } from 'motion/react';
+import React, { useState, useRef } from 'react';
+import { Mail, Github, Linkedin, ArrowRight, Check, AlertCircle } from 'lucide-react';
 import Contact3DScene from './3d/Contact3DScene';
 import TiltCard from './ui/TiltCard';
 import { PERSONAL_INFO } from '../data/portfolio-data';
@@ -16,13 +15,7 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [copiedEmail, setCopiedEmail] = useState(false);
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(PERSONAL_INFO.email);
-    setCopiedEmail(true);
-    setTimeout(() => setCopiedEmail(false), 2000);
-  };
+  const messageInputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -32,6 +25,12 @@ export default function Contact() {
     if (errorMessage) setErrorMessage('');
   };
 
+  const handleFocusMessage = () => {
+    if (messageInputRef.current) {
+      messageInputRef.current.focus();
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
@@ -39,7 +38,6 @@ export default function Contact() {
       return;
     }
 
-    // Basic email validation regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email.trim())) {
       setErrorMessage('Please provide a valid email address.');
@@ -58,7 +56,7 @@ export default function Contact() {
         });
         localStorage.setItem('gautam_portfolio_messages', JSON.stringify(stored));
       } catch (err) {
-        // storage fallback
+        // Fallback
       }
 
       setIsSubmitting(false);
@@ -69,100 +67,90 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 border-t border-[#00A8FF]/10 relative overflow-hidden">
+    <section id="contact" className="py-24 border-t border-white/5 relative overflow-hidden">
+      {/* Warm Orange Horizon Beam */}
+      <div className="horizon-beam top-[45%]" />
+
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
-          {/* Left Column: 3D Torus Scene & Headline (lg:col-span-4) */}
-          <div className="lg:col-span-4 space-y-6 text-left">
+          {/* Left Column: 3D Torus Scene & Headline matching Image 4 (lg:col-span-4) */}
+          <div className="lg:col-span-4 space-y-4 text-left">
             {/* Real-time 3D Floating Torus Scene */}
-            <div className="relative w-full max-w-[260px] rounded-2xl border border-[#00A8FF]/20 bg-[#07152B]/60 p-2 backdrop-blur-md shadow-[0_0_25px_rgba(0,168,255,0.15)]">
+            <div className="relative w-full max-w-[280px] rounded-2xl border border-white/10 bg-[#07152B]/40 p-2 backdrop-blur-md shadow-[0_0_30px_rgba(255,107,0,0.15)] overflow-hidden">
               <Contact3DScene />
             </div>
 
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-[#00A8FF] shadow-[0_0_8px_#00A8FF]" />
-                <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#35D5FF]">
-                  GET IN TOUCH
-                </span>
-              </div>
-
+            <div className="space-y-2.5">
               <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-[#F4F8FF] font-display">
                 LET&apos;S CREATE SOMETHING GREAT.
               </h2>
               <p className="text-sm text-[#A8B8D0] leading-relaxed font-normal">
-                Have an idea, project, or opportunity? Let&apos;s connect and build something meaningful.
+                Have an idea, project, or opportunity? Let&apos;s connect!
               </p>
             </div>
 
-            <div>
-              <a
-                href={`mailto:${PERSONAL_INFO.email}`}
-                className="btn-primary-blue inline-flex items-center gap-2 rounded-full px-7 py-3 text-xs sm:text-sm font-bold shadow-lg"
+            <div className="pt-1">
+              <button
+                type="button"
+                onClick={handleFocusMessage}
+                className="btn-primary-orange inline-flex items-center gap-2 rounded-full px-7 py-3 text-xs sm:text-sm font-bold shadow-[0_8px_25px_rgba(255,107,0,0.4)]"
               >
-                <span>Direct Email</span>
+                <span>Contact Me</span>
                 <ArrowRight className="h-4 w-4" />
-              </a>
+              </button>
             </div>
           </div>
 
-          {/* Center Column: Interactive Contact Form (lg:col-span-5) */}
+          {/* Center Column: Interactive Contact Form matching Image 4 (lg:col-span-5) */}
           <div className="lg:col-span-5 text-left">
-            <TiltCard maxTilt={5} className="glass-panel rounded-2xl p-6 sm:p-7 space-y-4 border border-[#00A8FF]/20">
-              <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-[#35D5FF]">
-                Send a Message
-              </h3>
-
+            <TiltCard maxTilt={4} className="glass-panel rounded-2xl p-6 sm:p-7 space-y-4 border border-white/10">
               <form onSubmit={handleSubmit} className="space-y-3.5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="text-[11px] font-mono text-[#A8B8D0] block mb-1">Your Name *</label>
                     <input
                       type="text"
                       name="name"
-                      placeholder="Gautam Vaja"
+                      placeholder="Your Name"
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="input-dark w-full rounded-xl px-4 py-2.5 text-xs placeholder-slate-500"
+                      className="input-dark w-full rounded-xl px-4 py-2.5 text-xs placeholder-[#A8B8D0]/60"
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] font-mono text-[#A8B8D0] block mb-1">Your Email *</label>
                     <input
                       type="email"
                       name="email"
-                      placeholder="hello@example.com"
+                      placeholder="Your Email"
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="input-dark w-full rounded-xl px-4 py-2.5 text-xs placeholder-slate-500"
+                      className="input-dark w-full rounded-xl px-4 py-2.5 text-xs placeholder-[#A8B8D0]/60"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-[11px] font-mono text-[#A8B8D0] block mb-1">Subject</label>
                   <input
                     type="text"
                     name="subject"
-                    placeholder="Project Inquiry / Job Opportunity"
+                    placeholder="Subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    className="input-dark w-full rounded-xl px-4 py-2.5 text-xs placeholder-slate-500"
+                    className="input-dark w-full rounded-xl px-4 py-2.5 text-xs placeholder-[#A8B8D0]/60"
                   />
                 </div>
 
                 <div>
-                  <label className="text-[11px] font-mono text-[#A8B8D0] block mb-1">Your Message *</label>
                   <textarea
+                    ref={messageInputRef}
                     name="message"
-                    placeholder="Tell me about your project, timeline, or requirements..."
-                    rows={4}
+                    placeholder="Your Message"
+                    rows={5}
                     required
                     value={formData.message}
                     onChange={handleChange}
-                    className="input-dark w-full rounded-xl px-4 py-2.5 text-xs placeholder-slate-500 resize-none"
+                    className="input-dark w-full rounded-xl px-4 py-2.5 text-xs placeholder-[#A8B8D0]/60 resize-none"
                   />
                 </div>
 
@@ -173,10 +161,10 @@ export default function Contact() {
                   </div>
                 )}
 
-                <div className="flex items-center justify-between pt-2">
+                <div className="flex items-center justify-between pt-1">
                   {submitted ? (
-                    <span className="text-xs text-[#35D5FF] font-semibold flex items-center gap-1.5 animate-fadeIn">
-                      <Check className="h-4 w-4 text-[#00A8FF]" /> Message received! I will reply shortly.
+                    <span className="text-xs text-[#FF9A45] font-semibold flex items-center gap-1.5 animate-fadeIn">
+                      <Check className="h-4 w-4 text-[#FF6B00]" /> Message received! I will reply shortly.
                     </span>
                   ) : (
                     <span />
@@ -185,7 +173,7 @@ export default function Contact() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="btn-primary-blue inline-flex items-center gap-2 rounded-full px-7 py-2.5 text-xs font-bold transition-all ml-auto disabled:opacity-50"
+                    className="btn-primary-orange inline-flex items-center gap-2 rounded-full px-7 py-2.5 text-xs font-bold transition-all ml-auto disabled:opacity-50 shadow-[0_8px_20px_rgba(255,107,0,0.35)]"
                   >
                     <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -195,71 +183,58 @@ export default function Contact() {
             </TiltCard>
           </div>
 
-          {/* Right Column: Contact Links (lg:col-span-3) */}
+          {/* Right Column: Get in Touch matching Image 4 (lg:col-span-3) */}
           <div className="lg:col-span-3 text-left">
-            <TiltCard maxTilt={6} className="glass-panel rounded-2xl p-6 space-y-5 border border-[#00A8FF]/20">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[#F4F8FF] font-mono">
+            <TiltCard maxTilt={5} className="glass-panel rounded-2xl p-6 space-y-5 border border-white/10">
+              <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-[#F4F8FF]">
                 Get in Touch
               </h3>
 
-              <div className="space-y-4 text-xs">
-                {/* Email with copy button */}
-                <button
-                  type="button"
-                  onClick={handleCopyEmail}
-                  className="group flex items-center gap-3 w-full text-left text-[#A8B8D0] hover:text-[#FFFFFF] transition-colors"
-                >
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#00A8FF]/10 text-[#00A8FF] border border-[#00A8FF]/20 group-hover:bg-[#00A8FF] group-hover:text-[#030B1B] transition-colors">
-                    {copiedEmail ? <Check className="h-4 w-4" /> : <Mail className="h-4 w-4" />}
-                  </div>
-                  <span className="truncate group-hover:text-[#FFFFFF]">
-                    {copiedEmail ? 'Copied to clipboard!' : PERSONAL_INFO.email}
-                  </span>
-                </button>
-
-                {/* Phone */}
+              <div className="space-y-4">
                 <a
-                  href={`tel:${PERSONAL_INFO.phone.replace(/\s+/g, '')}`}
-                  className="group flex items-center gap-3 text-[#A8B8D0] hover:text-[#FFFFFF] transition-colors"
+                  href={`mailto:${PERSONAL_INFO.email}`}
+                  className="flex items-center gap-3 p-2.5 rounded-xl bg-[#07152B]/60 border border-white/10 hover:border-[#FF6B00]/40 transition-colors group"
                 >
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#00A8FF]/10 text-[#00A8FF] border border-[#00A8FF]/20 group-hover:bg-[#00A8FF] group-hover:text-[#030B1B] transition-colors">
-                    <Phone className="h-4 w-4" />
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FF6B00]/15 text-[#FF6B00] border border-[#FF6B00]/30 shadow-[0_0_10px_rgba(255,107,0,0.25)]">
+                    <Mail className="h-4 w-4" />
                   </div>
-                  <span className="truncate">{PERSONAL_INFO.phone}</span>
+                  <div className="overflow-hidden">
+                    <span className="text-xs font-medium text-[#F4F8FF] group-hover:text-[#FF9A45] transition-colors truncate block">
+                      {PERSONAL_INFO.email}
+                    </span>
+                  </div>
                 </a>
 
-                {/* Location */}
-                <div className="flex items-center gap-3 text-[#A8B8D0]">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#00A8FF]/10 text-[#00A8FF] border border-[#00A8FF]/20">
-                    <MapPin className="h-4 w-4" />
-                  </div>
-                  <span className="truncate">Gujarat, India</span>
-                </div>
-
-                {/* GitHub */}
                 <a
                   href={PERSONAL_INFO.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-3 text-[#A8B8D0] hover:text-[#FFFFFF] transition-colors"
+                  className="flex items-center gap-3 p-2.5 rounded-xl bg-[#07152B]/60 border border-white/10 hover:border-[#FF6B00]/40 transition-colors group"
                 >
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#00A8FF]/10 text-[#00A8FF] border border-[#00A8FF]/20 group-hover:bg-[#00A8FF] group-hover:text-[#030B1B] transition-colors">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FF6B00]/15 text-[#FF6B00] border border-[#FF6B00]/30 shadow-[0_0_10px_rgba(255,107,0,0.25)]">
                     <Github className="h-4 w-4" />
                   </div>
-                  <span className="truncate">github.com/{PERSONAL_INFO.githubUser}</span>
+                  <div className="overflow-hidden">
+                    <span className="text-xs font-medium text-[#F4F8FF] group-hover:text-[#FF9A45] transition-colors truncate block">
+                      github.com/gautamvaja
+                    </span>
+                  </div>
                 </a>
 
-                {/* LinkedIn */}
                 <a
                   href={PERSONAL_INFO.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-3 text-[#A8B8D0] hover:text-[#FFFFFF] transition-colors"
+                  className="flex items-center gap-3 p-2.5 rounded-xl bg-[#07152B]/60 border border-white/10 hover:border-[#FF6B00]/40 transition-colors group"
                 >
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#00A8FF]/10 text-[#00A8FF] border border-[#00A8FF]/20 group-hover:bg-[#00A8FF] group-hover:text-[#030B1B] transition-colors">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FF6B00]/15 text-[#FF6B00] border border-[#FF6B00]/30 shadow-[0_0_10px_rgba(255,107,0,0.25)]">
                     <Linkedin className="h-4 w-4" />
                   </div>
-                  <span className="truncate">linkedin.com/in/{PERSONAL_INFO.linkedinUser}</span>
+                  <div className="overflow-hidden">
+                    <span className="text-xs font-medium text-[#F4F8FF] group-hover:text-[#FF9A45] transition-colors truncate block">
+                      linkedin.com/in/gautamvaja
+                    </span>
+                  </div>
                 </a>
               </div>
             </TiltCard>

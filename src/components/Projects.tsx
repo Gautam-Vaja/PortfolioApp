@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink, Github, ArrowRight, FolderKanban, Sparkles } from 'lucide-react';
+import { ArrowRight, FolderKanban } from 'lucide-react';
 import { motion } from 'motion/react';
 import { PROJECTS } from '../data/portfolio-data';
 import { Project } from '../types/portfolio';
@@ -10,43 +10,61 @@ interface ProjectsProps {
 }
 
 export default function Projects({ onSelectProject }: ProjectsProps) {
-  // Visual asset mapping for the 6 projects
-  const projectVisuals: Record<string, { image: string; tag: string }> = {
+  // Visual asset mapping for the 6 projects matching Image 4
+  const projectDetails: Record<
+    string,
+    { title: string; subtitle: string; tags: string; image: string }
+  > = {
     pilonmagic: {
+      title: 'PilonMagic',
+      subtitle: 'GPS & Asset Management',
+      tags: 'Flutter • Dart',
       image: '/assets/theme/card_visual_pilonmagic.png',
-      tag: 'Flutter • Dart • GetX',
     },
     'ai-assistant': {
+      title: 'AI Personal Assistant',
+      subtitle: 'Gemini Powered Chat',
+      tags: 'Flutter • Dart',
       image: '/assets/theme/card_visual_ai.png',
-      tag: 'Flutter • Gemini API • SQLite',
     },
     'weather-app': {
+      title: 'Weather Application',
+      subtitle: 'Real-time Weather',
+      tags: 'Flutter • Dart',
       image: '/assets/theme/card_visual_weather.png',
-      tag: 'Flutter • OpenWeather • REST API',
     },
     'mini-social': {
+      title: 'Mini Social Media',
+      subtitle: 'Connect & Share',
+      tags: 'React Native • Firebase',
       image: '/assets/theme/card_visual_social.png',
-      tag: 'React Native • Firebase • Cloud Storage',
     },
     'expense-tracker': {
+      title: 'Expense Tracker',
+      subtitle: 'Manage Your Expenses',
+      tags: 'Flutter • Dart',
       image: '/assets/theme/card_visual_expense.png',
-      tag: 'Flutter • Dart • Analytics',
     },
     'smart-attendance': {
+      title: 'Smart Attendance',
+      subtitle: 'Track Attendance Easily',
+      tags: 'React Native • SQLite',
       image: '/assets/theme/card_visual_attendance.png',
-      tag: 'React Native • SQLite • Offline-First',
     },
   };
 
   return (
-    <section id="projects" className="py-24 border-t border-[#00A8FF]/10 relative overflow-hidden">
+    <section id="projects" className="py-24 border-t border-white/5 relative overflow-hidden">
+      {/* Warm Orange Horizon Beam */}
+      <div className="horizon-beam top-[40%]" />
+
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+        {/* Section Header: Left Column Heading, Button */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
           <div className="space-y-3 max-w-2xl text-left">
             <div className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-[#00A8FF] shadow-[0_0_8px_#00A8FF]" />
-              <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#35D5FF]">
+              <FolderKanban className="h-4 w-4 text-[#FF6B00]" />
+              <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-[#FF9A45]">
                 FEATURED PROJECTS
               </span>
             </div>
@@ -56,24 +74,29 @@ export default function Projects({ onSelectProject }: ProjectsProps) {
             </h2>
 
             <p className="text-sm sm:text-base text-[#A8B8D0] leading-relaxed font-normal">
-              A curated collection of mobile applications and intelligent software solutions demonstrating real-world architecture, cloud integrations, and offline persistence.
+              A collection of projects that showcase my skills and passion for development.
             </p>
           </div>
 
           <div className="self-start sm:self-auto">
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#00A8FF]/30 bg-[#07152B]/80 px-4 py-1.5 text-xs font-mono text-[#35D5FF] shadow-[0_0_12px_rgba(0,168,255,0.15)]">
-              <Sparkles className="h-3.5 w-3.5 text-[#00A8FF]" />
-              {PROJECTS.length} Production Ready Builds
-            </span>
+            <a
+              href="#contact"
+              className="btn-outline-dark inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-xs font-semibold"
+            >
+              <span>View All Projects</span>
+              <ArrowRight className="h-3.5 w-3.5 text-[#FF9A45]" />
+            </a>
           </div>
         </div>
 
-        {/* 6 Projects in a 2x3 Grid */}
+        {/* 6 Projects in a 2x3 Grid Matching Reference Image 4 */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {PROJECTS.map((project, idx) => {
-            const visual = projectVisuals[project.id] || {
+            const info = projectDetails[project.id] || {
+              title: project.title,
+              subtitle: project.summary,
+              tags: project.technologies.slice(0, 2).join(' • '),
               image: '/assets/theme/card_visual_pilonmagic.png',
-              tag: project.technologies.slice(0, 2).join(' • '),
             };
 
             return (
@@ -85,82 +108,39 @@ export default function Projects({ onSelectProject }: ProjectsProps) {
                 transition={{ duration: 0.5, delay: idx * 0.08 }}
               >
                 <TiltCard
-                  maxTilt={12}
-                  className="glass-panel h-full rounded-2xl flex flex-col justify-between overflow-hidden group border border-[#00A8FF]/15 hover:border-[#00A8FF]/50"
+                  maxTilt={10}
+                  className="glass-panel h-full rounded-2xl flex flex-col justify-between overflow-hidden group border border-white/10 hover:border-[#FF6B00]/50 transition-all cursor-pointer"
                   onClick={() => onSelectProject(project)}
                 >
-                  {/* Thumbnail Banner with subtle zoom & blue overlay */}
+                  {/* Thumbnail Banner */}
                   <div className="relative h-44 sm:h-48 w-full overflow-hidden bg-[#07152B]">
                     <img
-                      src={visual.image}
-                      alt={project.title}
-                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+                      src={info.image}
+                      alt={info.title}
+                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-106"
                     />
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0B1B32] via-transparent to-transparent opacity-90" />
-                    
-                    {/* Badge */}
-                    <div className="absolute top-3 right-3">
-                      <span className="rounded-full border border-[#00A8FF]/30 bg-[#07152B]/85 px-3 py-1 text-[10px] font-mono font-semibold text-[#35D5FF] backdrop-blur-md">
-                        {project.badge}
-                      </span>
-                    </div>
-
-                    <div className="absolute bottom-3 left-4">
-                      <span className="text-[11px] font-mono text-[#00A8FF] font-medium tracking-wide">
-                        {visual.tag}
-                      </span>
-                    </div>
                   </div>
 
-                  {/* Card Content */}
-                  <div className="p-5 sm:p-6 flex flex-1 flex-col justify-between text-left space-y-4">
-                    <div className="space-y-2">
-                      <h3 className="text-lg font-bold text-[#F4F8FF] group-hover:text-[#35D5FF] transition-colors font-display">
-                        {project.title}
+                  {/* Card Content Footer matching Image 4 */}
+                  <div className="p-5 flex items-center justify-between gap-4 text-left">
+                    <div>
+                      <h3 className="text-base sm:text-lg font-bold text-[#F4F8FF] group-hover:text-[#FF9A45] transition-colors">
+                        {info.title}
                       </h3>
-                      <p className="text-xs text-[#A8B8D0] leading-relaxed line-clamp-2">
-                        {project.description}
+                      <p className="text-xs text-[#A8B8D0] mt-0.5 font-normal">
+                        {info.subtitle}
                       </p>
-                    </div>
-
-                    {/* Tech Badges */}
-                    <div className="flex flex-wrap gap-1.5 pt-2">
-                      {project.technologies.slice(0, 4).map((tech) => (
-                        <span
-                          key={tech}
-                          className="rounded-md border border-[#00A8FF]/15 bg-[#07152B]/80 px-2 py-0.5 text-[10px] font-medium text-[#A8B8D0]"
-                        >
-                          {tech}
+                      <div className="mt-2">
+                        <span className="text-[11px] font-mono text-[#35D5FF] tracking-wide">
+                          {info.tags}
                         </span>
-                      ))}
+                      </div>
                     </div>
 
-                    {/* Actions Row */}
-                    <div className="pt-4 border-t border-[#00A8FF]/10 flex items-center justify-between">
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onSelectProject(project);
-                        }}
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#00A8FF] group-hover:text-[#35D5FF] transition-colors"
-                      >
-                        <span>Project Overview</span>
-                        <ArrowRight className="h-3.5 w-3.5" />
-                      </button>
-
-                      {project.githubUrl && (
-                        <a
-                          href={project.githubUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          aria-label={`GitHub source for ${project.title}`}
-                          className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#00A8FF]/20 bg-[#07152B] text-[#A8B8D0] hover:text-[#FFFFFF] hover:border-[#35D5FF] transition-colors"
-                        >
-                          <Github className="h-4 w-4" />
-                        </a>
-                      )}
+                    {/* Circular Action Arrow Button */}
+                    <div className="shrink-0 flex h-9 w-9 items-center justify-center rounded-full bg-[#07152B] border border-white/15 text-[#F4F8FF] group-hover:bg-[#FF6B00] group-hover:border-[#FF6B00] group-hover:text-white transition-all shadow-[0_0_12px_rgba(0,0,0,0.4)]">
+                      <ArrowRight className="h-4 w-4" />
                     </div>
                   </div>
                 </TiltCard>

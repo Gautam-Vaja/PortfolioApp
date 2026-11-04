@@ -41,18 +41,18 @@ export default function Navbar({ darkMode, onToggleTheme, onOpenResume }: Navbar
     <header
       className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
         scrolled
-          ? 'bg-[#030B1B]/85 backdrop-blur-lg border-b border-[#00A8FF]/15 shadow-[0_4px_30px_rgba(0,0,0,0.5)]'
+          ? 'bg-[#030B1B]/90 backdrop-blur-lg border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.6)]'
           : 'bg-transparent border-b border-transparent'
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Brand Logo: GAUTAM. */}
+        {/* Brand Logo: GAUTAM. matching Image 4 */}
         <a
           href="#home"
           className="group flex items-center text-lg sm:text-xl font-black tracking-widest text-[#F4F8FF] transition-opacity hover:opacity-90 font-display"
         >
           <span>GAUTAM</span>
-          <span className="text-[#00A8FF] text-xl font-black drop-shadow-[0_0_8px_#00A8FF]">.</span>
+          <span className="text-[#FF6B00] text-xl font-black drop-shadow-[0_0_8px_#FF6B00]">.</span>
         </a>
 
         {/* Center Nav Links */}
@@ -64,84 +64,80 @@ export default function Navbar({ darkMode, onToggleTheme, onOpenResume }: Navbar
                 key={link.label}
                 href={link.href}
                 className={`relative py-1.5 transition-colors duration-200 ${
-                  isActive ? 'text-[#F4F8FF] font-semibold' : 'text-[#A8B8D0] hover:text-[#35D5FF]'
+                  isActive ? 'text-[#F4F8FF] font-semibold' : 'text-[#A8B8D0] hover:text-[#FF9A45]'
                 }`}
               >
                 {link.label}
                 {isActive && (
-                  <span className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-[#00A8FF] to-[#35D5FF] shadow-[0_0_10px_#00A8FF]" />
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-[#FF6B00] to-[#FF9A45] shadow-[0_0_8px_#FF6B00]" />
                 )}
               </a>
             );
           })}
         </nav>
 
-        {/* Right side: Resume button & Theme toggle */}
+        {/* Right side: Resume button & Theme toggle matching Image 4 */}
         <div className="flex items-center gap-3">
           {onOpenResume && (
             <button
               type="button"
               onClick={onOpenResume}
-              className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-[#00A8FF]/25 bg-[#0B1B32]/70 px-4 py-1.5 text-xs font-semibold text-[#F4F8FF] backdrop-blur-md transition-all hover:border-[#35D5FF] hover:bg-[#00A8FF]/10 hover:shadow-[0_0_12px_rgba(0,168,255,0.3)]"
+              className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-[#0B1B32]/70 px-4 py-1.5 text-xs font-semibold text-[#F4F8FF] backdrop-blur-md transition-all hover:border-[#FF6B00] hover:bg-[#FF6B00]/10 hover:shadow-[0_0_12px_rgba(255,107,0,0.25)]"
             >
-              <FileText className="h-3.5 w-3.5 text-[#35D5FF]" />
+              <FileText className="h-3.5 w-3.5 text-[#FF9A45]" />
               <span>Resume</span>
             </button>
           )}
 
+          {/* Theme toggle switch matching Image 4 */}
           <div className="flex items-center gap-2">
-            <Sun className="h-4 w-4 text-[#A8B8D0] hidden sm:block" />
+            <Sun className="h-4 w-4 text-[#FF9A45] hidden sm:block" />
             <button
               type="button"
               onClick={onToggleTheme}
               aria-label={darkMode ? 'Switch to light theme' : 'Switch to dark theme'}
-              className="relative flex h-6 w-12 items-center rounded-full bg-[#07152B] p-0.5 border border-[#00A8FF]/25 shadow-inner transition-colors hover:border-[#35D5FF]"
+              className="relative flex h-6 w-12 items-center rounded-full bg-[#07152B] p-0.5 border border-white/20 shadow-inner transition-colors hover:border-[#FF6B00]"
             >
               <div
-                className={`flex h-5 w-5 transform items-center justify-center rounded-full bg-gradient-to-r from-[#087BFF] to-[#00A8FF] shadow-md transition-transform duration-200 ${
+                className={`flex h-5 w-5 items-center justify-center rounded-full bg-[#FF6B00] shadow-[0_0_8px_#FF6B00] transition-transform duration-300 ${
                   darkMode ? 'translate-x-6' : 'translate-x-0'
                 }`}
               >
                 {darkMode ? (
-                  <Moon className="h-2.5 w-2.5 text-white" />
+                  <Moon className="h-3 w-3 text-white" />
                 ) : (
-                  <Sun className="h-2.5 w-2.5 text-black" />
+                  <Sun className="h-3 w-3 text-white" />
                 )}
               </div>
             </button>
           </div>
 
-          {/* Mobile menu trigger */}
+          {/* Mobile Menu Toggle Button */}
           <button
             type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#00A8FF]/20 text-[#A8B8D0] md:hidden hover:text-[#FFFFFF] hover:border-[#35D5FF]"
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            aria-label="Toggle navigation menu"
+            className="md:hidden flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-[#07152B] text-[#F4F8FF]"
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="border-b border-[#00A8FF]/15 bg-[#030B1B]/95 backdrop-blur-xl px-4 py-4 md:hidden">
-          <nav className="flex flex-col gap-2">
+        <div className="md:hidden border-b border-white/10 bg-[#030B1B]/95 backdrop-blur-xl px-4 py-5 shadow-2xl">
+          <nav className="flex flex-col space-y-3">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                  activeSection === link.id
-                    ? 'bg-[#00A8FF]/15 text-[#35D5FF]'
-                    : 'text-[#A8B8D0] hover:bg-[#07152B] hover:text-[#FFFFFF]'
-                }`}
+                className="rounded-lg px-3 py-2 text-sm font-medium text-[#A8B8D0] hover:bg-white/5 hover:text-[#FF9A45] transition-colors"
               >
                 {link.label}
               </a>
             ))}
-
             {onOpenResume && (
               <button
                 type="button"
@@ -149,10 +145,10 @@ export default function Navbar({ darkMode, onToggleTheme, onOpenResume }: Navbar
                   setMobileMenuOpen(false);
                   onOpenResume();
                 }}
-                className="mt-2 flex items-center justify-center gap-2 rounded-lg bg-[#00A8FF]/15 py-2.5 text-xs font-semibold text-[#35D5FF] border border-[#00A8FF]/30"
+                className="flex items-center justify-center gap-2 rounded-xl bg-[#FF6B00] px-4 py-2.5 text-xs font-bold text-white shadow-lg mt-2"
               >
                 <FileText className="h-4 w-4" />
-                <span>Open Resume (CV)</span>
+                <span>Download Resume</span>
               </button>
             )}
           </nav>

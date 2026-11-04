@@ -8,16 +8,17 @@
     --font-heading: 'Sora', 'Space Grotesk', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 
-    /* Theme Palette */
+    /* Master Theme Palette from Reference Design */
     --bg-primary: #030B1B;
     --bg-secondary: #07152B;
     --bg-card: #0B1B32;
+    --orange-primary: #FF6B00;
+    --orange-accent: #FF9A45;
     --blue-primary: #087BFF;
     --blue-electric: #00A8FF;
     --cyan: #35D5FF;
     --text-white: #F4F8FF;
     --text-secondary: #A8B8D0;
-    --orange-accent: #FF9A45;
   }
 
   html {
@@ -41,7 +42,7 @@
   }
 }
 
-/* Custom Electric Blue Scrollbar */
+/* Custom Electric Orange & Blue Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -52,42 +53,84 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 168, 255, 0.35);
+  background: rgba(255, 107, 0, 0.45);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(53, 213, 255, 0.7);
+  background: rgba(255, 154, 69, 0.8);
 }
 
-/* Deep Space Background with Subtle Atmospheric Ambient Gradients */
+/* Deep Space Background with Warm Orange Horizon & Electric Blue Atmosphere */
 .ambient-glow-page {
   background-color: #030B1B;
   background-image: 
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(8, 123, 255, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 90% 40% at 75% 32%, rgba(255, 107, 0, 0.16) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 30% at 25% 52%, rgba(255, 107, 0, 0.10) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(8, 123, 255, 0.14) 0%, transparent 60%),
     radial-gradient(ellipse 60% 40% at 85% 20%, rgba(0, 168, 255, 0.12) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 30% at 90% 25%, rgba(255, 154, 69, 0.05) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 40% at 15% 45%, rgba(53, 213, 255, 0.08) 0%, transparent 55%),
-    radial-gradient(ellipse 70% 40% at 85% 70%, rgba(8, 123, 255, 0.10) 0%, transparent 60%),
-    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0, 168, 255, 0.12) 0%, transparent 60%);
+    radial-gradient(ellipse 80% 45% at 50% 92%, rgba(255, 107, 0, 0.14) 0%, transparent 60%);
 }
 
-/* Premium Glassmorphic Cards with Electric Blue Edge Glow */
+/* Subtle Warm Orange Horizon Beam */
+.horizon-beam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 107, 0, 0.35) 45%, rgba(255, 154, 69, 0.6) 50%, rgba(255, 107, 0, 0.35) 55%, transparent 100%);
+  filter: drop-shadow(0 0 12px rgba(255, 107, 0, 0.6));
+  pointer-events: none;
+}
+
+/* Premium Glassmorphic Cards with Orange & Blue Border Glow */
 .glass-panel {
   background: rgba(11, 27, 50, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 168, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-panel:hover {
-  border-color: rgba(53, 213, 255, 0.45);
-  box-shadow: 0 14px 40px -8px rgba(0, 168, 255, 0.28), 0 0 20px rgba(53, 213, 255, 0.15);
+  border-color: rgba(255, 107, 0, 0.4);
+  box-shadow: 0 14px 40px -8px rgba(255, 107, 0, 0.22), 0 0 20px rgba(0, 168, 255, 0.12);
 }
 
-/* Glowing Electric Blue Buttons */
+/* Vibrant Orange Primary Action Button (Matches Reference) */
+.btn-primary-orange {
+  background: linear-gradient(135deg, #FF6B00 0%, #FF8A00 100%);
+  color: #FFFFFF;
+  font-weight: 700;
+  box-shadow: 0 8px 24px -4px rgba(255, 107, 0, 0.45);
+  transition: all 0.25s ease;
+}
+
+.btn-primary-orange:hover {
+  background: linear-gradient(135deg, #FF7A00 0%, #FFA033 100%);
+  box-shadow: 0 12px 30px -2px rgba(255, 138, 0, 0.6);
+  transform: translateY(-2px);
+}
+
+/* Translucent Outline Dark Button */
+.btn-outline-dark {
+  background: rgba(11, 27, 50, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #F4F8FF;
+  backdrop-filter: blur(10px);
+  transition: all 0.25s ease;
+}
+
+.btn-outline-dark:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 107, 0, 0.5);
+  color: #FFFFFF;
+  box-shadow: 0 0 18px rgba(255, 107, 0, 0.25);
+  transform: translateY(-2px);
+}
+
+/* Electric Blue Button (Alternative) */
 .btn-primary-blue {
   background: linear-gradient(135deg, #087BFF 0%, #00A8FF 100%);
   color: #FFFFFF;
@@ -120,7 +163,13 @@
 
 /* Glowing text gradients */
 .text-gradient-hero {
-  background: linear-gradient(135deg, #FFFFFF 20%, #E6F0FF 45%, #00A8FF 75%, #35D5FF 100%);
+  background: linear-gradient(135deg, #FFFFFF 30%, #F4F8FF 60%, #E2E8F0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-orange {
+  background: linear-gradient(135deg, #FF6B00 0%, #FFA033 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -134,15 +183,15 @@
 /* Input Fields */
 .input-dark {
   background: rgba(7, 21, 43, 0.85);
-  border: 1px solid rgba(0, 168, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   color: #F4F8FF;
   transition: all 0.2s ease;
 }
 
 .input-dark:focus {
   outline: none;
-  border-color: #00A8FF;
-  box-shadow: 0 0 0 2px rgba(0, 168, 255, 0.35);
+  border-color: #FF6B00;
+  box-shadow: 0 0 0 2px rgba(255, 107, 0, 0.35);
   background: rgba(11, 27, 50, 0.95);
 }
 
@@ -164,7 +213,7 @@
   width: 380px;
   height: 380px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 168, 255, 0.08) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(255, 107, 0, 0.06) 0%, rgba(0, 168, 255, 0.05) 40%, transparent 70%);
   transform: translate(-50%, -50%);
   z-index: 1;
   transition: opacity 0.3s ease;
@@ -178,6 +227,6 @@
 
 .light .glass-panel {
   background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(8, 123, 255, 0.15);
-  box-shadow: 0 8px 30px rgba(8, 123, 255, 0.08);
+  border: 1px solid rgba(255, 107, 0, 0.15);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
