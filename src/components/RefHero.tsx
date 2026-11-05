@@ -46,8 +46,8 @@ export default function RefHero() {
             </p>
           </div>
 
-          {/* 3D Smartphone Canvas Placeholder */}
-          <div className="art" data-3d="phone" />
+          {/* 3D Stylized Avatar Face Canvas Placeholder */}
+          <div className="art" data-3d="face" />
         </div>
       </header>
 

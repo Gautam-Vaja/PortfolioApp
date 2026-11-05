@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { createAvatarFace } from './AvatarFaceModel';
 
 export default function ThreeCanvasOverlay() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -52,10 +53,20 @@ export default function ThreeCanvasOverlay() {
     const pmremGen = new THREE.PMREMGenerator(renderer);
     scene.environment = pmremGen.fromEquirectangular(et).texture;
 
-    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
-    const dl = new THREE.DirectionalLight(0xffffff, 1.2);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.65));
+    const dl = new THREE.DirectionalLight(0xffffff, 1.25);
     dl.position.set(300, -300, 800);
     scene.add(dl);
+
+    // Warm fill light for skin tones
+    const warmFill = new THREE.DirectionalLight(0xffb588, 0.5);
+    warmFill.position.set(-300, -200, 600);
+    scene.add(warmFill);
+
+    // Crisp rim light for hair contour & earring highlights
+    const rimLight = new THREE.DirectionalLight(0x7fe0ff, 0.7);
+    rimLight.position.set(-300, 300, -400);
+    scene.add(rimLight);
 
     const M = (c: number, m: number, r: number) =>
       new THREE.MeshStandardMaterial({
@@ -170,7 +181,9 @@ export default function ThreeCanvasOverlay() {
     };
 
     const makers: Record<string, () => THREE.Object3D> = {
-      phone: createPhone,
+      face: createAvatarFace,
+      avatar: createAvatarFace,
+      phone: createAvatarFace,
       flower: createFlower,
       knot: () => {
         const m = new THREE.Mesh(
@@ -238,18 +251,18 @@ export default function ThreeCanvasOverlay() {
           scene.add(m);
           const s = el.closest('section, header');
 
-          // For the phone in the hero, its occluding boundary is the first sheet (#about)
-          const nextBoundary =
-            key === 'phone'
-              ? aboutSheet || document.querySelector('.sheet')
-              : s
-              ? s.nextElementSibling
-              : null;
+          const isHeroTarget = key === 'phone' || key === 'face' || key === 'avatar';
+          // For the hero 3D model, its occluding boundary is the first sheet (#about)
+          const nextBoundary = isHeroTarget
+            ? aboutSheet || document.querySelector('.sheet')
+            : s
+            ? s.nextElementSibling
+            : null;
 
           items.push({
             el,
             m,
-            ph: key === 'phone',
+            ph: isHeroTarget,
             nx: nextBoundary,
             par: Number(el.dataset.par) || 0,
           });
@@ -312,9 +325,30 @@ export default function ThreeCanvasOverlay() {
         o.m.scale.setScalar(Math.max(s, 0.001));
 
         if (o.ph) {
-          o.m.rotation.y = -0.35 + mouseX * 0.9 + Math.sin(t * 0.8) * 0.3;
-          o.m.rotation.x = mouseY * 0.35;
-          o.m.rotation.z = -0.08;
+          if (o.m.userData.isAvatar) {
+            o.m.rotation.y = -0.12 + mouseX * 0.85 + Math.sin(t * 0.9) * 0.04;
+            o.m.rotation.x = -mouseY * 0.45 + Math.cos(t * 0.7) * 0.03;
+            o.m.rotation.z = mouseX * -0.12;
+
+            if (o.m.userData.leftPupil && o.m.userData.rightPupil) {
+              const px = Math.max(-0.06, Math.min(0.06, mouseX * 0.08));
+              const py = Math.max(-0.05, Math.min(0.05, -mouseY * 0.06));
+              o.m.userData.leftPupil.position.x = -0.35 + px;
+              o.m.userData.leftPupil.position.y = 0.02 + py;
+              o.m.userData.rightPupil.position.x = 0.35 + px;
+              o.m.userData.rightPupil.position.y = 0.02 + py;
+            }
+
+            if (o.m.userData.leftEarring && o.m.userData.rightEarring) {
+              const swing = Math.sin(t * 2.2) * 0.06 + mouseX * 0.1;
+              o.m.userData.leftEarring.rotation.z = swing;
+              o.m.userData.rightEarring.rotation.z = -swing;
+            }
+          } else {
+            o.m.rotation.y = -0.35 + mouseX * 0.9 + Math.sin(t * 0.8) * 0.3;
+            o.m.rotation.x = mouseY * 0.35;
+            o.m.rotation.z = -0.08;
+          }
         } else {
           o.m.rotation.y = t * 0.6 + i;
           o.m.rotation.x = t * 0.4 + mouseX;
