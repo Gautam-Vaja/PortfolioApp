@@ -394,3 +394,4 @@ export function createAvatarFace(): THREE.Group {
 
   return root;
 }
+

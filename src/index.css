@@ -1010,52 +1010,149 @@ h1.hero-h1 {
    12. RESPONSIVE BREAKPOINTS
    ======================================================== */
 @media (max-width: 820px) {
-  nav.ref-nav a.x {
+  nav.ref-nav {
+    padding: calc(12px + env(safe-area-inset-top, 0px)) 4vw 12px;
+    font-size: clamp(10px, 2.5vw, 12px);
+    gap: 10px;
+    justify-content: space-between;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  nav.ref-nav::-webkit-scrollbar {
     display: none;
   }
+  nav.ref-nav a {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Pinned About section maintains silky sticky animation on mobile */
   .pin {
-    height: auto;
+    height: 250vh;
   }
   .st {
-    position: static;
-    height: auto;
-    padding: 60px 6vw;
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    height: 100dvh;
+    padding: calc(64px + env(safe-area-inset-top, 0px)) 5vw 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .hd {
+    font-size: clamp(38px, 11vw, 70px);
+  }
+  .txt {
+    max-width: 100%;
+    margin-top: 14px;
+  }
+  .txt p {
+    font-size: clamp(12.5px, 3.4vw, 15px);
+    margin-bottom: 8px;
+    line-height: 1.45;
+  }
+  .txt p.l {
+    font-size: clamp(14px, 4vw, 17px);
+    line-height: 1.35;
+  }
+  .stats {
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .stats div {
+    padding: 6px 14px;
+  }
+  .stats b {
+    font-size: 18px;
+  }
+  .stats span {
+    font-size: 10px;
   }
   .fl {
-    opacity: .9;
+    width: min(18vw, 76px);
+    opacity: 0.85;
   }
+
   .ct {
     grid-template-columns: 1fr;
+    gap: 28px;
   }
   .row {
-    grid-template-columns: 70px 1fr;
+    grid-template-columns: 60px 1fr;
+    gap: 14px 20px;
   }
   .row p {
     grid-column: 1 / -1;
+    font-size: 13.5px;
+  }
+
+  /* Projects cards stack sticky on mobile identical to laptop */
+  .stk .pj {
+    position: sticky;
+    top: calc(56px + var(--i) * 26px);
+    padding: 18px 16px 22px;
+    border-radius: 26px;
+    margin-bottom: 24px;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.75), 0 16px 32px rgba(0, 0, 0, 0.6);
+  }
+  .ph .n {
+    font-size: 30px;
+    margin-right: 8px;
+  }
+  .ph strong {
+    font-size: 15px;
   }
   .mk {
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    padding: 14px 14px 0;
+    gap: 10px;
+    padding: 12px 12px 0;
+    border-radius: 20px;
   }
   .mk .f:nth-child(3) {
     display: none;
   }
   .pd {
     grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 14px;
+    font-size: 13px;
   }
+
   .bx {
     grid-column: span 6;
+    padding: 22px 20px;
+    border-radius: 26px;
   }
-  .stk .pj {
-    position: relative;
-    top: 0;
+  .bx h3 {
+    font-size: 22px;
   }
+  .bx .d {
+    font-size: 12px;
+  }
+  .bx ul {
+    padding-left: 16px;
+    font-size: 13px;
+  }
+
   .art {
-    height: 44vh;
+    height: min(46vh, 400px);
+    margin-top: 6px;
+  }
+  .logos {
+    padding: 6px 4vw 24px;
+    gap: 12px;
+    justify-content: center;
+    font-size: clamp(14px, 3.5vw, 18px);
+  }
+  .ft .nm {
+    font-size: clamp(48px, 14vw, 120px);
   }
   .cols {
     justify-content: flex-start;
+    gap: 36px;
   }
 }
 

@@ -57,7 +57,7 @@ export default function RefNavbar({ onOpenResume }: RefNavbarProps) {
         <button
           type="button"
           onClick={onOpenResume}
-          className="hidden sm:inline-block border-0 bg-transparent text-white uppercase font-extrabold text-[12px] tracking-[.14em] cursor-pointer hover:opacity-60 transition-opacity"
+          className="border-0 bg-transparent text-white uppercase font-extrabold text-[10px] sm:text-[12px] tracking-[.1em] sm:tracking-[.14em] cursor-pointer hover:opacity-60 transition-opacity whitespace-nowrap flex-shrink-0"
         >
           Resume (CV)
         </button>

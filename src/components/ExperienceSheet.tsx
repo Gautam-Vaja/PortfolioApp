@@ -28,13 +28,15 @@ export default function ExperienceSheet() {
 
     // Scroll-driven horizontal drift
     const handleScroll = () => {
-      if (calm || window.innerWidth <= 820) return;
+      if (calm) return;
       const H = window.innerHeight;
+      const isMobile = window.innerWidth <= 820;
       const driftEls = document.querySelectorAll<HTMLElement>('#exp [data-dr]');
       driftEls.forEach((e) => {
         const r = e.getBoundingClientRect();
         const dr = Number(e.dataset.dr) || 1;
-        const xOffset = (H / 2 - (r.top + r.height / 2)) * 0.08 * dr;
+        const factor = isMobile ? 0.035 : 0.08;
+        const xOffset = (H / 2 - (r.top + r.height / 2)) * factor * dr;
         e.style.transform = `translate3d(${xOffset}px, 0, 0)`;
       });
     };

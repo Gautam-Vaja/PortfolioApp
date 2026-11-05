@@ -274,24 +274,60 @@ export default function ThreeCanvasOverlay() {
     const timer = setTimeout(setupItems, 80);
 
     const fit = () => {
-      renderer.setSize(window.innerWidth, window.innerHeight, false);
+      const W = window.innerWidth;
+      const H = window.innerHeight;
+      renderer.setSize(W, H, false);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       camera.left = 0;
-      camera.right = window.innerWidth;
+      camera.right = W;
       camera.top = 0;
-      camera.bottom = -window.innerHeight;
+      camera.bottom = -H;
       camera.updateProjectionMatrix();
     };
 
     window.addEventListener('resize', fit);
+    window.addEventListener('orientationchange', fit);
     fit();
 
     let mouseX = 0;
     let mouseY = 0;
+    let targetMouseX = 0;
+    let targetMouseY = 0;
+    let lastInputTime = performance.now();
+
     const onMouseMove = (e: MouseEvent) => {
-      mouseX = e.clientX / window.innerWidth - 0.5;
-      mouseY = e.clientY / window.innerHeight - 0.5;
+      targetMouseX = e.clientX / window.innerWidth - 0.5;
+      targetMouseY = e.clientY / window.innerHeight - 0.5;
+      lastInputTime = performance.now();
     };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches && e.touches.length > 0) {
+        const touch = e.touches[0];
+        targetMouseX = touch.clientX / window.innerWidth - 0.5;
+        targetMouseY = touch.clientY / window.innerHeight - 0.5;
+        lastInputTime = performance.now();
+      }
+    };
+
+    const onOrientation = (e: DeviceOrientationEvent) => {
+      if (e.gamma !== null && e.beta !== null) {
+        // gamma: left-to-right tilt (-90 to 90)
+        // beta: front-to-back tilt (-180 to 180, normal reading angle is ~45deg)
+        const tiltX = Math.max(-0.8, Math.min(0.8, e.gamma / 35));
+        const tiltY = Math.max(-0.8, Math.min(0.8, (e.beta - 45) / 35));
+        targetMouseX = targetMouseX * 0.4 + tiltX * 0.5;
+        targetMouseY = targetMouseY * 0.4 + tiltY * 0.5;
+        lastInputTime = performance.now();
+      }
+    };
+
     window.addEventListener('mousemove', onMouseMove, { passive: true });
+    window.addEventListener('touchstart', onTouchMove, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+    if (typeof window !== 'undefined' && 'DeviceOrientationEvent' in window) {
+      window.addEventListener('deviceorientation', onOrientation, { passive: true });
+    }
 
     const cl = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
     const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -302,6 +338,19 @@ export default function ThreeCanvasOverlay() {
       animId = requestAnimationFrame(renderLoop);
       const H = window.innerHeight;
       const t = calm ? 9 : (performance.now() - t0) / 1000;
+
+      // Autonomic life simulation for mobile and desktop when idle
+      const timeSinceInput = (performance.now() - lastInputTime) / 1000;
+      if (timeSinceInput > 2.0 && !calm) {
+        const idleX = Math.sin(t * 0.75) * 0.18 + Math.sin(t * 1.5) * 0.06;
+        const idleY = Math.cos(t * 0.55) * 0.12;
+        targetMouseX += (idleX - targetMouseX) * 0.04;
+        targetMouseY += (idleY - targetMouseY) * 0.04;
+      }
+
+      // Smooth lag dampening
+      mouseX += (targetMouseX - mouseX) * 0.1;
+      mouseY += (targetMouseY - mouseY) * 0.1;
 
       items.forEach((o, i) => {
         const r = o.el.getBoundingClientRect();
@@ -364,7 +413,13 @@ export default function ThreeCanvasOverlay() {
       clearTimeout(timer);
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', fit);
+      window.removeEventListener('orientationchange', fit);
       window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('touchstart', onTouchMove);
+      window.removeEventListener('touchmove', onTouchMove);
+      if (typeof window !== 'undefined' && 'DeviceOrientationEvent' in window) {
+        window.removeEventListener('deviceorientation', onOrientation);
+      }
       renderer.dispose();
       pmremGen.dispose();
       items.forEach((it) => {

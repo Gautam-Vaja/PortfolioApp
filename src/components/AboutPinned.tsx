@@ -39,9 +39,9 @@ export default function AboutPinned() {
       const H = window.innerHeight;
       let p = 1;
 
-      if (!isMobile() && !calm) {
+      if (!calm) {
         const r = pin.getBoundingClientRect();
-        p = cl(-r.top / (r.height - H));
+        p = cl(-r.top / Math.max(1, r.height - H));
       }
 
       // Clip path reveal on stroked heading
@@ -56,11 +56,13 @@ export default function AboutPinned() {
       // Stats appearance toggle
       setStatsOn(p > 0.82);
 
-      // Parallax on floating 3D anchors
+      // Parallax on floating 3D anchors (scaled gracefully for mobile)
       fls.forEach((e) => {
-        if (isMobile() || calm) return;
+        if (calm) return;
         const par = Number(e.dataset.par) || 1;
-        e.style.transform = `translate(${(p - 0.5) * 60 * par}px, ${(0.5 - p) * 120}px)`;
+        const factor = isMobile() ? 28 : 60;
+        const yFactor = isMobile() ? 50 : 120;
+        e.style.transform = `translate(${(p - 0.5) * factor * par}px, ${(0.5 - p) * yFactor}px)`;
       });
     };
 
