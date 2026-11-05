@@ -17,6 +17,65 @@ const TECH_LIST = [
   'Swift',
 ];
 
+const TECH_THEME: Record<string, { bg: string; border: string }> = {
+  Flutter: {
+    bg: 'radial-gradient(circle at 50% 30%, rgba(41, 182, 246, 0.22), #0d0e14 75%)',
+    border: 'rgba(41, 182, 246, 0.3)',
+  },
+  Dart: {
+    bg: 'radial-gradient(circle at 50% 30%, rgba(1, 117, 194, 0.22), #0d0e14 75%)',
+    border: 'rgba(1, 117, 194, 0.3)',
+  },
+  Firebase: {
+    bg: 'radial-gradient(circle at 50% 30%, rgba(255, 160, 0, 0.22), #0d0e14 75%)',
+    border: 'rgba(255, 160, 0, 0.3)',
+  },
+  SQLite: {
+    bg: 'radial-gradient(circle at 50% 30%, rgba(15, 128, 204, 0.22), #0d0e14 75%)',
+    border: 'rgba(15, 128, 204, 0.3)',
+  },
+  GetX: {
+    bg: 'radial-gradient(circle at 50% 30%, rgba(124, 77, 255, 0.22), #0d0e14 75%)',
+    border: 'rgba(124, 77, 255, 0.3)',
+  },
+  'REST API': {
+    bg: 'radial-gradient(circle at 50% 30%, rgba(38, 198, 218, 0.22), #0d0e14 75%)',
+    border: 'rgba(38, 198, 218, 0.3)',
+  },
+  Dio: {
+    bg: 'radial-gradient(circle at 50% 30%, rgba(30, 136, 229, 0.22), #0d0e14 75%)',
+    border: 'rgba(30, 136, 229, 0.3)',
+  },
+  Git: {
+    bg: 'radial-gradient(circle at 50% 30%, rgba(244, 81, 30, 0.22), #0d0e14 75%)',
+    border: 'rgba(244, 81, 30, 0.3)',
+  },
+  GitHub: {
+    bg: 'radial-gradient(circle at 50% 30%, rgba(139, 92, 246, 0.22), #0d0e14 75%)',
+    border: 'rgba(139, 92, 246, 0.3)',
+  },
+  GitLab: {
+    bg: 'radial-gradient(circle at 50% 30%, rgba(252, 109, 38, 0.22), #0d0e14 75%)',
+    border: 'rgba(252, 109, 38, 0.3)',
+  },
+  Postman: {
+    bg: 'radial-gradient(circle at 50% 30%, rgba(255, 108, 55, 0.22), #0d0e14 75%)',
+    border: 'rgba(255, 108, 55, 0.3)',
+  },
+  Java: {
+    bg: 'radial-gradient(circle at 50% 30%, rgba(231, 111, 0, 0.22), #0d0e14 75%)',
+    border: 'rgba(231, 111, 0, 0.3)',
+  },
+  Python: {
+    bg: 'radial-gradient(circle at 50% 30%, rgba(55, 118, 171, 0.22), #0d0e14 75%)',
+    border: 'rgba(55, 118, 171, 0.3)',
+  },
+  Swift: {
+    bg: 'radial-gradient(circle at 50% 30%, rgba(240, 81, 56, 0.22), #0d0e14 75%)',
+    border: 'rgba(240, 81, 56, 0.3)',
+  },
+};
+
 const ICONS: Record<string, React.ReactNode> = {
   Flutter: (
     <svg viewBox="0 0 48 48" aria-hidden="true">
@@ -199,26 +258,42 @@ export default function TechMarquee() {
   const galRef = useRef<HTMLDivElement>(null);
   const r1Ref = useRef<HTMLDivElement>(null);
   const r2Ref = useRef<HTMLDivElement>(null);
-  const offsetRef = useRef<number>(0);
+
+  const offset1Ref = useRef<number>(0);
+  const offset2Ref = useRef<number>(0);
+  const lastScrollYRef = useRef<number>(0);
 
   useEffect(() => {
     let animId: number;
 
     const render = () => {
-      const gal = galRef.current;
       const r1 = r1Ref.current;
       const r2 = r2Ref.current;
 
-      if (gal && r1 && r2) {
-        // Continuous ambient conveyor motion (0.5px/frame)
-        offsetRef.current += 0.55;
+      if (r1 && r2) {
+        // Measure the width of one complete set of 14 items
+        // Each row has 4 duplicated sets, so singleSetWidth = scrollWidth / 4
+        const singleSetWidth1 = r1.scrollWidth > 0 ? r1.scrollWidth / 4 : 3200;
+        const singleSetWidth2 = r2.scrollWidth > 0 ? r2.scrollWidth / 4 : 3200;
 
-        const H = window.innerHeight;
-        const g = H - gal.getBoundingClientRect().top;
-        const scrollOffset = g * 0.45;
+        // Calculate scroll velocity
+        const currentScrollY = window.scrollY;
+        const scrollDelta = Math.abs(currentScrollY - lastScrollYRef.current);
+        lastScrollYRef.current = currentScrollY;
 
-        const x1 = -((scrollOffset + offsetRef.current) % 1800);
-        const x2 = (scrollOffset - 900 + offsetRef.current * 0.75) % 1800;
+        const dynamicSpeed = 0.75 + Math.min(scrollDelta * 0.15, 6.0);
+
+        // Advance offsets
+        offset1Ref.current = (offset1Ref.current + dynamicSpeed) % singleSetWidth1;
+        offset2Ref.current = (offset2Ref.current + dynamicSpeed * 0.9) % singleSetWidth2;
+
+        // Row 1 moves left continuously:
+        const x1 = -offset1Ref.current;
+
+        // Row 2 is staggered by half a card width (~120px) and moves right continuously with NO gaps:
+        // By translating from -singleSetWidth + offset2 - 120, Row 2 is completely gapless on both sides
+        const staggerOffset = 125;
+        const x2 = -singleSetWidth2 + offset2Ref.current - staggerOffset;
 
         r1.style.transform = `translate3d(${x1}px, 0, 0)`;
         r2.style.transform = `translate3d(${x2}px, 0, 0)`;
@@ -234,26 +309,58 @@ export default function TechMarquee() {
 
   const reversedList = [...TECH_LIST].reverse();
 
+  // Repeat each list 4 times so there are plenty of cards on both sides of any screen resolution
+  const r1List = [...TECH_LIST, ...TECH_LIST, ...TECH_LIST, ...TECH_LIST];
+  const r2List = [...reversedList, ...reversedList, ...reversedList, ...reversedList];
+
   return (
     <div className="gal" id="gal" ref={galRef} aria-hidden="true">
-      {/* Row 1 */}
+      {/* Row 1 (Moving Left) */}
       <div className="rw" id="r1" ref={r1Ref}>
-        {TECH_LIST.concat(TECH_LIST).concat(TECH_LIST).map((tech, idx) => (
-          <div key={`r1-${tech}-${idx}`} className="tl">
-            {ICONS[tech] || null}
-            <span>{tech}</span>
-          </div>
-        ))}
+        {r1List.map((tech, idx) => {
+          const theme = TECH_THEME[tech] || {
+            bg: '#0d0e14',
+            border: 'rgba(255, 255, 255, 0.16)',
+          };
+
+          return (
+            <div
+              key={`r1-${tech}-${idx}`}
+              className="tl"
+              style={{
+                background: theme.bg,
+                borderColor: theme.border,
+              }}
+            >
+              {ICONS[tech] || null}
+              <span>{tech}</span>
+            </div>
+          );
+        })}
       </div>
 
-      {/* Row 2 (Reversed) */}
+      {/* Row 2 (Moving Right, Staggered Brick Layout) */}
       <div className="rw" id="r2" ref={r2Ref}>
-        {reversedList.concat(reversedList).concat(reversedList).map((tech, idx) => (
-          <div key={`r2-${tech}-${idx}`} className="tl">
-            {ICONS[tech] || null}
-            <span>{tech}</span>
-          </div>
-        ))}
+        {r2List.map((tech, idx) => {
+          const theme = TECH_THEME[tech] || {
+            bg: '#0d0e14',
+            border: 'rgba(255, 255, 255, 0.16)',
+          };
+
+          return (
+            <div
+              key={`r2-${tech}-${idx}`}
+              className="tl"
+              style={{
+                background: theme.bg,
+                borderColor: theme.border,
+              }}
+            >
+              {ICONS[tech] || null}
+              <span>{tech}</span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

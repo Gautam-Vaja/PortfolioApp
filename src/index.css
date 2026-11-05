@@ -246,18 +246,42 @@ h1.hero-h1 {
 .gal {
   overflow: hidden;
   padding: 10px 0 130px;
+  position: relative;
+  width: 100vw;
+  max-width: 100%;
+}
+
+.gal::before,
+.gal::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 90px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.gal::before {
+  left: 0;
+  background: linear-gradient(to right, var(--k) 15%, transparent);
+}
+
+.gal::after {
+  right: 0;
+  background: linear-gradient(to left, var(--k) 15%, transparent);
 }
 
 .rw {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   width: max-content;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   will-change: transform;
 }
 
 .tl {
-  width: clamp(150px, 17vw, 250px);
+  width: clamp(160px, 18vw, 250px);
   aspect-ratio: 1.45;
   border-radius: 26px;
   display: flex;
@@ -267,16 +291,27 @@ h1.hero-h1 {
   gap: 10px;
   background: #0d0e14;
   border: 1px solid rgba(255, 255, 255, .16);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, .15), 0 10px 24px rgba(0, 0, 0, .45);
   font: 400 clamp(14px, 1.5vw, 19px) Anton, Impact, sans-serif;
   letter-spacing: .06em;
   text-transform: uppercase;
   color: #c9cde0;
   user-select: none;
+  flex-shrink: 0;
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  position: relative;
+}
+
+.tl:hover {
+  transform: translateY(-4px) scale(1.025);
+  border-color: rgba(255, 255, 255, .4);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, .25), 0 16px 32px rgba(0, 0, 0, .6);
 }
 
 .tl svg {
   width: clamp(40px, 4.6vw, 62px);
   height: auto;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
 }
 
 /* ========================================================
