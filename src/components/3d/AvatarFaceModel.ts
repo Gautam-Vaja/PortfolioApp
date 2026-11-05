@@ -63,75 +63,13 @@ export function createAvatarFace(): THREE.Group {
   headPivot.add(faceMesh);
 
   // ---------------------------------------------------------
-  // 3. Multi-Layer Parallax Glowing Neon Halo Ring
-  // ---------------------------------------------------------
-  // Glowing cyber gradient ring behind the head
-  const ringGeom = new THREE.TorusGeometry(1.65, 0.038, 16, 72);
-  const ringMat = new THREE.MeshStandardMaterial({
-    color: 0x8b5cff,
-    emissive: 0xff3d9a,
-    emissiveIntensity: 0.7,
-    roughness: 0.2,
-    metalness: 0.6,
-  });
-  const halo = new THREE.Mesh(ringGeom, ringMat);
-  halo.position.set(0, 0, -0.22);
-  headPivot.add(halo);
-
-  // Secondary outer thin accent ring
-  const outerRingGeom = new THREE.TorusGeometry(1.78, 0.016, 12, 64);
-  const outerRingMat = new THREE.MeshStandardMaterial({
-    color: 0x35d5ff,
-    emissive: 0x35d5ff,
-    emissiveIntensity: 0.5,
-    roughness: 0.1,
-    metalness: 0.8,
-  });
-  const outerHalo = new THREE.Mesh(outerRingGeom, outerRingMat);
-  outerHalo.position.set(0, 0, -0.26);
-  headPivot.add(outerHalo);
-
-  // ---------------------------------------------------------
-  // 4. Floating 3D Ambient Dust Embers (Cyan & Gold)
-  // ---------------------------------------------------------
-  const particleCount = 28;
-  const particlePositions = new Float32Array(particleCount * 3);
-  for (let i = 0; i < particleCount; i++) {
-    const angle = Math.random() * Math.PI * 2;
-    const radius = 1.35 + Math.random() * 0.9;
-    particlePositions[i * 3] = Math.cos(angle) * radius;
-    particlePositions[i * 3 + 1] = Math.sin(angle) * radius * 0.95;
-    particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 0.8;
-  }
-
-  const particleGeom = new THREE.BufferGeometry();
-  particleGeom.setAttribute(
-    'position',
-    new THREE.BufferAttribute(particlePositions, 3)
-  );
-
-  const particleMat = new THREE.PointsMaterial({
-    color: 0xffa045,
-    size: 0.055,
-    transparent: true,
-    opacity: 0.75,
-    blending: THREE.AdditiveBlending,
-  });
-
-  const particles = new THREE.Points(particleGeom, particleMat);
-  headPivot.add(particles);
-
-  // ---------------------------------------------------------
-  // 5. Rig Metadata for the Animation Render Loop
+  // 3. Rig Metadata for the Animation Render Loop
   // ---------------------------------------------------------
   root.userData = {
     h: 3.35,
     isAvatar: true,
     headPivot,
     faceMesh,
-    halo,
-    outerHalo,
-    particles,
   };
 
   return root;

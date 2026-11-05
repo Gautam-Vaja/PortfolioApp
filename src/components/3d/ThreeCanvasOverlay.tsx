@@ -379,16 +379,6 @@ export default function ThreeCanvasOverlay() {
             o.m.rotation.y = -0.08 + mouseX * 0.85 + Math.sin(t * 0.9) * 0.04;
             o.m.rotation.x = -mouseY * 0.45 + Math.cos(t * 0.7) * 0.03;
             o.m.rotation.z = mouseX * -0.1;
-
-            if (o.m.userData.halo) {
-              o.m.userData.halo.rotation.z = t * 0.25;
-            }
-            if (o.m.userData.outerHalo) {
-              o.m.userData.outerHalo.rotation.z = -t * 0.18;
-            }
-            if (o.m.userData.particles) {
-              o.m.userData.particles.rotation.y = t * 0.2;
-            }
           } else {
             o.m.rotation.y = -0.35 + mouseX * 0.9 + Math.sin(t * 0.8) * 0.3;
             o.m.rotation.x = mouseY * 0.35;
