@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { scrollToTarget } from '../hooks/useSmoothScroll';
 
 export default function RefHero() {
   const h1Ref = useRef<HTMLHeadingElement>(null);
@@ -45,16 +44,6 @@ export default function RefHero() {
               Flutter Developer passionate about crafting fast, polished and
               memorable mobile apps
             </p>
-            <a
-              className="pill"
-              href="#contact"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToTarget('#contact');
-              }}
-            >
-              Contact me
-            </a>
           </div>
 
           {/* 3D Smartphone Canvas Placeholder */}
