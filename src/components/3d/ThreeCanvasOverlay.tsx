@@ -18,6 +18,8 @@ export default function ThreeCanvasOverlay() {
         powerPreference: 'high-performance',
       });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 0.95;
     } catch (e) {
       console.warn('WebGL initialization failed', e);
       return;
@@ -53,18 +55,21 @@ export default function ThreeCanvasOverlay() {
     const pmremGen = new THREE.PMREMGenerator(renderer);
     scene.environment = pmremGen.fromEquirectangular(et).texture;
 
-    scene.add(new THREE.AmbientLight(0xffffff, 0.65));
-    const dl = new THREE.DirectionalLight(0xffffff, 1.25);
+    // Balanced ambient light with natural warm white color
+    scene.add(new THREE.AmbientLight(0xfff6ee, 0.75));
+
+    // Soft key directional light (calibrated to prevent harsh white glare)
+    const dl = new THREE.DirectionalLight(0xffeedd, 0.45);
     dl.position.set(300, -300, 800);
     scene.add(dl);
 
-    // Warm fill light for skin tones
-    const warmFill = new THREE.DirectionalLight(0xffb588, 0.5);
+    // Subtle warm fill light for natural skin depth
+    const warmFill = new THREE.DirectionalLight(0xffcaa8, 0.22);
     warmFill.position.set(-300, -200, 600);
     scene.add(warmFill);
 
-    // Crisp rim light for hair contour & earring highlights
-    const rimLight = new THREE.DirectionalLight(0x7fe0ff, 0.7);
+    // Soft cyan rim light for hair contour
+    const rimLight = new THREE.DirectionalLight(0x88e0ff, 0.28);
     rimLight.position.set(-300, 300, -400);
     scene.add(rimLight);
 

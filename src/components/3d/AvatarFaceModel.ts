@@ -48,14 +48,15 @@ export function createAvatarFace(): THREE.Group {
   }
   geom.computeVertexNormals();
 
-  // Material with soft cartoon lighting and subtle environment sheen
+  // Realistic matte material with velvety skin scattering and zero harsh white shine
   const faceMat = new THREE.MeshStandardMaterial({
     map: avatarTexture,
     transparent: true,
     alphaTest: 0.02,
-    roughness: 0.38,
-    metalness: 0.1,
-    envMapIntensity: 1.15,
+    roughness: 0.82,
+    metalness: 0.0,
+    envMapIntensity: 0.18,
+    color: 0xeeeeee,
     side: THREE.DoubleSide,
   });
 
