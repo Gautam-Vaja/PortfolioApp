@@ -375,23 +375,19 @@ export default function ThreeCanvasOverlay() {
 
         if (o.ph) {
           if (o.m.userData.isAvatar) {
-            o.m.rotation.y = -0.12 + mouseX * 0.85 + Math.sin(t * 0.9) * 0.04;
+            // Smooth 3D tilt following cursor / touch / gyroscope
+            o.m.rotation.y = -0.08 + mouseX * 0.85 + Math.sin(t * 0.9) * 0.04;
             o.m.rotation.x = -mouseY * 0.45 + Math.cos(t * 0.7) * 0.03;
-            o.m.rotation.z = mouseX * -0.12;
+            o.m.rotation.z = mouseX * -0.1;
 
-            if (o.m.userData.leftPupil && o.m.userData.rightPupil) {
-              const px = Math.max(-0.06, Math.min(0.06, mouseX * 0.08));
-              const py = Math.max(-0.05, Math.min(0.05, -mouseY * 0.06));
-              o.m.userData.leftPupil.position.x = -0.35 + px;
-              o.m.userData.leftPupil.position.y = 0.02 + py;
-              o.m.userData.rightPupil.position.x = 0.35 + px;
-              o.m.userData.rightPupil.position.y = 0.02 + py;
+            if (o.m.userData.halo) {
+              o.m.userData.halo.rotation.z = t * 0.25;
             }
-
-            if (o.m.userData.leftEarring && o.m.userData.rightEarring) {
-              const swing = Math.sin(t * 2.2) * 0.06 + mouseX * 0.1;
-              o.m.userData.leftEarring.rotation.z = swing;
-              o.m.userData.rightEarring.rotation.z = -swing;
+            if (o.m.userData.outerHalo) {
+              o.m.userData.outerHalo.rotation.z = -t * 0.18;
+            }
+            if (o.m.userData.particles) {
+              o.m.userData.particles.rotation.y = t * 0.2;
             }
           } else {
             o.m.rotation.y = -0.35 + mouseX * 0.9 + Math.sin(t * 0.8) * 0.3;
