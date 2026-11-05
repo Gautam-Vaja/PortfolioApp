@@ -195,13 +195,14 @@ h1.hero-h1 {
 }
 
 .hrow p {
-  max-width: 340px;
+  max-width: 440px;
   margin: 0;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: .1em;
   text-transform: uppercase;
   color: #c9cde0;
+  line-height: 1.6;
 }
 
 .out {
@@ -224,8 +225,11 @@ h1.hero-h1 {
 }
 
 .art {
-  height: min(54vh, 500px);
-  margin-top: -1vw;
+  height: min(68vh, 650px);
+  margin-top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .logos {
@@ -1138,8 +1142,8 @@ h1.hero-h1 {
   }
 
   .art {
-    height: min(46vh, 400px);
-    margin-top: 6px;
+    height: min(54vh, 480px);
+    margin-top: 8px;
   }
   .logos {
     padding: 6px 4vw 24px;

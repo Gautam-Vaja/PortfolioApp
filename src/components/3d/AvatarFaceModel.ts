@@ -25,7 +25,7 @@ export function createAvatarFace(): THREE.Group {
   // ---------------------------------------------------------
   // By sculpting the plane with smooth anatomical 3D dome curvature,
   // the face gains real volumetric depth when tilting in 3D perspective.
-  const geom = new THREE.PlaneGeometry(3.35, 3.35, 48, 48);
+  const geom = new THREE.PlaneGeometry(4.2, 4.2, 48, 48);
   const pos = geom.attributes.position;
 
   for (let i = 0; i < pos.count; i++) {
@@ -33,17 +33,17 @@ export function createAvatarFace(): THREE.Group {
     const y = pos.getY(i);
 
     // Normalized coordinates from center (-1 to 1)
-    const nx = x / 1.6;
-    const ny = y / 1.6;
+    const nx = x / 2.0;
+    const ny = y / 2.0;
     const distSq = nx * nx + ny * ny;
 
     if (distSq < 1.0) {
       // Smooth spherical falloff bulging nose & face center forward
-      const bulge = Math.pow(1.0 - distSq, 1.2) * 0.36;
+      const bulge = Math.pow(1.0 - distSq, 1.2) * 0.45;
       pos.setZ(i, bulge);
     } else {
       // Ears and edges curve back into 3D space
-      pos.setZ(i, -0.06);
+      pos.setZ(i, -0.08);
     }
   }
   geom.computeVertexNormals();
@@ -66,7 +66,7 @@ export function createAvatarFace(): THREE.Group {
   // 3. Rig Metadata for the Animation Render Loop
   // ---------------------------------------------------------
   root.userData = {
-    h: 3.35,
+    h: 2.85,
     isAvatar: true,
     headPivot,
     faceMesh,
