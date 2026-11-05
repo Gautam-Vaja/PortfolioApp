@@ -76,6 +76,7 @@ export default function SkillsSheet() {
               <div className="n">0{idx + 1}</div>
               <h3>{title}</h3>
               <p>{desc}</p>
+              <span className="arr" aria-hidden="true">→</span>
             </div>
           ))}
         </div>

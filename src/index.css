@@ -461,42 +461,134 @@ h1.hero-h1 {
 }
 
 /* ========================================================
-   7. SKILLS ROWS
+   7. SKILLS ROWS WITH INTERACTIVE HOVER & KINETIC ENTRY
    ======================================================== */
 .row {
   display: grid;
-  grid-template-columns: 110px 1fr 1.3fr;
+  grid-template-columns: 110px 1fr 1.3fr auto;
   gap: 20px 30px;
-  align-items: start;
-  padding: 30px 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--lfg) 22%, transparent);
+  align-items: center;
+  padding: 30px 24px;
+  margin: 0 -24px;
+  border-radius: 24px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.3s ease,
+              box-shadow 0.3s ease;
+  user-select: none;
+}
+
+/* Dividing line with soft opacity */
+.row::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 24px;
+  right: 24px;
+  height: 1px;
+  background: color-mix(in srgb, var(--lfg) 20%, transparent);
+  transition: opacity 0.3s ease;
+}
+
+/* Glowing gradient accent bar that expands on hover */
+.row::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 24px;
+  right: 24px;
+  height: 2.5px;
+  background: var(--g);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 2px;
+}
+
+.row:hover {
+  background: color-mix(in srgb, var(--lfg) 4%, transparent);
+  transform: translateX(12px);
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.06);
+}
+
+.row:hover::before {
+  opacity: 0;
+}
+
+.row:hover::after {
+  transform: scaleX(1);
 }
 
 .row .n {
   font: 400 clamp(44px, 6vw, 72px) Anton, Impact, sans-serif;
   line-height: .9;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+}
+
+.row:hover .n {
+  transform: scale(1.1) translateX(4px);
+  background: var(--g);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .row h3 {
   font-size: clamp(24px, 3vw, 38px);
+  margin: 0;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+}
+
+.row:hover h3 {
+  transform: translateX(4px);
+  color: #ff3d9a;
+}
+.lt .row:hover h3 {
+  color: #8b5cff;
 }
 
 .row p {
   margin: 0;
-  opacity: .75;
+  opacity: .72;
+  font-size: 14.5px;
+  line-height: 1.6;
+  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.row:hover p {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+.row .arr {
+  font-size: 26px;
+  font-weight: 700;
+  opacity: 0;
+  transform: translateX(-12px);
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #8b5cff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.row:hover .arr {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .rv {
   opacity: 0;
-  filter: blur(10px);
-  transform: translateY(40px);
-  transition: opacity .8s, filter .8s, transform .8s cubic-bezier(.2, .8, .2, 1);
+  transform: translateY(32px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
 .rv.in {
   opacity: 1;
-  filter: none;
-  transform: none;
+  transform: translateY(0);
 }
 
 /* ========================================================
@@ -1085,12 +1177,38 @@ h1.hero-h1 {
     gap: 28px;
   }
   .row {
-    grid-template-columns: 60px 1fr;
-    gap: 14px 20px;
+    grid-template-columns: 50px 1fr auto;
+    gap: 10px 16px;
+    padding: 22px 14px;
+    margin: 0 -14px;
+    align-items: center;
+  }
+  .row .n {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: clamp(34px, 8vw, 44px);
+  }
+  .row h3 {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: clamp(20px, 4.8vw, 24px);
+  }
+  .row .arr {
+    grid-column: 3;
+    grid-row: 1;
+    opacity: 0.7;
+    transform: none;
+    font-size: 20px;
   }
   .row p {
     grid-column: 1 / -1;
+    grid-row: 2;
     font-size: 13.5px;
+    line-height: 1.5;
+  }
+  .row:active {
+    background: color-mix(in srgb, var(--lfg) 6%, transparent);
+    transform: translateX(4px);
   }
 
   /* Projects cards stack sticky on mobile identical to laptop */
