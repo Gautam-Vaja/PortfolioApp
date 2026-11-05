@@ -12,23 +12,18 @@ import FooterSheet from './components/FooterSheet';
 import ProjectDetailModal from './components/ProjectDetailModal';
 import ResumeModal from './components/ResumeModal';
 import CustomCursor from './components/ui/CustomCursor';
-import CinematicPreloader from './components/ui/CinematicPreloader';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
 import { Project } from './types/portfolio';
 
 export default function App() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isResumeOpen, setIsResumeOpen] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
 
   // Initialize Lenis 60fps smooth momentum scroll
   useSmoothScroll();
 
   return (
     <div className="relative min-h-screen text-[#f5f6fa] selection:bg-[#ff3d9a] selection:text-white w-full max-w-[100vw]">
-      {/* 0. Cinematic Intro Preloader */}
-      {loading && <CinematicPreloader onComplete={() => setLoading(false)} />}
-
       {/* 1. Fullscreen Fixed WebGL 3D Canvas Overlay (Three.js Screen Space) */}
       <ThreeCanvasOverlay />
 
