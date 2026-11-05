@@ -60,7 +60,7 @@ export default function ExperienceSheet() {
 
         {/* 1. Derived Web Technologies Internship */}
         <div className="bub" style={{ marginTop: '50px' }}>
-          <div className="bx f" data-dr="1">
+          <div className="bx full" data-dr="1">
             <h3>Flutter Developer Intern</h3>
             <div className="o">Derived Web Technologies Pvt. Ltd.</div>
             <div className="d">3-month internship · Jul 2026 – Oct 2026</div>
@@ -88,7 +88,7 @@ export default function ExperienceSheet() {
 
         {/* 2. Live Project: PilonMagic */}
         <div className="bub">
-          <div className="bx f" data-dr="-1">
+          <div className="bx full" data-dr="-1">
             <h3>Live Project: PilonMagic</h3>
             <div className="o">GPS Tracking App</div>
             <div className="d">Sep 2026 – Oct 2026</div>

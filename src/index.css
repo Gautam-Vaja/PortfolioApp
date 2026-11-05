@@ -552,7 +552,7 @@ h1.hero-h1 {
   overflow: hidden;
 }
 
-.f {
+.mk .f {
   container-type: inline-size;
   aspect-ratio: 9/12.5;
   border: 2px solid rgba(255, 255, 255, .22);
@@ -821,10 +821,15 @@ h1.hero-h1 {
   padding: 26px 28px;
   grid-column: span 3;
   will-change: transform;
+  aspect-ratio: auto;
+  height: auto;
 }
 
+.bx.full,
 .bx.f {
   grid-column: span 6;
+  aspect-ratio: auto;
+  height: auto;
 }
 
 .bx h3 {
