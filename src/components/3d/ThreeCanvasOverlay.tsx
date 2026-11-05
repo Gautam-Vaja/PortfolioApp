@@ -229,17 +229,28 @@ export default function ThreeCanvasOverlay() {
       items = [];
 
       const domEls = document.querySelectorAll<HTMLElement>('[data-3d]');
+      const aboutSheet = document.getElementById('about');
+
       domEls.forEach((el) => {
         const key = el.dataset['3d'];
         if (key && makers[key]) {
           const m = makers[key]();
           scene.add(m);
           const s = el.closest('section, header');
+
+          // For the phone in the hero, its occluding boundary is the first sheet (#about)
+          const nextBoundary =
+            key === 'phone'
+              ? aboutSheet || document.querySelector('.sheet')
+              : s
+              ? s.nextElementSibling
+              : null;
+
           items.push({
             el,
             m,
             ph: key === 'phone',
-            nx: s ? s.nextElementSibling : null,
+            nx: nextBoundary,
             par: Number(el.dataset.par) || 0,
           });
         }
@@ -247,7 +258,7 @@ export default function ThreeCanvasOverlay() {
     };
 
     // Initial setup with short delay to allow DOM to mount
-    const timer = setTimeout(setupItems, 100);
+    const timer = setTimeout(setupItems, 80);
 
     const fit = () => {
       renderer.setSize(window.innerWidth, window.innerHeight, false);
@@ -282,7 +293,7 @@ export default function ThreeCanvasOverlay() {
       items.forEach((o, i) => {
         const r = o.el.getBoundingClientRect();
         let f = 1;
-        if (o.nx && o.nx.classList.contains('sheet')) {
+        if (o.nx) {
           f = cl((o.nx.getBoundingClientRect().top - r.top) / r.height);
         }
         const vis = r.bottom > -300 && r.top < H + 300 && f > 0.02;

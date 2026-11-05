@@ -10,22 +10,24 @@ export default function ContactSheet() {
     const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const elements = document.querySelectorAll<HTMLElement>('#contact .rv');
 
+    let observer: IntersectionObserver | null = null;
     if (calm) {
       elements.forEach((e) => e.classList.add('in'));
     } else {
-      const observer = new IntersectionObserver(
+      observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((x) => {
             if (x.isIntersecting) {
               x.target.classList.add('in');
-              observer.unobserve(x.target);
+              observer?.unobserve(x.target);
             }
           });
         },
-        { threshold: 0.15 }
+        { threshold: 0.1 }
       );
-      elements.forEach((e) => observer.observe(e));
+      elements.forEach((e) => observer?.observe(e));
     }
+    return () => observer?.disconnect();
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {

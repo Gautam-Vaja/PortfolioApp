@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const SKILLS_DATA = [
   [
@@ -7,11 +7,11 @@ const SKILLS_DATA = [
   ],
   [
     'iOS Development',
-    'Swift, Xcode, iOS Simulator, SwiftUI, UIKit',
+    'Swift, Xcode, iOS Simulator, SwiftUI, UIKit, Cupertino Widgets',
   ],
   [
     'Programming Languages',
-    'Java, Python, C, C++, JavaScript, Swift (fundamentals)',
+    'Dart, Java, Python, C, C++, JavaScript, Swift (fundamentals)',
   ],
   [
     'APIs & Networking',
@@ -32,9 +32,14 @@ const SKILLS_DATA = [
 ];
 
 export default function SkillsSheet() {
+  const containerRef = useRef<HTMLElement>(null);
+
   useEffect(() => {
     const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const elements = document.querySelectorAll<HTMLElement>('#skills .rv');
+    const container = containerRef.current;
+    if (!container) return;
+
+    const elements = container.querySelectorAll<HTMLElement>('.rv');
 
     if (calm) {
       elements.forEach((e) => e.classList.add('in'));
@@ -50,7 +55,7 @@ export default function SkillsSheet() {
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.1 }
     );
 
     elements.forEach((e) => observer.observe(e));
@@ -58,12 +63,16 @@ export default function SkillsSheet() {
   }, []);
 
   return (
-    <section className="sheet lt" id="skills" style={{ zIndex: 3 }}>
+    <section ref={containerRef} className="sheet lt" id="skills" style={{ zIndex: 3 }}>
       <div className="w">
         <h2 className="big rv">Skills</h2>
         <div id="sk" style={{ marginTop: '50px' }}>
           {SKILLS_DATA.map(([title, desc], idx) => (
-            <div key={idx} className="row rv">
+            <div
+              key={idx}
+              className="row rv"
+              style={{ transitionDelay: `${idx * 0.08}s` }}
+            >
               <div className="n">0{idx + 1}</div>
               <h3>{title}</h3>
               <p>{desc}</p>

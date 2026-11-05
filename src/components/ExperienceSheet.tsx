@@ -7,21 +7,23 @@ export default function ExperienceSheet() {
     const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const elements = document.querySelectorAll<HTMLElement>('#exp .rv');
 
+    let observer: IntersectionObserver | null = null;
+
     if (calm) {
       elements.forEach((e) => e.classList.add('in'));
     } else {
-      const observer = new IntersectionObserver(
+      observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((x) => {
             if (x.isIntersecting) {
               x.target.classList.add('in');
-              observer.unobserve(x.target);
+              observer?.unobserve(x.target);
             }
           });
         },
-        { threshold: 0.15 }
+        { threshold: 0.1 }
       );
-      elements.forEach((e) => observer.observe(e));
+      elements.forEach((e) => observer?.observe(e));
     }
 
     // Scroll-driven horizontal drift
@@ -32,14 +34,18 @@ export default function ExperienceSheet() {
       driftEls.forEach((e) => {
         const r = e.getBoundingClientRect();
         const dr = Number(e.dataset.dr) || 1;
-        const xOffset = (H / 2 - (r.top + r.height / 2)) * 0.1 * dr;
-        e.style.transform = `translateX(${xOffset}px)`;
+        const xOffset = (H / 2 - (r.top + r.height / 2)) * 0.08 * dr;
+        e.style.transform = `translate3d(${xOffset}px, 0, 0)`;
       });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      observer?.disconnect();
+    };
   }, []);
 
   return (
@@ -103,43 +109,38 @@ export default function ExperienceSheet() {
           </div>
         </div>
 
-        {/* Education Subheading */}
+        {/* Education Subsection */}
         <div className="sub rv">Education</div>
 
-        {/* MCA & BCA */}
         <div className="bub">
+          {/* MCA */}
           <div className="bx" data-dr="1">
-            <div className="d">2026 – Present</div>
-            <h3 style={{ fontSize: '26px' }}>Master of Computer Applications (MCA)</h3>
-            <div className="o">
-              Narandas Jethalal Sonecha Management &amp; Technical Institute, GTU
-            </div>
+            <h3>Master of Computer Applications (MCA)</h3>
+            <div className="o">Gujarat Technological University</div>
+            <div className="d">Currently Pursuing · 2024 – Present</div>
+            <ul>
+              <li>
+                Specializing in advanced software engineering, cloud computing, and mobile application architectures.
+              </li>
+              <li>
+                Deepening knowledge of scalable systems, distributed databases, and high-performance cross-platform development.
+              </li>
+            </ul>
           </div>
 
+          {/* BCA */}
           <div className="bx" data-dr="-1">
-            <div className="d">2023 – 2026</div>
-            <h3 style={{ fontSize: '26px' }}>Bachelor of Computer Applications (BCA)</h3>
-            <div className="o">
-              Shri K.M. &amp; Smt. K.K. Savjani BBA/BCA College, BKNMU
-            </div>
-            <p style={{ margin: '8px 0 0' }}>CGPA 8.33 / 10</p>
-          </div>
-        </div>
-
-        {/* 12th & 10th */}
-        <div className="bub">
-          <div className="bx" data-dr="-1">
-            <div className="d">2023</div>
-            <h3 style={{ fontSize: '26px' }}>Higher Secondary Certificate (12th, GSEB)</h3>
-            <div className="o">Sunrise School, Veraval</div>
-            <p style={{ margin: '8px 0 0' }}>75%</p>
-          </div>
-
-          <div className="bx" data-dr="1">
-            <div className="d">2021</div>
-            <h3 style={{ fontSize: '26px' }}>Secondary School Certificate (10th, GSEB)</h3>
-            <div className="o">Sunrise School, Veraval</div>
-            <p style={{ margin: '8px 0 0' }}>82%</p>
+            <h3>Bachelor of Computer Applications (BCA)</h3>
+            <div className="o">Bhakta Kavi Narsinh Mehta University</div>
+            <div className="d">Graduated 2024 · 8.33 / 10 CGPA</div>
+            <ul>
+              <li>
+                Graduated with First Class with Distinction (8.33 / 10 CGPA) from V.M. Savjani College.
+              </li>
+              <li>
+                Core coursework: Data Structures, OOP (Java & C++), DBMS & SQL, Computer Networks, and Software Testing.
+              </li>
+            </ul>
           </div>
         </div>
       </div>

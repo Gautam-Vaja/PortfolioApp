@@ -6,6 +6,7 @@ export default function CustomCursor() {
   const [cursorState, setCursorState] = useState<'default' | 'hover' | 'drag' | 'card'>('default');
   const [cursorLabel, setCursorLabel] = useState<string>('');
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const isVisibleRef = useRef<boolean>(false);
 
   useEffect(() => {
     // Disable on touch devices
@@ -20,7 +21,13 @@ export default function CustomCursor() {
     const onMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      if (!isVisible) setIsVisible(true);
+
+      if (!isVisibleRef.current) {
+        isVisibleRef.current = true;
+        setIsVisible(true);
+        currentX = mouseX;
+        currentY = mouseY;
+      }
 
       // Inspect target to determine cursor state
       const target = e.target as HTMLElement | null;
@@ -46,10 +53,12 @@ export default function CustomCursor() {
     };
 
     const onMouseLeave = () => {
+      isVisibleRef.current = false;
       setIsVisible(false);
     };
 
     const onMouseEnter = () => {
+      isVisibleRef.current = true;
       setIsVisible(true);
     };
 
@@ -59,7 +68,7 @@ export default function CustomCursor() {
 
     // Smooth lerp loop for outer ring
     const render = () => {
-      const ease = 0.18;
+      const ease = 0.2;
       currentX += (mouseX - currentX) * ease;
       currentY += (mouseY - currentY) * ease;
 
@@ -81,9 +90,7 @@ export default function CustomCursor() {
       document.removeEventListener('mouseenter', onMouseEnter);
       cancelAnimationFrame(animId);
     };
-  }, [isVisible]);
-
-  if (!isVisible) return null;
+  }, []);
 
   const getSizeClasses = () => {
     switch (cursorState) {
@@ -99,11 +106,15 @@ export default function CustomCursor() {
   };
 
   return (
-    <aside aria-hidden="true" className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden select-none">
+    <aside
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden select-none transition-opacity duration-300"
+      style={{ opacity: isVisible ? 1 : 0 }}
+    >
       {/* Outer Smooth Lerp Ring */}
       <div
         ref={cursorRef}
-        className={`fixed top-0 left-0 rounded-full border border-solid transition-all duration-150 ease-out flex items-center justify-center shadow-[0_0_15px_rgba(0,168,255,0.3)] ${getSizeClasses()}`}
+        className={`fixed top-0 left-0 rounded-full border border-solid transition-[width,height,background-color,border-color,transform] duration-200 ease-out flex items-center justify-center shadow-[0_0_15px_rgba(0,168,255,0.3)] will-change-transform ${getSizeClasses()}`}
       >
         {cursorLabel && (
           <span className="text-[9px] font-mono font-bold tracking-widest text-[#F4F8FF] uppercase">
@@ -115,7 +126,7 @@ export default function CustomCursor() {
       {/* Center Precision Dot */}
       <div
         ref={dotRef}
-        className={`fixed top-0 left-0 -ml-1 -mt-1 h-2 w-2 rounded-full transition-opacity duration-150 ${
+        className={`fixed top-0 left-0 -ml-1 -mt-1 h-2 w-2 rounded-full transition-opacity duration-150 will-change-transform ${
           cursorState === 'hover' || cursorState === 'drag' || cursorState === 'card'
             ? 'opacity-0'
             : 'bg-[#35D5FF] shadow-[0_0_8px_#35D5FF] opacity-100'

@@ -99,49 +99,31 @@ const ICONS: Record<string, React.ReactNode> = {
       <rect x="5" y="5" width="38" height="38" rx="10" fill="#1e88e5" />
       <text
         x="24"
-        y="30"
+        y="31"
         fontFamily="Arial,sans-serif"
-        fontWeight="800"
-        fontSize="17"
+        fontWeight="900"
+        fontSize="16"
         fill="#fff"
         textAnchor="middle"
       >
-        dio
+        DIO
       </text>
     </svg>
   ),
   Git: (
     <svg viewBox="0 0 48 48" aria-hidden="true">
-      <rect
-        x="9"
-        y="9"
-        width="30"
-        height="30"
-        rx="5"
-        transform="rotate(45 24 24)"
-        fill="#f05033"
-      />
       <path
-        d="M22 14v20M22 24l9-3"
-        stroke="#fff"
-        strokeWidth="3"
-        fill="none"
+        fill="#f4511e"
+        d="m44.7 21.6-18.3-18.3c-1.2-1.2-3.1-1.2-4.2 0l-4.1 4.1 5.3 5.3c1.3-.4 2.8-.2 3.8.9 1 1 1.3 2.5.8 3.8l5.1 5.1c1.3-.4 2.8-.2 3.8.9 1.5 1.5 1.5 3.9 0 5.4s-3.9 1.5-5.4 0c-1.1-1.1-1.4-2.7-.8-4.1l-4.7-4.7v10.9c.4.3.7.6.9 1 1.5 1.5 1.5 3.9 0 5.4s-3.9 1.5-5.4 0c-1.5-1.5-1.5-3.9 0-5.4.4-.4.8-.7 1.3-.9v-11c-.5-.2-.9-.5-1.3-.9-1.1-1.1-1.4-2.7-.8-4.1L12.3 9.4 3.3 18.4c-1.2 1.2-1.2 3.1 0 4.2l18.3 18.3c1.2 1.2 3.1 1.2 4.2 0l18.9-18.9c1.2-1.2 1.2-3.1 0-4.4z"
       />
-      <g fill="#fff">
-        <circle cx="22" cy="14" r="3.5" />
-        <circle cx="22" cy="34" r="3.5" />
-        <circle cx="31" cy="21" r="3.5" />
-      </g>
     </svg>
   ),
   GitHub: (
     <svg viewBox="0 0 48 48" aria-hidden="true">
-      <g transform="scale(2)">
-        <path
-          fill="#f5f6fa"
-          d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
-        />
-      </g>
+      <path
+        fill="#fff"
+        d="M24 4C12.95 4 4 12.95 4 24c0 8.84 5.73 16.34 13.68 18.99 1 .18 1.36-.43 1.36-.96 0-.48-.02-2.07-.03-3.75-5.56 1.21-6.74-2.38-6.74-2.38-.91-2.31-2.22-2.92-2.22-2.92-1.82-1.24.14-1.22.14-1.22 2.01.14 3.07 2.06 3.07 2.06 1.78 3.05 4.68 2.17 5.82 1.66.18-1.29.7-2.17 1.27-2.67-4.44-.51-9.11-2.22-9.11-9.88 0-2.18.78-3.97 2.06-5.36-.21-.51-.89-2.54.2-5.29 0 0 1.68-.54 5.5 2.05A19.14 19.14 0 0 1 24 16.71c1.7.01 3.42.23 5.02.68 3.82-2.59 5.5-2.05 5.5-2.05 1.09 2.75.41 4.78.2 5.29 1.28 1.39 2.06 3.18 2.06 5.36 0 7.68-4.68 9.36-9.13 9.86.72.62 1.36 1.84 1.36 3.71 0 2.68-.02 4.84-.02 5.5 0 .54.36 1.16 1.37.96C38.28 40.33 44 32.83 44 24c0-11.05-8.95-20-20-20z"
+      />
     </svg>
   ),
   GitLab: (
@@ -217,23 +199,37 @@ export default function TechMarquee() {
   const galRef = useRef<HTMLDivElement>(null);
   const r1Ref = useRef<HTMLDivElement>(null);
   const r2Ref = useRef<HTMLDivElement>(null);
+  const offsetRef = useRef<number>(0);
 
   useEffect(() => {
-    const handleScroll = () => {
+    let animId: number;
+
+    const render = () => {
       const gal = galRef.current;
       const r1 = r1Ref.current;
       const r2 = r2Ref.current;
-      if (!gal || !r1 || !r2) return;
 
-      const H = window.innerHeight;
-      const g = H - gal.getBoundingClientRect().top;
-      r1.style.transform = `translateX(${-g * 0.45}px)`;
-      r2.style.transform = `translateX(${g * 0.45 - 900}px)`;
+      if (gal && r1 && r2) {
+        // Continuous ambient conveyor motion (0.5px/frame)
+        offsetRef.current += 0.55;
+
+        const H = window.innerHeight;
+        const g = H - gal.getBoundingClientRect().top;
+        const scrollOffset = g * 0.45;
+
+        const x1 = -((scrollOffset + offsetRef.current) % 1800);
+        const x2 = (scrollOffset - 900 + offsetRef.current * 0.75) % 1800;
+
+        r1.style.transform = `translate3d(${x1}px, 0, 0)`;
+        r2.style.transform = `translate3d(${x2}px, 0, 0)`;
+      }
+
+      animId = requestAnimationFrame(render);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+    animId = requestAnimationFrame(render);
+
+    return () => cancelAnimationFrame(animId);
   }, []);
 
   const reversedList = [...TECH_LIST].reverse();
@@ -242,7 +238,7 @@ export default function TechMarquee() {
     <div className="gal" id="gal" ref={galRef} aria-hidden="true">
       {/* Row 1 */}
       <div className="rw" id="r1" ref={r1Ref}>
-        {TECH_LIST.concat(TECH_LIST).map((tech, idx) => (
+        {TECH_LIST.concat(TECH_LIST).concat(TECH_LIST).map((tech, idx) => (
           <div key={`r1-${tech}-${idx}`} className="tl">
             {ICONS[tech] || null}
             <span>{tech}</span>
@@ -252,7 +248,7 @@ export default function TechMarquee() {
 
       {/* Row 2 (Reversed) */}
       <div className="rw" id="r2" ref={r2Ref}>
-        {reversedList.concat(reversedList).map((tech, idx) => (
+        {reversedList.concat(reversedList).concat(reversedList).map((tech, idx) => (
           <div key={`r2-${tech}-${idx}`} className="tl">
             {ICONS[tech] || null}
             <span>{tech}</span>

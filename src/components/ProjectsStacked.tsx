@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Project } from '../types/portfolio';
 import { PROJECTS } from '../data/portfolio-data';
 
@@ -7,9 +7,14 @@ interface ProjectsStackedProps {
 }
 
 export default function ProjectsStacked({ onSelectProject }: ProjectsStackedProps) {
+  const containerRef = useRef<HTMLElement>(null);
+
   useEffect(() => {
     const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const elements = document.querySelectorAll<HTMLElement>('#projects .rv');
+    const container = containerRef.current;
+    if (!container) return;
+
+    const elements = container.querySelectorAll<HTMLElement>('.rv');
 
     if (calm) {
       elements.forEach((e) => e.classList.add('in'));
@@ -25,7 +30,7 @@ export default function ProjectsStacked({ onSelectProject }: ProjectsStackedProp
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.1 }
     );
 
     elements.forEach((e) => observer.observe(e));
@@ -34,12 +39,70 @@ export default function ProjectsStacked({ onSelectProject }: ProjectsStackedProp
 
   const projectsData = [
     {
+      id: 'pilonmagic',
+      name: 'PilonMagic (GPS Tracking App)',
+      subtitle: 'Flutter · Dart · GetX · REST APIs · i18n · GitLab',
+      desc1: 'Live GPS asset tracking mobile application featuring QR/VIN lookup, GetX state management, and real-time mapping.',
+      desc2: 'Built during internship at Derived Web Technologies with ownership report PDF exports, English/French localization, and production bug fixes.',
+      repo: 'https://github.com/Gautam-Vaja/PilonMagic',
+      accent: '#ff7a1a',
+      screens: [
+        // Screen 1: Map Tracking
+        <div key="pm1" className="u">
+          <div className="nb" />
+          <div className="t">Live Tracking</div>
+          <div className="sb">GPS Active</div>
+          <div className="im" />
+          <div className="c ln">
+            <span>Asset #4829</span>
+            <em>12 km/h</em>
+          </div>
+          <div className="c ln">
+            <span>Battery</span>
+            <em>94%</em>
+          </div>
+          <div className="btn">View Route</div>
+        </div>,
+        // Screen 2: QR & VIN Scanner
+        <div key="pm2" className="u">
+          <div className="nb" />
+          <div className="t">Asset Scanner</div>
+          <div className="sb">QR & VIN</div>
+          <div className="sq" style={{ margin: '0 auto', width: '70%' }} />
+          <div className="c ln">
+            <span>VIN: 1HGCR2F8</span>
+            <em>Verified</em>
+          </div>
+          <div className="btn">Inspect Specs</div>
+        </div>,
+        // Screen 3: PDF Export & Reports
+        <div key="pm3" className="u">
+          <div className="nb" />
+          <div className="t">Reports</div>
+          <div className="sb">Bilingual EN/FR</div>
+          <div className="c ln">
+            <span>Ownership PDF</span>
+            <em>Export</em>
+          </div>
+          <div className="c ln">
+            <span>Trip Log (Oct)</span>
+            <em>1,420 km</em>
+          </div>
+          <div className="c ln">
+            <span>Status</span>
+            <em>Compliant</em>
+          </div>
+          <div className="btn">Download PDF</div>
+        </div>,
+      ],
+    },
+    {
       id: 'ai-assistant',
       name: 'Chat App (AI Assistant)',
       subtitle: 'Flutter · Google Gemini API · SQLite · GoRouter',
       desc1: 'An intelligent cross-platform AI chat assistant integrated with the Google Gemini API for real-time generative responses.',
       desc2: 'Built an offline-first persistence engine with SQLite, dynamic dark/light theme switching, and smooth navigation via GoRouter.',
-      repo: 'https://github.com/Gautam-Vaja/PortfolioApp',
+      repo: 'https://github.com/Gautam-Vaja/Chat_App',
       accent: '#7c8cff',
       screens: [
         // Screen 1: Chat interface
@@ -116,11 +179,11 @@ export default function ProjectsStacked({ onSelectProject }: ProjectsStackedProp
       subtitle: 'Flutter · Dart · OpenWeather API · Geolocation',
       desc1: 'A real-time weather monitoring application using GPS positioning and interactive map coordinates.',
       desc2: 'Parses detailed REST API payloads to display temperature, air quality, humidity, wind velocity, UV index, and 7-day extended forecasts.',
-      repo: 'https://github.com/Gautam-Vaja/PortfolioApp',
+      repo: 'https://github.com/Gautam-Vaja/Weather_App',
       accent: '#29b6f6',
       screens: [
-        // Screen 1: Current weather
-        <div key="s1" className="u">
+        // Screen 1: Current location
+        <div key="w1" className="u">
           <div className="nb" />
           <div className="t">Current location</div>
           <div className="sb">Clear sky</div>
@@ -144,8 +207,8 @@ export default function ProjectsStacked({ onSelectProject }: ProjectsStackedProp
             </div>
           </div>
         </div>,
-        // Screen 2: Details & Gauges
-        <div key="s2" className="u">
+        // Screen 2: Atmospheric details
+        <div key="w2" className="u">
           <div className="nb" />
           <div className="t">Details</div>
           <div className="sb">Today</div>
@@ -185,26 +248,35 @@ export default function ProjectsStacked({ onSelectProject }: ProjectsStackedProp
               <i style={{ width: '30%' }} />
             </div>
           </div>
+          <div className="c">
+            <div className="ln">
+              <span>Visibility</span>
+              <em>9 km</em>
+            </div>
+            <div className="pb">
+              <i style={{ width: '80%' }} />
+            </div>
+          </div>
         </div>,
         // Screen 3: 7-day forecast
-        <div key="s3" className="u">
+        <div key="w3" className="u">
           <div className="nb" />
           <div className="t">7-day forecast</div>
           {[
-            ['Mon', '32°', 90],
-            ['Tue', '31°', 82],
-            ['Wed', '29°', 70],
-            ['Thu', '30°', 76],
-            ['Fri', '33°', 96],
-            ['Sat', '32°', 90],
-            ['Sun', '28°', 62],
-          ].map(([d, v, w]) => (
-            <div key={d as string} className="c ln">
-              <span>{d}</span>
+            ['Mon', '32°', '90%'],
+            ['Tue', '31°', '82%'],
+            ['Wed', '29°', '70%'],
+            ['Thu', '30°', '76%'],
+            ['Fri', '33°', '96%'],
+            ['Sat', '32°', '90%'],
+            ['Sun', '28°', '62%'],
+          ].map(([day, temp, width], idx) => (
+            <div key={idx} className="c ln">
+              <span>{day}</span>
               <div className="pb">
-                <i style={{ width: `${w}%` }} />
+                <i style={{ width }} />
               </div>
-              <em>{v}</em>
+              <em>{temp}</em>
             </div>
           ))}
         </div>,
@@ -215,18 +287,18 @@ export default function ProjectsStacked({ onSelectProject }: ProjectsStackedProp
       name: 'Mini Social Media Application',
       subtitle: 'Flutter · Firebase Auth · Firestore · Cloud Storage',
       desc1: 'A full-featured social platform featuring authentication, real-time feed synchronization and user profile management.',
-      desc2: 'Image uploads, dynamic follower systems, likes, and comment threads.',
-      repo: 'https://github.com/Gautam-Vaja/PortfolioApp',
+      desc2: 'Supports image uploads, dynamic follower systems, likes, and comment threads.',
+      repo: 'https://github.com/Gautam-Vaja/Mini_Social_Media_Application',
       accent: '#ff4fa0',
       screens: [
         // Screen 1: Feed
-        <div key="s1" className="u">
+        <div key="ms1" className="u">
           <div className="nb" />
           <div className="t">Feed</div>
           <div className="c">
             <div className="rw2">
               <span className="av" />
-              <span>@gautam</span>
+              @gautam
             </div>
             <div className="im" />
             <div className="ln">
@@ -237,8 +309,9 @@ export default function ProjectsStacked({ onSelectProject }: ProjectsStackedProp
           <div className="c">
             <div className="rw2">
               <span className="av" />
-              <span>@sam</span>
+              @sam
             </div>
+            <div className="im" />
             <div className="ln">
               <span>♥ 84</span>
               <em>9 comments</em>
@@ -246,12 +319,14 @@ export default function ProjectsStacked({ onSelectProject }: ProjectsStackedProp
           </div>
         </div>,
         // Screen 2: Profile
-        <div key="s2" className="u">
+        <div key="ms2" className="u">
           <div className="nb" />
           <div style={{ textAlign: 'center' }}>
             <span className="av lg" />
           </div>
-          <div className="t">Gautam Vaja</div>
+          <div className="t" style={{ textAlign: 'center' }}>
+            Gautam Vaja
+          </div>
           <div className="g3">
             <div className="c">
               <div className="n">12</div>
@@ -268,16 +343,13 @@ export default function ProjectsStacked({ onSelectProject }: ProjectsStackedProp
           </div>
           <div className="btn">Follow</div>
           <div className="g3">
-            <div className="sq" />
-            <div className="sq" />
-            <div className="sq" />
-            <div className="sq" />
-            <div className="sq" />
-            <div className="sq" />
+            {[...Array(6)].map((_, idx) => (
+              <div key={idx} className="sq" />
+            ))}
           </div>
         </div>,
         // Screen 3: Comments
-        <div key="s3" className="u">
+        <div key="ms3" className="u">
           <div className="nb" />
           <div className="t">Comments</div>
           <div className="sb">23</div>
@@ -315,11 +387,11 @@ export default function ProjectsStacked({ onSelectProject }: ProjectsStackedProp
       subtitle: 'Flutter · Dart · Local Storage · UI Charts',
       desc1: 'A personal finance tracker allowing users to log, categorize, and filter transactions.',
       desc2: 'Integrated financial analytics widgets to help users visualize spending habits and budget allocations.',
-      repo: 'https://github.com/Gautam-Vaja/PortfolioApp',
+      repo: 'https://github.com/Gautam-Vaja/Expenses_Tracker_App',
       accent: '#2ecc8f',
       screens: [
-        // Screen 1: Donut breakdown
-        <div key="s1" className="u">
+        // Screen 1: Dashboard spending
+        <div key="et1" className="u">
           <div className="nb" />
           <div className="t">This month</div>
           <div className="sb">Spending</div>
@@ -341,7 +413,7 @@ export default function ProjectsStacked({ onSelectProject }: ProjectsStackedProp
           </div>
         </div>,
         // Screen 2: Add expense
-        <div key="s2" className="u">
+        <div key="et2" className="u">
           <div className="nb" />
           <div className="t">Add expense</div>
           <div className="c">
@@ -363,8 +435,8 @@ export default function ProjectsStacked({ onSelectProject }: ProjectsStackedProp
           </div>
           <div className="btn">Save</div>
         </div>,
-        // Screen 3: Transactions
-        <div key="s3" className="u">
+        // Screen 3: Transactions list
+        <div key="et3" className="u">
           <div className="nb" />
           <div className="t">Transactions</div>
           <div className="chips">
@@ -395,10 +467,69 @@ export default function ProjectsStacked({ onSelectProject }: ProjectsStackedProp
         </div>,
       ],
     },
+    {
+      id: 'smart-attendance',
+      name: 'Smart Attendance App',
+      subtitle: 'React Native · SQLite · Geofencing · Biometrics',
+      desc1: 'A modern mobile attendance verification solution with biometric authentication and local SQL storage.',
+      desc2: 'Designed with offline-first event synchronization and exportable weekly CSV summaries for educational and office workflows.',
+      repo: 'https://github.com/Gautam-Vaja/PortfolioApp',
+      accent: '#f59e0b',
+      screens: [
+        // Screen 1: Check In
+        <div key="sa1" className="u">
+          <div className="nb" />
+          <div className="t">Attendance</div>
+          <div className="sb">Campus Check-In</div>
+          <div className="k">09:15</div>
+          <div className="c ln">
+            <span>Status</span>
+            <em style={{ color: '#2ecc8f' }}>Present</em>
+          </div>
+          <div className="btn">Tap to Check-Out</div>
+        </div>,
+        // Screen 2: Monthly Summary
+        <div key="sa2" className="u">
+          <div className="nb" />
+          <div className="t">Monthly Stats</div>
+          <div className="sb">November 2026</div>
+          <div className="c ln">
+            <span>Total Days</span>
+            <em>24</em>
+          </div>
+          <div className="c ln">
+            <span>Attended</span>
+            <em>23</em>
+          </div>
+          <div className="c ln">
+            <span>Rate</span>
+            <em>95.8%</em>
+          </div>
+          <div className="btn">Export CSV</div>
+        </div>,
+        // Screen 3: Security & Logs
+        <div key="sa3" className="u">
+          <div className="nb" />
+          <div className="t">Audit Logs</div>
+          <div className="c ln">
+            <span>Biometric</span>
+            <em>Verified</em>
+          </div>
+          <div className="c ln">
+            <span>Geofence</span>
+            <em>Within Zone</em>
+          </div>
+          <div className="c ln">
+            <span>Device ID</span>
+            <em>#DEV-9201</em>
+          </div>
+        </div>,
+      ],
+    },
   ];
 
   return (
-    <section className="sheet dk" id="projects" style={{ zIndex: 4 }}>
+    <section ref={containerRef} className="sheet dk" id="projects" style={{ zIndex: 4 }}>
       <div className="w">
         <h2 className="big rv" style={{ marginBottom: '50px' }}>
           Projects
