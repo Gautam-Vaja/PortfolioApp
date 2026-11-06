@@ -300,6 +300,30 @@ export default function ThreeCanvasOverlay() {
     let targetMouseY = 0;
     let lastInputTime = performance.now();
 
+    // =========================================================
+    // Autonomous Lifelike 3D Avatar Movement Controller
+    // 100% Independent of Cursor / Touch / Gyroscope
+    // =========================================================
+    let currentAutoYaw = 0;
+    let currentAutoPitch = 0;
+    let currentAutoRoll = 0;
+    let targetAutoYaw = 0;
+    let targetAutoPitch = 0;
+    let targetAutoRoll = 0;
+    let nextGazeTime = performance.now() + 1500;
+
+    // Presets of natural human head poses (direct gaze, observing left, looking up, observing right)
+    const naturalGazePoses = [
+      { yaw: 0.0, pitch: -0.02, roll: 0.0, duration: 3400 },       // Front / direct warm eye contact
+      { yaw: -0.22, pitch: 0.02, roll: 0.025, duration: 3800 },   // Looking gently to the left
+      { yaw: 0.05, pitch: -0.06, roll: 0.015, duration: 2800 },    // Center, slight thoughtful lift
+      { yaw: 0.22, pitch: 0.01, roll: -0.025, duration: 3600 },   // Looking gently to the right
+      { yaw: -0.14, pitch: -0.04, roll: 0.03, duration: 3100 },   // Inquisitive look left
+      { yaw: 0.15, pitch: -0.05, roll: -0.02, duration: 3300 },   // Inquisitive look right
+      { yaw: 0.0, pitch: 0.035, roll: 0.02, duration: 2900 },     // Warm slight nod forward
+    ];
+    let poseIndex = 0;
+
     const onMouseMove = (e: MouseEvent) => {
       targetMouseX = e.clientX / window.innerWidth - 0.5;
       targetMouseY = e.clientY / window.innerHeight - 0.5;
@@ -343,8 +367,32 @@ export default function ThreeCanvasOverlay() {
       animId = requestAnimationFrame(renderLoop);
       const H = window.innerHeight;
       const t = calm ? 9 : (performance.now() - t0) / 1000;
+      const now = performance.now();
 
-      // Autonomic life simulation for mobile and desktop when idle
+      // Autonomous periodic gaze target selection (natural, non-repetitive wander)
+      if (now > nextGazeTime && !calm) {
+        poseIndex = (poseIndex + 1 + Math.floor(Math.random() * 2)) % naturalGazePoses.length;
+        const nextPose = naturalGazePoses[poseIndex];
+
+        // Tiny organic variation per cycle so it never repeats identically
+        const jitterY = (Math.random() - 0.5) * 0.05;
+        const jitterP = (Math.random() - 0.5) * 0.03;
+        const jitterR = (Math.random() - 0.5) * 0.02;
+
+        targetAutoYaw = nextPose.yaw + jitterY;
+        targetAutoPitch = nextPose.pitch + jitterP;
+        targetAutoRoll = nextPose.roll + jitterR;
+
+        nextGazeTime = now + nextPose.duration + (Math.random() * 800 - 400);
+      }
+
+      // Exponential damping toward target pose (soft, natural human neck kinematics)
+      const gazeLerp = calm ? 0.1 : 0.028;
+      currentAutoYaw += (targetAutoYaw - currentAutoYaw) * gazeLerp;
+      currentAutoPitch += (targetAutoPitch - currentAutoPitch) * gazeLerp;
+      currentAutoRoll += (targetAutoRoll - currentAutoRoll) * gazeLerp;
+
+      // Autonomic life simulation for mobile and desktop when idle (for non-avatar background objects)
       const timeSinceInput = (performance.now() - lastInputTime) / 1000;
       if (timeSinceInput > 2.0 && !calm) {
         const idleX = Math.sin(t * 0.75) * 0.18 + Math.sin(t * 1.5) * 0.06;
@@ -371,27 +419,44 @@ export default function ThreeCanvasOverlay() {
         const inT = o.ph ? 1 - Math.pow(1 - cl(t / 1.3), 3) : 1;
         const s = (px / (o.m.userData.h || 2)) * f * inT;
 
-        o.m.position.set(
-          r.left + r.width / 2,
-          -(r.top + r.height / 2) + Math.sin(t * 1.3 + i) * 6,
-          0
-        );
-        o.m.scale.setScalar(Math.max(s, 0.001));
+        if (o.ph && o.m.userData.isAvatar) {
+          // Harmonic breathing cycle (~13-14 breaths per minute)
+          const breathCycle = Math.sin(t * 1.35);
+          const breathPitch = breathCycle * 0.022;
+          const ambientYawSway = Math.sin(t * 0.55) * 0.035;
+          const ambientRollSway = Math.cos(t * 0.45) * 0.015;
 
-        if (o.ph) {
-          if (o.m.userData.isAvatar) {
-            // Smooth 3D tilt following cursor / touch / gyroscope
-            o.m.rotation.y = -0.08 + mouseX * 0.85 + Math.sin(t * 0.9) * 0.04;
-            o.m.rotation.x = -mouseY * 0.45 + Math.cos(t * 0.7) * 0.03;
-            o.m.rotation.z = mouseX * -0.1;
-          } else {
+          // Subtle vertical breathing lift and lateral drift
+          const floatY = breathCycle * 7.0 + Math.cos(t * 0.75) * 2.5;
+          const floatX = Math.cos(t * 0.6) * 3.0;
+
+          o.m.position.set(
+            r.left + r.width / 2 + floatX,
+            -(r.top + r.height / 2) + floatY,
+            0
+          );
+          o.m.scale.setScalar(Math.max(s, 0.001) * (1 + breathCycle * 0.008));
+
+          // Pure autonomous movement - 100% decoupled from cursor/mouse/touch
+          o.m.rotation.y = currentAutoYaw + ambientYawSway;
+          o.m.rotation.x = currentAutoPitch + breathPitch;
+          o.m.rotation.z = currentAutoRoll + ambientRollSway;
+        } else {
+          o.m.position.set(
+            r.left + r.width / 2,
+            -(r.top + r.height / 2) + Math.sin(t * 1.3 + i) * 6,
+            0
+          );
+          o.m.scale.setScalar(Math.max(s, 0.001));
+
+          if (o.ph) {
             o.m.rotation.y = -0.35 + mouseX * 0.9 + Math.sin(t * 0.8) * 0.3;
             o.m.rotation.x = mouseY * 0.35;
             o.m.rotation.z = -0.08;
+          } else {
+            o.m.rotation.y = t * 0.6 + i;
+            o.m.rotation.x = t * 0.4 + mouseX;
           }
-        } else {
-          o.m.rotation.y = t * 0.6 + i;
-          o.m.rotation.x = t * 0.4 + mouseX;
         }
       });
 
